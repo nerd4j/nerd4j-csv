@@ -20,9 +20,9 @@
   <inceptionYear>2013</inceptionYear>
 
   <scm>
-    <url>https://176.34.137.172:6368/svn/nerd4j/csv</url>
-    <connection>scm:svn:https://176.34.137.172:6368/svn/nerd4j/csv/trunk</connection>
-    <developerConnection>scm:svn:https://176.34.137.172:6368/svn/nerd4j/csv/trunk</developerConnection>
+    <url>https://github.com/nerd4j/nerd4j-csv</url>
+    <connection>scm:git:git@github.com:nerd4j/nerd4j-csv.git</connection>
+    <developerConnection>scm:git:git@github.com:nerd4j/nerd4j-csv.git</developerConnection>
   </scm>
   
   <dependencies>
