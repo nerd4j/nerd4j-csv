@@ -1,0 +1,654 @@
+<?xml version="1.1" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.1" elementFormDefault="qualified" targetNamespace="http://www.nerd4j.org/csv"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:csv="http://www.nerd4j.org/csv">
+
+  <xs:element name="configuration" type="csv:configuration"/>
+    
+  <xs:complexType name="configuration">
+    <xs:sequence>
+      <xs:choice minOccurs="0">
+        <xs:element name="register"  type="csv:register"/>
+      </xs:choice>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="parser"    type="csv:parser"    />
+        <xs:element name="formatter" type="csv:formatter" />
+        <xs:element name="reader"    type="csv:reader"    />
+        <xs:element name="writer"    type="csv:writer"    />
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="char-set">
+   
+   <xs:annotation><xs:documentation>
+    Represents the set of characters used to define the CSV structure.
+   </xs:documentation></xs:annotation>
+   
+   <xs:attribute name="quote" type="xs:string" use="required">
+    <xs:annotation><xs:documentation>
+     Character used to quote fields.
+     The character used by default is the double quote ["].
+    </xs:documentation></xs:annotation> 
+   </xs:attribute>
+    
+   <xs:attribute name="escape" type="xs:string">
+    <xs:annotation><xs:documentation>
+     Character used to escape other characters.
+	 There is no default values for this feature.    
+    </xs:documentation></xs:annotation>
+   </xs:attribute>
+     
+   <xs:attribute name="field-sep"    type="xs:string" use="required">
+    <xs:annotation><xs:documentation>
+     Character used to separate fields in the CSV source.
+	 The character used by default is the comma [,].
+    </xs:documentation></xs:annotation>
+   </xs:attribute>
+   
+   <xs:attribute name="record-sep-1" type="xs:string" use="required">
+    <xs:annotation><xs:documentation>
+     The first of at most two record separator characters.
+     This character is mandatory, the second one is optional.
+	 The character used by default is the new line feed [\n].
+    </xs:documentation></xs:annotation>
+   </xs:attribute>
+   
+   <xs:attribute name="record-sep-2" type="xs:string">
+    <xs:annotation><xs:documentation>
+     The second of at most two record separator characters.
+     This character is optional, the first one is mandatory.
+	 There is no default values for this feature.
+    </xs:documentation></xs:annotation>
+   </xs:attribute>
+    
+  </xs:complexType>
+
+  <xs:complexType name="parser">
+   <xs:complexContent>
+    <xs:extension base="csv:char-set">
+    
+     <xs:attribute name="name" type="xs:string">
+      <xs:annotation><xs:documentation>
+       The name to be used by the CSVFactory
+       to register the CSVParser created by
+       this definition.
+      </xs:documentation></xs:annotation>
+     </xs:attribute>
+        
+     <xs:attribute name="chars-to-ignore" type="xs:string">
+      <xs:annotation><xs:documentation>
+       Set of characters to be completely ignored while parsing.
+	   There is no default values for this feature.
+      </xs:documentation></xs:annotation>
+     </xs:attribute>
+     
+     <xs:attribute name="chars-to-ignore-around-fields" type="xs:string">
+      <xs:annotation><xs:documentation>
+       Set of characters to be ignored if found
+       on heading or trailing of a field.
+	   The characters ignored by default are:
+	   space [ ], horizontal tab [\t], new line feed [\n].
+      </xs:documentation></xs:annotation>
+     </xs:attribute>
+     
+     <xs:attribute name="lazy-quotes" type="xs:boolean">
+      <xs:annotation><xs:documentation>
+       Tells the CSVParser to treat
+       not escaped 	quotes less strictly.
+      </xs:documentation></xs:annotation>
+     </xs:attribute>
+        
+    </xs:extension>
+   </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="formatter">
+   <xs:complexContent>
+    <xs:extension base="csv:char-set">
+     <xs:attribute name="name" type="xs:string">
+      <xs:annotation><xs:documentation>
+       The name to be used by the CSVFactory
+       to register the CSVFormatter created by
+       this definition.
+      </xs:documentation></xs:annotation>
+     </xs:attribute>
+     
+     <xs:attribute name="chars-to-escape"          type="xs:string">
+      <xs:annotation><xs:documentation>
+       Set of characters to be escaped during formatting.
+       There is no default values for this feature.
+      </xs:documentation></xs:annotation>
+     </xs:attribute>
+    
+     <xs:attribute name="chars-that-force-quoting" type="xs:string">
+      <xs:annotation><xs:documentation>
+       Set of characters that forces the whole field to be quoted.
+	   The characters configured by default are:
+	   space [ ], comma [,], horizontal tab [\t], new line feed [\n].
+      </xs:documentation></xs:annotation>
+     </xs:attribute>
+     
+    </xs:extension>
+   </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="handler">
+    
+    <xs:sequence>
+      <xs:element name="model-binder" type="csv:model-binder" minOccurs="0" maxOccurs="1">
+       <xs:annotation><xs:documentation>
+        Definition of the model binder to use.
+       </xs:documentation></xs:annotation>
+      </xs:element>
+      <xs:element name="columns" minOccurs="0" maxOccurs="1">
+       <xs:annotation><xs:documentation>
+        Definition of the CSV columns to handle.
+       </xs:documentation></xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="column" type="csv:column" minOccurs="1" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    
+    <xs:attribute name="inherit" type="xs:string">
+      <xs:annotation><xs:documentation>
+       Name of the handler to inherit from or full qualified class name
+       of the bean where to find the configuration annotations.
+      </xs:documentation></xs:annotation>
+     </xs:attribute>
+        
+  </xs:complexType>
+  
+
+  <xs:complexType name="reader">
+   <xs:complexContent>
+    
+    <xs:annotation><xs:documentation>
+     Defines the configuration of a CSV reader able to read
+     a CSV source and convert each CSV record into a proper
+     data model.
+    </xs:documentation></xs:annotation>
+    
+    <xs:extension base="csv:handler">
+    
+     <xs:sequence>
+      <xs:element name="parser" type="csv:parser" minOccurs="0">
+       <xs:annotation><xs:documentation>
+        Configures a custom CSVParser for the current CSVReader.
+       </xs:documentation></xs:annotation>
+      </xs:element>
+     </xs:sequence>
+        
+     <xs:attribute name="name" type="xs:string" use="required">
+      <xs:annotation><xs:documentation>
+       The name to be used by the CSVFactory
+       to register the CSVReader created by
+       this definition.
+      </xs:documentation></xs:annotation>
+     </xs:attribute>
+    
+     <xs:attribute name="parser-ref" type="xs:string">
+      <xs:annotation><xs:documentation>
+       The name used to refer to a previous configured parser.
+      </xs:documentation></xs:annotation>
+     </xs:attribute>
+     
+     <xs:attribute name="read-header" type="xs:boolean">
+      <xs:annotation><xs:documentation>
+       Tells the CSVReader to read
+       the first row of the CSV source
+       and use it as a CSV header.
+      </xs:documentation></xs:annotation>
+     </xs:attribute>
+        
+     <xs:attribute name="use-column-names" type="xs:boolean">
+      <xs:annotation><xs:documentation>
+       Tells the CSVReader to use the read
+       CSV header to link each column to the
+       configured name. This parameter can be
+       'true' only if the 'readHeader' is also
+       'true', otherwise the configuration is
+       inconsistent.
+      </xs:documentation></xs:annotation>
+     </xs:attribute>
+     
+     <xs:attribute name="accept-incomplete-records" type="xs:boolean">
+      <xs:annotation><xs:documentation>
+       In the CSV standard each record must have the same number of cells.
+       But it is possible to face non standard CSV files where records
+       have different lengths. This flag tells the reader to accept
+       such non standard files.
+      </xs:documentation></xs:annotation>
+     </xs:attribute>
+     
+    </xs:extension>
+   </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="writer">
+  
+   <xs:annotation><xs:documentation>
+    Defines the configuration of a CSV writer able to read
+    a CSV data model and convert it into a proper CSV record
+    and write such record into the CSV destination.
+   </xs:documentation></xs:annotation> 
+  
+   <xs:complexContent>    
+    <xs:extension base="csv:handler">
+     <xs:sequence>
+      <xs:element name="formatter" type="csv:formatter" minOccurs="0">
+       <xs:annotation><xs:documentation>
+        Configures a custom CSVFormatter for the current CSVWriter.
+       </xs:documentation></xs:annotation>
+      </xs:element>
+     </xs:sequence>
+        
+     <xs:attribute name="name" type="xs:string" use="required">
+      <xs:annotation><xs:documentation>
+       The name to be used by the CSVFactory
+	   to register the CSVWriter created by
+	   this definition.
+      </xs:documentation></xs:annotation>
+     </xs:attribute>
+        
+     <xs:attribute name="formatter-ref" type="xs:string">
+      <xs:annotation><xs:documentation>
+       The name used to refer to a previous configured formatter.
+      </xs:documentation></xs:annotation>    
+     </xs:attribute>
+        
+     <xs:attribute name="write-header" type="xs:boolean">
+      <xs:annotation><xs:documentation>
+       Tells the CSVWriter to write the first row of
+       the CSV destination as a CSV header.
+      </xs:documentation></xs:annotation>
+     </xs:attribute>
+        
+    </xs:extension>
+   </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="column">
+  
+   <xs:annotation><xs:documentation>
+    Defines the mapping between a CSV column and a data model field. 
+   </xs:documentation></xs:annotation>
+    
+   <xs:sequence>
+    <xs:element name="processor" type="csv:processor" minOccurs="0">
+     <xs:annotation><xs:documentation>
+      Definition of the processor to use to perform the conversion
+	  between the CSV column value and the data model field.
+     </xs:documentation></xs:annotation>
+    </xs:element>
+   </xs:sequence>
+    
+   <xs:attribute name="name" type="xs:string" use="required">
+    <xs:annotation><xs:documentation>
+     The name of the CSV column reported
+	 in the CSV source header if any. Or
+	 the index of the column if no header
+	 has been defined.
+    </xs:documentation></xs:annotation>     
+    </xs:attribute>
+    
+    <xs:attribute name="optional"  type="xs:boolean">
+     <xs:annotation><xs:documentation>
+      Tells if the this column is optional or mandatory
+	  in the output data model. An optional column means
+	  that the related data model accepts ""null" values.
+	  The default value for this field is "false".
+     </xs:documentation></xs:annotation>
+    </xs:attribute>
+    
+    <xs:attribute name="processor-ref" type="xs:string">
+     <xs:annotation><xs:documentation>
+       The name used to refer to a previous configured field processor.
+     </xs:documentation></xs:annotation>
+    </xs:attribute>
+    
+    <xs:attribute name="mapping" type="xs:string">
+     <xs:annotation><xs:documentation>
+      A string representing the position
+	  in the data model taken by this column.
+	  The type of representation depends on the
+	  model binder that will be used.
+      The built in model binders takes the following values:
+	  array: the index of the value position in the output array. 
+	  bean:  the name of the target property in the output Java Bean. 
+	  map:   the value of the related key in the output map. 
+     </xs:documentation></xs:annotation>
+    </xs:attribute>
+    
+  </xs:complexType>
+
+  <xs:complexType name="processor">
+  
+   <xs:annotation><xs:documentation>
+    Represents the processor able to perform the validations
+    and conversions needed to translate a CSV column value
+    into the related data model field and vice versa.
+   </xs:documentation></xs:annotation>
+  
+    <xs:sequence>
+    
+      <xs:element name="precondition" type="csv:validator" minOccurs="0">
+       <xs:annotation><xs:documentation>
+        The name used to register a previous configured field validator
+	    used to check a specific condition before to perform conversion.
+       </xs:documentation></xs:annotation>
+      </xs:element>
+      
+      <xs:element name="converter" type="csv:converter" minOccurs="0">
+       <xs:annotation><xs:documentation>
+        The name used to register a previous configured field converter
+	    used to actually perform the conversion.
+       </xs:documentation></xs:annotation>
+      </xs:element>
+      
+      <xs:element name="postcondition" type="csv:validator" minOccurs="0">
+       <xs:annotation><xs:documentation>
+        The name used to register a previous configured field validator
+	    used to check a specific condition after conversion occurs.
+       </xs:documentation></xs:annotation>
+      </xs:element>
+      
+    </xs:sequence>
+    
+    <xs:attribute name="precondition-ref"  type="xs:string">
+     <xs:annotation><xs:documentation>
+      The name used to refer to a previous configured field validator
+	  used to check a specific condition before to perform conversion.
+     </xs:documentation></xs:annotation>
+    </xs:attribute>
+    
+    <xs:attribute name="converter-ref" type="xs:string">
+     <xs:annotation><xs:documentation>
+      The name used to refer to a previous configured field converter
+	  used to actually perform the conversion.
+     </xs:documentation></xs:annotation>
+    </xs:attribute>
+    
+    <xs:attribute name="postcondition-ref" type="xs:string">
+     <xs:annotation><xs:documentation>
+      The name used to refer to a previous configured field validator
+	  used to check a specific condition after the conversion occurs.
+     </xs:documentation></xs:annotation>
+    </xs:attribute>
+        
+  </xs:complexType>
+      
+  <xs:complexType name="validator">
+   
+   <xs:annotation>
+  	<xs:documentation>
+ 	 Performs validation over the values of a CSV column or the
+  	 related data model field. The built in validations types
+     are: checkStringLength, checkRegEx.
+    </xs:documentation>
+   </xs:annotation>
+      
+   <xs:attribute name="type" type="xs:string" use="required">
+  	<xs:annotation>
+  	 <xs:documentation>
+  	  The name used to identify the validation type to use.
+  	 </xs:documentation>
+    </xs:annotation>
+   </xs:attribute>
+  	
+   <xs:anyAttribute namespace="##local" processContents="skip">
+  	<xs:annotation>
+  	 <xs:documentation>
+  	  Set of custom defined attributes used to configure the validator.
+  	 </xs:documentation>
+    </xs:annotation>
+   </xs:anyAttribute>
+
+  </xs:complexType>
+
+  <xs:complexType name="converter">
+  
+   <xs:annotation><xs:documentation>
+    Performs type conversion between the value
+    of a CSV column and the related data model
+    field and vice versa.
+    The built in validations types are:
+    parseByte, parseShort, parseInteger, parseLong, parseFloat, parseDouble,
+    parseBigInteger, parseBigDecimal, parseAtomicInteger, parseAtomicLong,
+    formatByte, formatShort, formatInteger, formatLong, formatFloat, formatDouble,
+    formatBigInteger, formatBigDecimal, formatAtomicInteger, formatAtomicLong,
+    parseBoolean, formatBoolean, parseDate,  formatDate, parseEnum, formatEnum.
+   </xs:documentation></xs:annotation>
+   
+   <xs:attribute name="type" type="xs:string" use="required">
+    <xs:annotation><xs:documentation>
+     The name used to identify the conversion type to use.
+    </xs:documentation></xs:annotation>
+   </xs:attribute>
+   
+   <xs:anyAttribute namespace="##local" processContents="skip">
+    <xs:annotation><xs:documentation>
+     Set of custom defined attributes used to configure the converter.
+    </xs:documentation></xs:annotation>
+   </xs:anyAttribute>
+    
+  </xs:complexType>
+
+  <xs:complexType name="model-binder">
+  
+   <xs:annotation><xs:documentation>
+    Model binder able to map each column of the CSV source
+    into a field of the related data model and vice versa.
+   </xs:documentation></xs:annotation>
+   
+   <xs:attribute name="type" type="xs:string" use="required">
+    <xs:annotation><xs:documentation>
+     Type of binding to perform. The built in binding types are:
+     'array', 'bean', 'map'.
+    </xs:documentation></xs:annotation>
+   </xs:attribute>
+   
+   <xs:anyAttribute namespace="##local" processContents="skip">
+    <xs:annotation><xs:documentation>
+     Any attribute required by the specified binding type.
+     For example the binding type 'bean' requires a parameter
+     'bean-class' that specifies the full qualified class name
+     of the binded JavaBean. 
+    </xs:documentation></xs:annotation>
+   </xs:anyAttribute>
+   
+  </xs:complexType>
+    
+  <xs:complexType name="register">
+   <xs:sequence>
+      
+    <xs:annotation><xs:documentation>
+     Allows to register custom made items into the CSVFactory.
+    </xs:documentation></xs:annotation>   
+    
+    <xs:element name="types" type="csv:register-types" minOccurs="0">
+     <xs:annotation><xs:documentation>
+      Registration of new custom types.
+     </xs:documentation></xs:annotation>
+    </xs:element>
+      
+    <xs:element name="validators" minOccurs="0">
+    
+     <xs:annotation><xs:documentation>
+      List of preconfigured validators registered with unique names.
+      IMPORTANT: The registered instance is singleton and is shared
+      by all csv-readers and csv-writers. If you need to be thread
+      safe define a custom type.
+     </xs:documentation></xs:annotation>
+     
+     <xs:complexType>
+      <xs:sequence>
+       <xs:element name="validator" type="csv:register-validator" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+     </xs:complexType>
+     
+    </xs:element>
+          
+    <xs:element name="converters" minOccurs="0">
+     
+     <xs:annotation><xs:documentation>
+      List of preconfigured converters registered with unique names.
+      IMPORTANT: The registered instance is singleton and is shared
+      by all csv-readers and csv-writers. If you need to be thread
+      safe define a custom type.
+     </xs:documentation></xs:annotation>
+     
+     <xs:complexType>
+      <xs:sequence>
+       <xs:element name="converter" type="csv:register-converter" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+     </xs:complexType>
+     
+    </xs:element>
+      
+    <xs:element name="processors" minOccurs="0">
+    
+     <xs:annotation><xs:documentation>
+      List of preconfigured processors registered with unique names.
+      IMPORTANT: The registered instance is singleton and is shared
+      by all csv-readers and csv-writers. If you need to be thread
+      safe define a custom type.
+     </xs:documentation></xs:annotation>
+     
+     <xs:complexType>
+      <xs:sequence>
+       <xs:element name="processor" type="csv:register-processor" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+     </xs:complexType>
+     
+    </xs:element>
+      
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="register-provider">
+  
+   <xs:annotation><xs:documentation>
+    Represents the definition of a new custom type.
+    The values necessary to define a new type are:
+    a unique name used to refer the type and a class
+    implementing the CSVRegistryEntryProvider interface
+    able to provide type instances given the related configuration.
+   </xs:documentation></xs:annotation>
+   
+   <xs:attribute name="type-name" type="xs:string" use="required">
+    <xs:annotation><xs:documentation>
+     Unique name used to refer the type into the CSVRegistry.
+    </xs:documentation></xs:annotation>
+   </xs:attribute>
+   
+   <xs:attribute name="provider-class" type="xs:string" use="required">
+    <xs:annotation><xs:documentation>
+     Class implementing the CSVRegistryEntryProvider interface
+     to provide type instances given the related configuration.
+    </xs:documentation></xs:annotation>
+   </xs:attribute>
+   
+  </xs:complexType>
+  
+  <xs:complexType name="register-types">
+  
+   <xs:annotation><xs:documentation>
+    Configuration of the custom types registry.
+    Into this tag is possible to configure the
+    builders able to create new custom defined
+    types instances.
+   </xs:documentation></xs:annotation>
+   
+    <xs:sequence>
+    
+      <xs:element name="converter" type="csv:register-provider" minOccurs="0" maxOccurs="unbounded">
+       <xs:annotation><xs:documentation>
+        Builder class for the custom defined converter.
+       </xs:documentation></xs:annotation>
+      </xs:element>
+      
+      <xs:element name="validator" type="csv:register-provider" minOccurs="0" maxOccurs="unbounded">
+       <xs:annotation><xs:documentation>
+        Builder class for the custom defined validator.
+       </xs:documentation></xs:annotation>
+      </xs:element>
+      
+      <xs:element name="csv-to-model" type="csv:register-provider" minOccurs="0" maxOccurs="unbounded">
+       <xs:annotation><xs:documentation>
+        Builder class for the custom defined CSV to data model binder.
+       </xs:documentation></xs:annotation>
+      </xs:element>
+      
+      <xs:element name="model-to-csv" type="csv:register-provider" minOccurs="0" maxOccurs="unbounded">
+       <xs:annotation><xs:documentation>
+        Builder class for the custom defined data model to CSV binder.
+       </xs:documentation></xs:annotation>
+      </xs:element>
+      
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="register-validator">
+  
+   <xs:annotation><xs:documentation>
+    Registration of a preconfigured validator.
+    This element must define all the parameters
+    and a unique name for the validator instance.
+   </xs:documentation></xs:annotation>
+   
+   <xs:complexContent>
+    <xs:extension base="csv:validator">
+     <xs:attribute name="name" type="xs:string" use="required">
+      <xs:annotation><xs:documentation>
+       The unique name to be used to access the validator instance.
+      </xs:documentation></xs:annotation>
+     </xs:attribute>
+    </xs:extension>
+   </xs:complexContent>
+   
+  </xs:complexType>
+  
+  <xs:complexType name="register-converter">
+  
+   <xs:annotation><xs:documentation>
+    Registration of a preconfigured converter.
+    This element must define all the parameters
+    and a unique name for the converter instance.
+   </xs:documentation></xs:annotation>
+   
+    <xs:complexContent>
+      <xs:extension base="csv:converter">
+       <xs:attribute name="name" type="xs:string" use="required">
+        <xs:annotation><xs:documentation>
+         The unique name to be used to access the converter instance.
+        </xs:documentation></xs:annotation>
+       </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+    
+  </xs:complexType>
+
+  <xs:complexType name="register-processor">
+  
+   <xs:annotation><xs:documentation>
+    Registration of a preconfigured processor.
+    This element must define all the parameters
+    and a unique name for the processor instance.
+   </xs:documentation></xs:annotation>
+   
+    <xs:complexContent>
+      <xs:extension base="csv:processor">
+       <xs:attribute name="name" type="xs:string" use="required">
+        <xs:annotation><xs:documentation>
+         The unique name to be used to access the processor instance.
+        </xs:documentation></xs:annotation>
+       </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+    
+  </xs:complexType>
+
+</xs:schema>

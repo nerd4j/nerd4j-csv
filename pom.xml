@@ -1,0 +1,65 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  
+  <parent>
+    <groupId>org.nerd4j</groupId>
+    <artifactId>nerd4j-base</artifactId>
+    <version>1.0.0</version>
+  </parent>
+  
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.nerd4j</groupId>
+  <artifactId>nerd4j-csv</artifactId>
+  <version>1.0.1-SNAPSHOT</version>
+
+  <packaging>jar</packaging>
+
+  <name>Nerd4j CSV</name>
+  <description>CSV manipulation library.</description>
+
+  <inceptionYear>2013</inceptionYear>
+
+  <scm>
+    <url>https://176.34.137.172:6368/svn/nerd4j/csv</url>
+    <connection>scm:svn:https://176.34.137.172:6368/svn/nerd4j/csv/trunk</connection>
+    <developerConnection>scm:svn:https://176.34.137.172:6368/svn/nerd4j/csv/trunk</developerConnection>
+  </scm>
+  
+  <dependencies>
+
+    <!-- PROJECT DEPENDENCIES -->
+    <dependency>
+      <groupId>org.nerd4j</groupId>
+      <artifactId>nerd4j-utils</artifactId>
+      <version>1.0.0</version>
+      <scope>compile</scope>
+    </dependency>
+    
+    
+    <!-- LOGGING DEPENDENCIES -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>1.7.2</version>
+      <scope>runtime</scope>
+    </dependency>
+    
+
+    <!-- TEST DEPENDENCIES -->
+    <dependency>
+      <groupId>org.nerd4j</groupId>
+      <artifactId>nerd4j-test</artifactId>
+      <version>1.0.0</version>
+      <scope>test</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>com.carrotsearch</groupId>
+      <artifactId>junit-benchmarks</artifactId>
+      <version>0.7.2</version>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+</project>

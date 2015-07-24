@@ -1,0 +1,91 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<!--
+  #%L
+  Nerd4j CSV
+  %%
+  Copyright (C) 2013 Nerd4j
+  %%
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU Lesser General Public License as 
+  published by the Free Software Foundation, either version 3 of the 
+  License, or (at your option) any later version.
+  
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Lesser Public License for more details.
+  
+  You should have received a copy of the GNU General Lesser Public 
+  License along with this program.  If not, see
+  <http://www.gnu.org/licenses/lgpl-3.0.html>.
+  #L%
+  -->
+
+<csv:configuration xmlns:csv="http://www.nerd4j.org/csv"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://www.nerd4j.org/csv http://www.nerd4j.org/csv">
+  
+  
+  <csv:register>
+    <csv:validators>
+      <csv:validator  name="descVal" type="checkStringLength"  min="10" max="3000" />
+    </csv:validators>
+
+    <csv:processors>
+      <csv:processor name="parseInt">
+        <csv:converter type="parseInteger" />
+      </csv:processor>
+    </csv:processors>
+  
+  </csv:register>
+  
+  <csv:parser name="csvParser" escape="" quote="#" record-sep-1="|" field-sep="!" chars-to-ignore-around-fields="" />
+  
+  <csv:reader name="csvReader" parser-ref="csvParser">
+    <csv:model-binder type="map" />
+    <csv:columns>
+     <csv:column name="product_id"  mapping="productId" processor-ref="parseInt" optional="false" />
+     <csv:column name="merchant_id" mapping="merchantId" optional="false">
+      <csv:processor><csv:converter type="parseInteger" /></csv:processor>
+    </csv:column>
+     <csv:column  name="product_name" mapping="productName" optional="false" >
+      <csv:processor><csv:precondition  type="checkStringLength"  min="10" max="300" /></csv:processor>
+    </csv:column>
+     <csv:column name="description" mapping="description" optional="false">
+      <csv:processor precondition-ref="descVal" />
+    </csv:column>
+    <csv:column name="category_id" mapping="categoryId" optional="false">
+      <csv:processor><csv:converter type="parseInteger" /></csv:processor>
+    </csv:column>
+    </csv:columns>
+  </csv:reader>
+
+  <csv:reader name="csvProductReader">
+<!--     <csv:model-binder type="bean" bean-class=""> -->
+    <csv:columns>
+     <csv:column  name="NAME" mapping="name" optional="false" >
+      <csv:processor><csv:precondition  type="checkStringLength"  min="10" max="300" /></csv:processor>
+    </csv:column>
+     <csv:column name="DESCRIPTION" mapping="description" optional="false">
+      <csv:processor precondition-ref="descVal" />
+    </csv:column>
+    <csv:column name="UPC" mapping="upc" optional="false" processor-ref="parseInteger" />
+    <csv:column name="CURRENCY" mapping="categoryId" optional="false">
+      <csv:processor><csv:converter type="parseInteger" /></csv:processor>
+    </csv:column>
+    <csv:column name="PRICE" mapping="price" optional="false" processor-ref="parseDouble" />
+    <csv:column name="CURRENCY" mapping="currency" optional="false">
+      <csv:processor>
+        <csv:converter type="parseEnum" enum-type="org.nerd4j.csv.model.Product$Currency"/>
+      </csv:processor>
+    </csv:column>
+    <csv:column name="IN-STOCK" mapping="inStock" optional="false" processor-ref="parseBoolean" />
+    <csv:column name="LAST-UPDATE" mapping="lastUpdate" optional="false">
+      <csv:processor>
+        <csv:converter type="parseDate" pattern="dd-MM-yy"/>
+      </csv:processor>
+    </csv:column>
+    </csv:columns>
+  </csv:reader>
+
+</csv:configuration>
