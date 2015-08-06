@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- * Test per la classe CSVReader.
+ * Test for the class CSVReader.
  * 
  * @author Nerd4j Team
  */

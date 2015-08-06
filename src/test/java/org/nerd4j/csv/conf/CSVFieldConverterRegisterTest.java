@@ -95,7 +95,7 @@ public class CSVFieldConverterRegisterTest extends BaseTest
         final Product.Currency enumValue = parse( "parseEnum", "EUR",params );
         Assert.assertEquals( Product.Currency.EUR, enumValue );
 
-        params.put( "pattern", "dd/MM/yyyy" );
+        params.put( "pattern", "dd/MM/yyyy" );        
         final Date dateValue = parse( "parseDate", "12/04/1976",params );
         Assert.assertEquals( 198111600000L, dateValue.getTime() );
         
@@ -143,12 +143,11 @@ public class CSVFieldConverterRegisterTest extends BaseTest
         Assert.assertEquals( "true", booleanValue );
         
         params.put( "enum-type", "org.nerd4j.csv.model.Product$Currency" );
-        
         final String enumValue = format( "formatEnum", Product.Currency.EUR, params );
         Assert.assertEquals( "EUR", enumValue );
         
         params.put( "pattern", "dd/MM/yyyy" );
-        
+        params.put( "locale", "IT_it" );
         final String dateValue = format( "formatDate", new Date(198111600000L), params );
         Assert.assertEquals( "12/04/1976", dateValue );
         

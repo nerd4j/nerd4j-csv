@@ -101,9 +101,11 @@ import org.nerd4j.i18n.LocaleUtil;
  *    <li>formatBoolean      : no parameters</li>
  *    <br />
  *    <li>parseDate          : pattern   = the date format pattern (mandatory)
- *                             time-zone = input date timezone (optional)</li>
+ *                             time-zone = input date timezone (optional)
+ *                             locale  = the pattern locale for symbols (optional)</li>
  *    <li>formatDate         : pattern = the date format pattern (mandatory)
- *                             time-zone = output date timezone (optional)</li>
+ *                             time-zone = output date timezone (optional)
+ *                             locale  = the pattern locale for symbols (optional)</li>
  *    <br />
  *    <li>parseEnum          : enum-type = the fully qualified enum class name (mandatory)</li>
  *    <li>formatEnum         : enum-type = the fully qualified enum class name (mandatory)</li>
@@ -293,10 +295,11 @@ final class CSVFieldConverterRegistry extends CSVAbstractRegistry<CSVFieldConver
             @Override
             public CSVFieldConverter<String,Date> get( Map<String,String> params )
             {
-            	final String pattern = params.get( "pattern" );
+            	final String pattern    = params.get( "pattern"   );
             	final String timeZoneID = params.get( "time-zone" );
+            	final String dlocale    = params.get( "locale"    );
+                
             	final TimeZone timeZone;
-            	
             	if( timeZoneID == null )
             	{
             		timeZone = TimeZone.getDefault();
@@ -324,7 +327,8 @@ final class CSVFieldConverterRegistry extends CSVAbstractRegistry<CSVFieldConver
 	                
                 }
                 
-                return new StringToDate( pattern, timeZone ); 
+            	final Locale locale = dlocale == null ? null : LocaleUtil.getLocale(dlocale);
+                return new StringToDate( pattern, timeZone, locale ); 
             }
         });
         
@@ -336,8 +340,9 @@ final class CSVFieldConverterRegistry extends CSVAbstractRegistry<CSVFieldConver
             {
             	final String pattern = params.get( "pattern" );
             	final String timeZoneID = params.get( "time-zone" );
-            	final TimeZone timeZone;
+            	final String dlocale    = params.get( "locale"    );
             	
+            	final TimeZone timeZone;            	
             	if( timeZoneID == null )
             	{
             		timeZone = TimeZone.getDefault();
@@ -365,7 +370,8 @@ final class CSVFieldConverterRegistry extends CSVAbstractRegistry<CSVFieldConver
 	                
                 }
             	
-            	return new DateToString( pattern, timeZone ); 
+            	final Locale locale = dlocale == null ? null : LocaleUtil.getLocale(dlocale);
+            	return new DateToString( pattern, timeZone, locale ); 
             }
         });
         

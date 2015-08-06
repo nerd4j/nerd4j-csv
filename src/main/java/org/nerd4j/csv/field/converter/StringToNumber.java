@@ -124,9 +124,13 @@ public final class StringToNumber<N extends Number> extends AbstractCSVFieldConv
             /* Enable BigDecimal format return if needed */
             switch ( this.numberType )
             {
+            
 	            case BIG_DECIMAL:
 	            case BIG_INTEGER:
 	            	this.numberFormat.setParseBigDecimal( true );
+	            	break;
+			
+	            default: break;
             }
         }
 

@@ -24,6 +24,7 @@ package org.nerd4j.csv.field.converter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import org.nerd4j.csv.field.CSVFieldConverter;
@@ -58,7 +59,7 @@ public final class StringToDate extends AbstractCSVFieldConverter<String,Date>
     public StringToDate( final String datePattern )
     {
 
-        this( datePattern, null );
+        this( datePattern, null, null );
         
     }
     
@@ -71,15 +72,37 @@ public final class StringToDate extends AbstractCSVFieldConverter<String,Date>
     public StringToDate( final String datePattern, final TimeZone timeZone )
     {
 
-        super( "Unable to convert {1} into Date" );
+        this( datePattern, timeZone, null );
         
-        this.dateFormat = datePattern != null && ! datePattern.isEmpty()
-        		        ? new SimpleDateFormat( datePattern )
-        		        : new SimpleDateFormat();
-        
-        /* Change formatter default timezone if requested. */
-        if ( timeZone != null ) dateFormat.setTimeZone( timeZone );
-        
+    }
+
+    /**
+     * Constructor with parameter.
+     * 
+     * @param datePattern the pattern that describes the date format.
+     * @param timeZone    (Optional) date time zone different from default one.
+     * @param dateLocale  locale for formatter symbols, ignored if no pattern
+     */
+    public StringToDate( final String datePattern, final TimeZone timeZone, final Locale dateLocale )
+    {
+    	
+    	super( "Unable to convert {1} into Date" );
+    	
+    	if( datePattern == null || datePattern.isEmpty() )
+    	{
+    		this.dateFormat = new SimpleDateFormat();
+    	}
+    	else
+    	{
+    		if ( dateLocale == null )
+    			this.dateFormat = new SimpleDateFormat( datePattern );
+    	    else
+    	    	this.dateFormat = new SimpleDateFormat( datePattern, dateLocale );
+        }
+    			
+    	/* Change formatter default timezone if requested. */
+    	if ( timeZone != null ) dateFormat.setTimeZone( timeZone );
+    			
     }
 
     
