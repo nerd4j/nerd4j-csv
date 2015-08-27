@@ -190,12 +190,9 @@ final class CSVParserImpl implements CSVParser
 	{
 		
 		reader.close();
+		nexts.clear();
 		
 		token = null;
-		
-		nexts.clear();
-		nexts = null;
-		
 		value = null;
 		
 	}

@@ -66,9 +66,11 @@ public final class CSVFactory
     /** The CSV configuration to use. */
     private final CSVConfiguration configuration;
     
+    
     /**
-     * Default constructor.
+     * Constructor with parameters.
      * 
+     * @param configuration the CSV configuration to load.
      */
     public CSVFactory( CSVConfiguration configuration )
     {
