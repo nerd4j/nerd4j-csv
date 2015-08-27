@@ -109,11 +109,5 @@ That's it!!
 With a few lines of code you are able to read and write CSV files using your own data model.
 But the framework is highly configurable and can cover almost all the needs that a developer can face working on CSV files.
 
-## Coming soon
-We are working on the documentation that will cover all the functionality of the framework including:
-* Parsers and Formatters for custom CSV formats.
-* Possibility to configure custom mappings like numbers and dates in different formats and locales.
-* Possibility to register custom data processors.
-* The XML configuration file.
-* Possibility to inherit configurations (ie. inherit from an annotated bean and override using xml).
-* Mapping CSV records into different data models like Maps or arrays.
+For more details about the features of the nerd4j-csv framework see our [wiki](https://github.com/nerd4j/nerd4j-csv/wiki).
+
