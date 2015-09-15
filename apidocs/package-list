@@ -1,0 +1,17 @@
+org.nerd4j.csv
+org.nerd4j.csv.conf
+org.nerd4j.csv.conf.mapping
+org.nerd4j.csv.conf.mapping.ann
+org.nerd4j.csv.conf.mapping.xml
+org.nerd4j.csv.exception
+org.nerd4j.csv.field
+org.nerd4j.csv.field.converter
+org.nerd4j.csv.field.processor
+org.nerd4j.csv.field.validator
+org.nerd4j.csv.formatter
+org.nerd4j.csv.parser
+org.nerd4j.csv.reader
+org.nerd4j.csv.reader.binding
+org.nerd4j.csv.registry
+org.nerd4j.csv.writer
+org.nerd4j.csv.writer.binding
