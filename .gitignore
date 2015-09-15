@@ -5,5 +5,7 @@
 .settings
 nbactions.xml
 target
+site
 temp-testng-customsuite.xml
 test-output
+
