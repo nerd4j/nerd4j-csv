@@ -408,6 +408,7 @@ public class XMLConfigurationFactory
     	if( xmlConf.isLazyQuotes() != null ) csvConf.setLazyQuotes( xmlConf.isLazyQuotes() );
     	if( xmlConf.getCharsToIgnore() != null ) csvConf.setCharsToIgnore( xmlConf.getCharsToIgnore() );
     	if( xmlConf.getCharsToIgnoreAroundFields() != null ) csvConf.setCharsToIgnoreAroundFields( xmlConf.getCharsToIgnoreAroundFields() );
+    	if( xmlConf.isMatchRecordSeparatorExactSequence() != null ) csvConf.setMatchRecordSeparatorExactSequence( xmlConf.isMatchRecordSeparatorExactSequence() );
         
     }
 
@@ -442,8 +443,9 @@ public class XMLConfigurationFactory
         if( xmlConf.getQuoteChar() != null ) csvConf.setQuoteChar( xmlConf.getQuoteChar() );
         if( xmlConf.getEscapeChar() != null ) csvConf.setEscapeChar( xmlConf.getEscapeChar() );
         if( xmlConf.getFieldSeparator() != null ) csvConf.setFieldSeparator( xmlConf.getFieldSeparator() );
-        if( xmlConf.getRecordSeparator1() != null ) csvConf.setRecordSeparator1( xmlConf.getRecordSeparator1() );
-        if( xmlConf.getRecordSeparator2() != null ) csvConf.setRecordSeparator2( xmlConf.getRecordSeparator2() );
+        if( xmlConf.getRecordSeparator() != null ) csvConf.setRecordSeparator( xmlConf.getRecordSeparator() );
+//        if( xmlConf.getRecordSeparator1() != null ) csvConf.setRecordSeparator1( xmlConf.getRecordSeparator1() );
+//        if( xmlConf.getRecordSeparator2() != null ) csvConf.setRecordSeparator2( xmlConf.getRecordSeparator2() );
         
     }
     

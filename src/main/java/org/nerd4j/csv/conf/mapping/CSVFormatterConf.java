@@ -21,9 +21,6 @@
  */
 package org.nerd4j.csv.conf.mapping;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.nerd4j.csv.formatter.CSVFormatter;
 
 
@@ -39,13 +36,13 @@ public class CSVFormatterConf extends CSVCharSetConf implements Cloneable
      * Set of characters to be escaped.
      * (by default this set is empty).
      */
-    private Set<Character> charsToEscape;
+    private char[] charsToEscape;
     
     /**
      * Set of characters that forces the whole field to be quoted.
      * (by default this set is: {[ ],[,],[\t],[\n]}).
      */
-    private Set<Character> charsThatForceQuoting;
+    private char[] charsThatForceQuoting;
     
     
     /**
@@ -68,22 +65,22 @@ public class CSVFormatterConf extends CSVCharSetConf implements Cloneable
     /* ******************* */
     
     
-    public Set<Character> getCharsToEscape()
+    public char[] getCharsToEscape()
     {
         return charsToEscape;
     }
     
-    public void setCharsToEscape( Set<Character> charsToEscape )
+    public void setCharsToEscape( char[] charsToEscape )
     {
         this.charsToEscape = charsToEscape;
     }
     
-    public Set<Character> getCharsThatForceQuoting()
+    public char[] getCharsThatForceQuoting()
     {
         return charsThatForceQuoting;
     }
     
-    public void setCharsThatForceQuoting( Set<Character> charsThatForceQuoting )
+    public void setCharsThatForceQuoting( char[] charsThatForceQuoting )
     {
         this.charsThatForceQuoting = charsThatForceQuoting;
     }
@@ -104,10 +101,10 @@ public class CSVFormatterConf extends CSVCharSetConf implements Cloneable
         final CSVFormatterConf clone = (CSVFormatterConf) super.clone();
         
         if( this.charsToEscape != null )
-            clone.charsToEscape = new HashSet<Character>( this.charsToEscape );
+            clone.charsToEscape = this.charsToEscape.clone();
         
         if( this.charsThatForceQuoting != null )
-            clone.charsThatForceQuoting = new HashSet<Character>( this.charsThatForceQuoting );
+            clone.charsThatForceQuoting = this.charsThatForceQuoting.clone();
         
         return clone;
         

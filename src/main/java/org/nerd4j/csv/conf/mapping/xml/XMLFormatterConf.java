@@ -21,8 +21,6 @@
  */
 package org.nerd4j.csv.conf.mapping.xml;
 
-import java.util.Set;
-
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
@@ -51,16 +49,16 @@ public class XMLFormatterConf extends XMLCharSetConf
     private String charsThatForceQuotingString;
     
     /**
-     * Set of characters to be escaped.
+     * Characters to be escaped.
      * (by default this set is empty).
      */
-    private Set<Character> charsToEscape;
+    private char[] charsToEscape;
     
     /**
-     * Set of characters that forces the whole field to be quoted.
+     * Characters that forces the whole field to be quoted.
      * (by default this set is: {[ ],[,],[\t],[\n]}).
      */
-    private Set<Character> charsThatForceQuoting;
+    private char[] charsThatForceQuoting;
     
     
     /**
@@ -87,34 +85,34 @@ public class XMLFormatterConf extends XMLCharSetConf
     
     
     @XmlTransient
-    public Set<Character> getCharsToEscape()
+    public char[] getCharsToEscape()
     {
 
         if( charsToEscape == null )
-            charsToEscape = parseCharSet( charsToEscapeString, CHARS_TO_ESCAPE );
+            charsToEscape = parseCharSet( charsToEscapeString );
         
         return charsToEscape;
         
     }
     
-    public void setCharsToEscape( Set<Character> charsToEscape )
+    public void setCharsToEscape( char[] charsToEscape )
     {
         this.charsToEscape = charsToEscape;
         this.charsToEscapeString = formatCharSet( charsToEscape );
     }
     
     @XmlTransient
-    public Set<Character> getCharsThatForceQuoting()
+    public char[] getCharsThatForceQuoting()
     {
         
         if( charsThatForceQuoting == null )
-            charsThatForceQuoting = parseCharSet( charsThatForceQuotingString, CHARS_THAT_FORCE_QUOTING );
+            charsThatForceQuoting = parseCharSet( charsThatForceQuotingString );
         
         return charsThatForceQuoting;
         
     }
     
-    public void setCharsThatForceQuoting( Set<Character> charsThatForceQuoting )
+    public void setCharsThatForceQuoting( char[] charsThatForceQuoting )
     {
         this.charsThatForceQuoting = charsThatForceQuoting;
         this.charsThatForceQuotingString = formatCharSet( charsThatForceQuoting );

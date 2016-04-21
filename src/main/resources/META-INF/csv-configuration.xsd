@@ -45,21 +45,29 @@
     </xs:documentation></xs:annotation>
    </xs:attribute>
    
-   <xs:attribute name="record-sep-1" type="xs:string" use="required">
+   <xs:attribute name="record-sep" type="xs:string">
     <xs:annotation><xs:documentation>
-     The first of at most two record separator characters.
-     This character is mandatory, the second one is optional.
-	 The character used by default is the new line feed [\n].
+     Characters used to separate records.
+     By default the operating system line
+     separator will be used.
     </xs:documentation></xs:annotation>
    </xs:attribute>
    
-   <xs:attribute name="record-sep-2" type="xs:string">
-    <xs:annotation><xs:documentation>
-     The second of at most two record separator characters.
-     This character is optional, the first one is mandatory.
-	 There is no default values for this feature.
-    </xs:documentation></xs:annotation>
-   </xs:attribute>
+<!--    <xs:attribute name="record-sep-1" type="xs:string" use="required"> -->
+<!--     <xs:annotation><xs:documentation> -->
+<!--      The first of at most two record separator characters. -->
+<!--      This character is mandatory, the second one is optional. -->
+<!-- 	 The character used by default is the new line feed [\n]. -->
+<!--     </xs:documentation></xs:annotation> -->
+<!--    </xs:attribute> -->
+   
+<!--    <xs:attribute name="record-sep-2" type="xs:string"> -->
+<!--     <xs:annotation><xs:documentation> -->
+<!--      The second of at most two record separator characters. -->
+<!--      This character is optional, the first one is mandatory. -->
+<!-- 	 There is no default values for this feature. -->
+<!--     </xs:documentation></xs:annotation> -->
+<!--    </xs:attribute> -->
     
   </xs:complexType>
 
@@ -95,6 +103,18 @@
       <xs:annotation><xs:documentation>
        Tells the CSVParser to treat
        not escaped 	quotes less strictly.
+      </xs:documentation></xs:annotation>
+     </xs:attribute>
+
+     <xs:attribute name="record-sep-match-exact-sequence" type="xs:boolean">
+      <xs:annotation><xs:documentation>
+       Tells the strategy to use for match a record separator.
+       If true matches the exact character sequence
+       provided in the record-rep attribute.
+       By default it will match a record separator as
+       soon as it finds any record separator character
+       (this is the behavior implemented by Mucrosoft Excel
+       and OpenOffice Calc).
       </xs:documentation></xs:annotation>
      </xs:attribute>
         

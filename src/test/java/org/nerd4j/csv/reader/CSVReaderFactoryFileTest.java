@@ -44,7 +44,7 @@ public class CSVReaderFactoryFileTest
     
     private static final Logger logger = LoggerFactory.getLogger( CSVReaderFactoryFileTest.class );
 
-    private static final boolean printModelSuccess = false;
+    private static final boolean printModelSuccess = true;
     
     
     @Test

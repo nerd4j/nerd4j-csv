@@ -21,10 +21,6 @@
  */
 package org.nerd4j.csv.parser;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.nerd4j.csv.RemarkableASCII;
 import org.nerd4j.csv.parser.CSVParserFactory.CharacterClass;
 
@@ -60,32 +56,48 @@ public final class CSVParserMetadata
     /** Character used to separate fields (the comma [,] is used by default). */ 
     private Character fieldSeparator;
     
-    /**
-     * The first of at most two record separator characters.
-     * This character is mandatory, the second one is optional.
-     *(the [\n] character is used by default). 
-     */
-    private Character recordSeparator1;
+//    /**
+//     * The first of at most two record separator characters.
+//     * This character is mandatory, the second one is optional.
+//     *(the [\n] character is used by default). 
+//     */
+//    private Character recordSeparator1;
+//    
+//    /**
+//     * The second of at most two record separator characters.
+//     * This character is optional, the first one is mandatory.
+//     *(by default this field is empty). 
+//     */
+//    private Character recordSeparator2;
+    
+    /** Characters used to separate records (by default this set is: {[\r],[\n]}). */
+    private char[] recordSeparator;
     
     /**
-     * The second of at most two record separator characters.
-     * This character is optional, the first one is mandatory.
-     *(by default this field is empty). 
+     * Tells the strategy to use for match a record separator.
+     * If {@code true} matches the exact character sequence
+     * provided in the {@link CSVParserMetadata#recordSeparator}
+     * field. By default it will match a record separator as
+     * soon as it finds any record separator character (this is
+     * the behaviour implemented by Mucrosoft Excel and OpenOffice
+     * Calc).
      */
-    private Character recordSeparator2;
+    private boolean matchRecordSeparatorExactSequence;
     
     /**
-     * Set of characters to be completely ignored while parsing.
+     * Characters to be completely ignored while parsing.
      * (by default this set is empty).
      */
-    private Set<Character> charsToIgnore;
+    char[] charsToIgnore;
+//    private Set<Character> charsToIgnore;
     
     /**
-     * Set of characters to be ignored if found
+     * Characters to be ignored if found
      * on heading or trailing of a field.
-     * (by default this set is: {[ ], [\t],[\n]}).
+     * (by default this set is: {[ ],[\t],[\n]}).
      */
-    private Set<Character> charsToIgnoreAroundFields;
+    private char[] charsToIgnoreAroundFields;
+//    private Set<Character> charsToIgnoreAroundFields;
 
     /**
      * Default constructor.
@@ -100,17 +112,20 @@ public final class CSVParserMetadata
         
         this.fieldSeparator   = RemarkableASCII.COMMA;
         
-        this.recordSeparator1 = RemarkableASCII.LF;
-        this.recordSeparator2 = null;
+//        this.recordSeparator1 = RemarkableASCII.LF;
+//        this.recordSeparator2 = null;
         
         this.escapeChar = null;
         this.quoteChar  = RemarkableASCII.DOUBLE_QUOTE;
         
         this.charsToIgnore   = null;
-        this.charsToIgnoreAroundFields = new HashSet<Character>();
-        this.charsToIgnoreAroundFields.add( RemarkableASCII.SPACE );
-        this.charsToIgnoreAroundFields.add( RemarkableASCII.HT );
-        this.charsToIgnoreAroundFields.add( RemarkableASCII.LF );
+        this.charsToIgnoreAroundFields = new char[] { RemarkableASCII.SPACE, RemarkableASCII.HT };
+//        this.charsToIgnoreAroundFields = new HashSet<Character>();
+//        this.charsToIgnoreAroundFields.add( RemarkableASCII.SPACE );
+//        this.charsToIgnoreAroundFields.add( RemarkableASCII.HT );
+        
+        this.matchRecordSeparatorExactSequence = false;
+        this.recordSeparator = new char[] { RemarkableASCII.CR, RemarkableASCII.LF };
         
     }
 
@@ -141,25 +156,25 @@ public final class CSVParserMetadata
         this.fieldSeparator = fieldSeparator;
     }
 
-    public Character getRecordSeparator1()
-    {
-        return recordSeparator1;
-    }
-    
-    public void setRecordSeparator1( Character recordSeparator1 )
-    {
-        this.recordSeparator1 = recordSeparator1;
-    }
-    
-    public Character getRecordSeparator2()
-    {
-        return recordSeparator2;
-    }
-    
-    public void setRecordSeparator2( Character recordSeparator2 )
-    {
-        this.recordSeparator2 = recordSeparator2;
-    }
+//    public Character getRecordSeparator1()
+//    {
+//        return recordSeparator1;
+//    }
+//    
+//    public void setRecordSeparator1( Character recordSeparator1 )
+//    {
+//        this.recordSeparator1 = recordSeparator1;
+//    }
+//    
+//    public Character getRecordSeparator2()
+//    {
+//        return recordSeparator2;
+//    }
+//    
+//    public void setRecordSeparator2( Character recordSeparator2 )
+//    {
+//        this.recordSeparator2 = recordSeparator2;
+//    }
     
     public Character getEscapeChar()
     {
@@ -181,30 +196,92 @@ public final class CSVParserMetadata
         this.quoteChar = quoteChar;
     }
     
-    public Set<Character> getCharsToIgnore()
+    public char[] getCharsToIgnore()
     {
         if( charsToIgnore == null )
-            return Collections.emptySet();
+            return new char[0];
         else
             return charsToIgnore;
     }
     
-    public void setCharsToIgnore( Set<Character> charsToIgnore )
+    public void setCharsToIgnore( char[] charsToIgnore )
     {
         this.charsToIgnore = charsToIgnore;
     }
     
-    public Set<Character> getCharsToIgnoreAroundFields()
+    public char[] getCharsToIgnoreAroundFields()
     {
         if( charsToIgnoreAroundFields == null )
-            return Collections.emptySet();
+            return new char[0];
         else
             return charsToIgnoreAroundFields; 
     }
     
-    public void setCharsToIgnoreAroundFields( Set<Character> charsToIgnoreAroundFields )
+    public void setCharsToIgnoreAroundFields( char[] charsToIgnoreAroundFields )
     {
         this.charsToIgnoreAroundFields = charsToIgnoreAroundFields; 
     }
+
+    public char[] getRecordSeparator()
+    {
+    	if( recordSeparator == null )
+    		return new char[0];
+    	else
+    		return recordSeparator; 
+    }
+    
+    public void setRecordSeparator( char[] recordSeparator )
+    {
+    	this.recordSeparator = recordSeparator; 
+    }
+
+	public boolean isMatchRecordSeparatorExactSequence()
+	{
+		return matchRecordSeparatorExactSequence;
+	}
+
+	public void setMatchRecordSeparatorExactSequence( boolean matchRecordSeparatorExactSequence )
+	{
+		this.matchRecordSeparatorExactSequence = matchRecordSeparatorExactSequence;
+	}
+    
+//    public Set<Character> getCharsToIgnore()
+//    {
+//    	if( charsToIgnore == null )
+//    		return Collections.emptySet();
+//    	else
+//    		return charsToIgnore;
+//    }
+//    
+//    public void setCharsToIgnore( Set<Character> charsToIgnore )
+//    {
+//    	this.charsToIgnore = charsToIgnore;
+//    }
+//    
+//    public Set<Character> getCharsToIgnoreAroundFields()
+//    {
+//    	if( charsToIgnoreAroundFields == null )
+//    		return Collections.emptySet();
+//    	else
+//    		return charsToIgnoreAroundFields; 
+//    }
+//    
+//    public void setCharsToIgnoreAroundFields( Set<Character> charsToIgnoreAroundFields )
+//    {
+//    	this.charsToIgnoreAroundFields = charsToIgnoreAroundFields; 
+//    }
+//    
+//    public Set<Character> getRecordSeparators()
+//    {
+//    	if( recordSeparators == null )
+//    		return Collections.emptySet();
+//    	else
+//    		return recordSeparators; 
+//    }
+//    
+//    public void setRecordSeparators( Set<Character> recordSeparators )
+//    {
+//    	this.recordSeparators = recordSeparators; 
+//    }
 
 }

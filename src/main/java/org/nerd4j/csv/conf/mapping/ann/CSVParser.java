@@ -89,24 +89,46 @@ public @interface CSVParser
 	public char fieldSep();
 	
 	/**
-	 * The first of at most two record separator characters.
-     * This character is mandatory, the second one is optional.
-	 * <p>
-	 *  The character used by default is the new line feed [\n].
-	 * </p>
-	 * @return first character used to separate records.
-	 */
-	public char recordSep1();
-
-	/**
-	 * The second of at most two record separator characters.
-     * This character is optional, the first one is mandatory.
-	 * <p>
-	 *  There is no default values for this feature.
-	 * </p>
-	 * @return second character used to separate records.
-	 */
-	public char recordSep2() default RemarkableASCII.NOT_AN_ASCII;
+     * Characters used to separate records in the CSV source.
+     * <p>
+     *  By default the operating system line separator will be used.
+     * </p>
+     */
+    public char[] recordSep() default { RemarkableASCII.NOT_AN_ASCII };
+    
+    /**
+     * Tells the strategy to use for match a record separator.
+     * <p>
+     *  If {@code true} matches the exact character sequence
+     *  provided in the {@link CSVParser#recordSep()} field.
+     * </p>
+     * <p>
+     *  By default it will match a record separator as soon as
+     *  it finds any record separator character (this is the
+     *  behaviour implemented by Mucrosoft Excel and OpenOffice Calc).
+     * </p>
+     */
+    public boolean recordSepMatchExactSequence() default false;
+	
+//	/**
+//	 * The first of at most two record separator characters.
+//     * This character is mandatory, the second one is optional.
+//	 * <p>
+//	 *  The character used by default is the new line feed [\n].
+//	 * </p>
+//	 * @return first character used to separate records.
+//	 */
+//	public char recordSep1();
+//
+//	/**
+//	 * The second of at most two record separator characters.
+//     * This character is optional, the first one is mandatory.
+//	 * <p>
+//	 *  There is no default values for this feature.
+//	 * </p>
+//	 * @return second character used to separate records.
+//	 */
+//	public char recordSep2() default RemarkableASCII.NOT_AN_ASCII;
 	
 	/**
 	 * Set of characters to be completely ignored while parsing.

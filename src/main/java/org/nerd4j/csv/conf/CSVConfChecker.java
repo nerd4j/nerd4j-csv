@@ -118,9 +118,9 @@ public final class CSVConfChecker
         if( configuration.getFieldSeparator() == null )
             throw new CSVConfigurationException( "The 'field-sep' is mandatory for the 'csv-parser'" );
         
-        if( configuration.getRecordSeparator1() == null )
-            throw new CSVConfigurationException( "The 'record-sep-1' is mandatory for the 'csv-parser'" );
-        
+//        if( configuration.getRecordSeparator1() == null )
+//        	throw new CSVConfigurationException( "The 'record-sep-1' is mandatory for the 'csv-parser'" );
+//        
         if( configuration.getQuoteChar() == null )
             throw new CSVConfigurationException( "The 'quote' is mandatory for the 'csv-parser'" );
         
@@ -139,8 +139,8 @@ public final class CSVConfChecker
         if( configuration.getFieldSeparator() == null )
             throw new CSVConfigurationException( "The 'field-sep' is mandatory for the 'csv-formatter'" );
         
-        if( configuration.getRecordSeparator1() == null )
-            throw new CSVConfigurationException( "The 'record-sep-1' is mandatory for the 'csv-formatter'" );
+//        if( configuration.getRecordSeparator1() == null )
+//            throw new CSVConfigurationException( "The 'record-sep-1' is mandatory for the 'csv-formatter'" );
         
         if( configuration.getQuoteChar() == null )
             throw new CSVConfigurationException( "The 'quote' is mandatory for the 'csv-formatter'" );
