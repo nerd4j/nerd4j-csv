@@ -39,7 +39,7 @@
   
   </csv:register>
   
-  <csv:parser name="csvParser" escape="" quote="#" record-sep-1="|" field-sep="!" chars-to-ignore-around-fields="" />
+  <csv:parser name="csvParser" escape="" quote="#" record-sep="|" field-sep="!" chars-to-ignore-around-fields="" />
   
   <csv:reader name="csvReader" parser-ref="csvParser">
     <csv:model-binder type="map" />

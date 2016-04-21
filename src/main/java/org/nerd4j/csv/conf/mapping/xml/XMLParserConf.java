@@ -21,11 +21,11 @@
  */
 package org.nerd4j.csv.conf.mapping.xml;
 
-import java.util.Set;
-
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+
+import org.nerd4j.csv.parser.CSVParserMetadata;
 
 
 
@@ -38,9 +38,10 @@ import javax.xml.bind.annotation.XmlType;
 public class XMLParserConf extends XMLCharSetConf
 {
     
+	private static final String LAZY_QUOTES = "lazy-quotes";
     private static final String CHARS_TO_IGNORE = "chars-to-ignore";
     private static final String CHARS_TO_IGNORE_AROUND_FIELDS = "chars-to-ignore-around-fields";
-    private static final String LAZY_QUOTES = "lazy-quotes";
+    private static final String MATCH_RECORD_SEP_EXACT_SEQUENCE = "record-sep-match-exact-sequence";
     
     
     /** String representation of the charsToIgnore field. */
@@ -52,17 +53,17 @@ public class XMLParserConf extends XMLCharSetConf
     private String charsToIgnoreAroundFieldsString;
     
     /**
-     * Set of characters to be completely ignored while parsing.
+     * Characters to be completely ignored while parsing.
      * (by default this set is empty).
      */
-    private Set<Character> charsToIgnore;
+    private char[] charsToIgnore;
     
     /**
-     * Set of characters to be ignored if found
+     * Characters to be ignored if found
      * on heading or trailing of a field.
      * (by default this set is: {[ ], [\t],[\n]}).
      */
-    private Set<Character> charsToIgnoreAroundFields;
+    private char[] charsToIgnoreAroundFields;
     
     /**
      * Tells if to treat CSV quotes less strictly.
@@ -71,6 +72,17 @@ public class XMLParserConf extends XMLCharSetConf
      * into a field.
      */
     private Boolean lazyQuotes;
+    
+    /**
+     * Tells the strategy to use for match a record separator.
+     * If {@code true} matches the exact character sequence
+     * provided in the {@link CSVParserMetadata#recordSeparator}
+     * field. By default it will match a record separator as
+     * soon as it finds any record separator character (this is
+     * the behaviour implemented by Mucrosoft Excel and OpenOffice
+     * Calc).
+     */
+    private boolean matchRecordSeparatorExactSequence;
     
     
     /**
@@ -90,6 +102,8 @@ public class XMLParserConf extends XMLCharSetConf
         this.charsToIgnore = null;
         this.charsToIgnoreAroundFields = null;
         
+        this.matchRecordSeparatorExactSequence = false;
+        
     }
 
     
@@ -99,48 +113,59 @@ public class XMLParserConf extends XMLCharSetConf
     
     
     @XmlTransient
-    public Set<Character> getCharsToIgnore()
+    public char[] getCharsToIgnore()
     {
 
         if( charsToIgnore == null )
-            charsToIgnore = parseCharSet( charsToIgnoreString, CHARS_TO_IGNORE );
+            charsToIgnore = parseCharSet( charsToIgnoreString );
         
         return charsToIgnore;
         
     }
     
-    public void setCharsToIgnore( Set<Character> charsToIgnore )
+    public void setCharsToIgnore( char[] charsToIgnore )
     {
         this.charsToIgnore = charsToIgnore;
         this.charsToIgnoreString = formatCharSet( charsToIgnore );
     }
     
     @XmlTransient
-    public Set<Character> getCharsToIgnoreAroundFields()
+    public  char[] getCharsToIgnoreAroundFields()
     {
         
         if( charsToIgnoreAroundFields == null )
-            charsToIgnoreAroundFields = parseCharSet( charsToIgnoreAroundFieldsString, CHARS_TO_IGNORE_AROUND_FIELDS );
+            charsToIgnoreAroundFields = parseCharSet( charsToIgnoreAroundFieldsString );
         
         return charsToIgnoreAroundFields;
         
     }
     
-    public void setCharsToIgnoreAroundFields( Set<Character> charsToIgnoreAroundFields )
+    public void setCharsToIgnoreAroundFields(  char[] charsToIgnoreAroundFields )
     {
         this.charsToIgnoreAroundFields = charsToIgnoreAroundFields;
         this.charsToIgnoreAroundFieldsString = formatCharSet( charsToIgnoreAroundFields );
     }
     
-    @XmlAttribute(name=LAZY_QUOTES,required=false)
+    @XmlAttribute(name=MATCH_RECORD_SEP_EXACT_SEQUENCE,required=false)
+	public Boolean isMatchRecordSeparatorExactSequence()
+	{
+		return matchRecordSeparatorExactSequence;
+	}
+    
+	public void setMatchRecordSeparatorExactSequence( Boolean matchRecordSeparatorExactSequence )
+	{
+		this.matchRecordSeparatorExactSequence = matchRecordSeparatorExactSequence;
+	}
+    
+	@XmlAttribute(name=LAZY_QUOTES,required=false)
 	public Boolean isLazyQuotes()
 	{
 		return lazyQuotes;
 	}
-    
+	
 	public void setLazyQuotes( Boolean lazyQuotes )
 	{
 		this.lazyQuotes = lazyQuotes;
 	}
-    
+	
 }

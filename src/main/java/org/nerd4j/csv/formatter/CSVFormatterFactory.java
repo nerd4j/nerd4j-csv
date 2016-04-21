@@ -24,7 +24,6 @@ package org.nerd4j.csv.formatter;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.Set;
 
 import org.nerd4j.csv.RemarkableASCII;
 
@@ -142,7 +141,7 @@ public final class CSVFormatterFactory
         final int[] actions = new int[RemarkableASCII.ASCII_TABLE_SIZE];
         
         /* We check if there are characters that need to be escaped. */
-        final Set<Character> charsToEscape = configuration.getCharsToEscape();
+        final char[] charsToEscape = configuration.getCharsToEscape();
         for( char c : charsToEscape )
             if( c < RemarkableASCII.ASCII_TABLE_SIZE )
                 actions[c] = FieldAction.DO_ESCAPE;
@@ -151,7 +150,7 @@ public final class CSVFormatterFactory
          * We check if there are characters that force the whole filed to be quoted.
          * If those characters are also to be escaped we perform both actions.
          */
-        final Set<Character> forceQuoteChars = configuration.getCharsThatForceQuoting();
+        final char[] forceQuoteChars = configuration.getCharsThatForceQuoting();
         for( char c : forceQuoteChars )
             if( c < RemarkableASCII.ASCII_TABLE_SIZE )
                 actions[c] |= FieldAction.FORCE_QUOTE;
@@ -171,21 +170,32 @@ public final class CSVFormatterFactory
          * A record separator can be escaped, quoted or both.
          * No other action is accepted for this character. 
          */
-        final char recordSeparator1 = configuration.getRecordSeparator1();
-        if( fieldSeparator == RemarkableASCII.NOT_AN_ASCII )
-            throw new IllegalArgumentException( "The first record separator character is mandatory" );
+        final char[] recordSeparator = configuration.getRecordSeparator();
+        for( char c : recordSeparator )
+        {
+        	if( actions[c] != FieldAction.DO_ESCAPE && actions[c] != FieldAction.QUOTE_AND_ESCAPE )
+            actions[c] = FieldAction.FORCE_QUOTE;
+        }
         
-        if( actions[recordSeparator1] != FieldAction.DO_ESCAPE && actions[recordSeparator1] != FieldAction.QUOTE_AND_ESCAPE )
-            actions[recordSeparator1] = FieldAction.FORCE_QUOTE;
-        
-        /*
-         * A record separator can be escaped, quoted or both.
-         * No other action is accepted for this character. 
-         */
-        final char recordSeparator2 = configuration.getRecordSeparator2();
-        if( recordSeparator2 != RemarkableASCII.NOT_AN_ASCII )
-            if( actions[recordSeparator2] != FieldAction.DO_ESCAPE && actions[recordSeparator2] != FieldAction.QUOTE_AND_ESCAPE )
-                actions[recordSeparator2] = FieldAction.FORCE_QUOTE;
+//        /*
+//         * A record separator can be escaped, quoted or both.
+//         * No other action is accepted for this character. 
+//         */
+//        final char recordSeparator1 = configuration.getRecordSeparator1();
+//        if( fieldSeparator == RemarkableASCII.NOT_AN_ASCII )
+//            throw new IllegalArgumentException( "The first record separator character is mandatory" );
+//        
+//        if( actions[recordSeparator1] != FieldAction.DO_ESCAPE && actions[recordSeparator1] != FieldAction.QUOTE_AND_ESCAPE )
+//            actions[recordSeparator1] = FieldAction.FORCE_QUOTE;
+//        
+//        /*
+//         * A record separator can be escaped, quoted or both.
+//         * No other action is accepted for this character. 
+//         */
+//        final char recordSeparator2 = configuration.getRecordSeparator2();
+//        if( recordSeparator2 != RemarkableASCII.NOT_AN_ASCII )
+//            if( actions[recordSeparator2] != FieldAction.DO_ESCAPE && actions[recordSeparator2] != FieldAction.QUOTE_AND_ESCAPE )
+//                actions[recordSeparator2] = FieldAction.FORCE_QUOTE;
         
         /*
          * The escape character if any must be escaped itself.
@@ -194,7 +204,7 @@ public final class CSVFormatterFactory
         final char escapeChar = configuration.getEscapeChar();                
         if( escapeChar == RemarkableASCII.NOT_AN_ASCII )
         {
-            if( ! charsToEscape.isEmpty() )
+            if( charsToEscape.length > 0 )
                 throw new IllegalArgumentException( "There are characters to be escaped but no escape character is defined" );
         }
         else
@@ -232,27 +242,37 @@ public final class CSVFormatterFactory
      */
     private char[] createRecordSeparators( final CSVFormatterMetadata configuration )
     {
-        
-        final char rs1 = configuration.getRecordSeparator1();
-        final char rs2 = configuration.getRecordSeparator2();
-        
-        if( rs1 == RemarkableASCII.NOT_AN_ASCII && rs2 == RemarkableASCII.NOT_AN_ASCII )
-            throw new IllegalArgumentException( "Record separators are mandatory and can't be null" );
-        
-        final char[] recordSeparators;
-        if( rs1 != RemarkableASCII.NOT_AN_ASCII && rs2 != RemarkableASCII.NOT_AN_ASCII )
-        {
-            recordSeparators = new char[2];
-            recordSeparators[0] = rs1;
-            recordSeparators[1] = rs2;
-        }
-        else
-        {
-            recordSeparators = new char[1];
-            recordSeparators[0] = rs1 != RemarkableASCII.NOT_AN_ASCII ? rs1 : rs2;
-        }
-        
-        return recordSeparators;
+       
+    	final char[] recordSeparator = configuration.getRecordSeparator();
+    	if( recordSeparator == null || recordSeparator.length == 0 )
+    		throw new IllegalArgumentException( "Record separators are mandatory and can't be null" );
+    	
+    	for( char c : recordSeparator )
+    		if( c == RemarkableASCII.NOT_AN_ASCII )
+    			throw new IllegalArgumentException( "Record separators are mandatory and can't be null" );
+    	
+    	return recordSeparator;
+    	
+//        final char rs1 = configuration.getRecordSeparator1();
+//        final char rs2 = configuration.getRecordSeparator2();
+//        
+//        if( rs1 == RemarkableASCII.NOT_AN_ASCII && rs2 == RemarkableASCII.NOT_AN_ASCII )
+//            throw new IllegalArgumentException( "Record separators are mandatory and can't be null" );
+//        
+//        final char[] recordSeparators;
+//        if( rs1 != RemarkableASCII.NOT_AN_ASCII && rs2 != RemarkableASCII.NOT_AN_ASCII )
+//        {
+//            recordSeparators = new char[2];
+//            recordSeparators[0] = rs1;
+//            recordSeparators[1] = rs2;
+//        }
+//        else
+//        {
+//            recordSeparators = new char[1];
+//            recordSeparators[0] = rs1 != RemarkableASCII.NOT_AN_ASCII ? rs1 : rs2;
+//        }
+//        
+//        return recordSeparators;
         
     }
     

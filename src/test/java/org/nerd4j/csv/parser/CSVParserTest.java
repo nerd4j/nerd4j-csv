@@ -300,7 +300,11 @@ public class CSVParserTest extends BaseTest
 	public void fieldRSfieldEmptyRSEOF() throws IOException
 	{
 		
-		CSVParserFactory factory = new CSVParserFactory();
+		CSVParserMetadata metadata = new CSVParserMetadata();
+		metadata.setRecordSeparator( new char[] {'\n'} );
+		metadata.setMatchRecordSeparatorExactSequence( true );
+		
+		CSVParserFactory factory = new CSVParserFactory( metadata );
 		
 		String string = "abc\n\n";
 		

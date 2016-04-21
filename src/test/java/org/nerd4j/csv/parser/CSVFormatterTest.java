@@ -22,10 +22,6 @@
 package org.nerd4j.csv.parser;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -124,7 +120,7 @@ public class CSVFormatterTest extends BaseTest
 	{
 	    
 	    final StringWriter writer = new StringWriter( 300 );
-	    final CSVFormatterFactory factory = getCSVFormatterFactory( '\\', new Character[] {'"'}, null );
+	    final CSVFormatterFactory factory = getCSVFormatterFactory( '\\', new char[] {'"'}, null );
         final CSVFormatter formatter = factory.create( writer );
         
         formatter.writeField( "abc\"def\"gh", false );
@@ -139,7 +135,7 @@ public class CSVFormatterTest extends BaseTest
 	{
 	    
 	    final StringWriter writer = new StringWriter( 300 );
-	    final CSVFormatterFactory factory = getCSVFormatterFactory( null, null, new Character[] {'"'} );
+	    final CSVFormatterFactory factory = getCSVFormatterFactory( null, null, new char[] {'"'} );
 	    final CSVFormatter formatter = factory.create( writer );
 	    
 	    formatter.writeField( "abc\"def\"gh", false );
@@ -154,7 +150,7 @@ public class CSVFormatterTest extends BaseTest
 	{
 	    
 	    final StringWriter writer = new StringWriter( 300 );
-	    final CSVFormatterFactory factory = getCSVFormatterFactory( '\\', new Character[] {'"'}, new Character[] {'"'} );
+	    final CSVFormatterFactory factory = getCSVFormatterFactory( '\\', new char[] {'"'}, new char[] {'"'} );
 	    final CSVFormatter formatter = factory.create( writer );
 	    
 	    formatter.writeField( "abc\"def\"gh", false );
@@ -172,7 +168,7 @@ public class CSVFormatterTest extends BaseTest
 	{
 	    
 	    final StringWriter writer = new StringWriter( 300 );
-	    final CSVFormatterFactory factory = getCSVFormatterFactory( '\\', new Character[] {'\\'}, null  );
+	    final CSVFormatterFactory factory = getCSVFormatterFactory( '\\', new char[] {'\\'}, null  );
 	    final CSVFormatter formatter = factory.create( writer );
 	    
 	    formatter.writeField( "abc\\def\\gh", false );
@@ -187,7 +183,7 @@ public class CSVFormatterTest extends BaseTest
 	{
 	    
 	    final StringWriter writer = new StringWriter( 300 );
-	    final CSVFormatterFactory factory = getCSVFormatterFactory( null, null, new Character[] {'\\'} );
+	    final CSVFormatterFactory factory = getCSVFormatterFactory( null, null, new char[] {'\\'} );
 	    final CSVFormatter formatter = factory.create( writer );
 	    
 	    formatter.writeField( "abc\\def\\gh", false );
@@ -205,7 +201,7 @@ public class CSVFormatterTest extends BaseTest
 	{
 	    
 	    final StringWriter writer = new StringWriter( 300 );
-	    final CSVFormatterFactory factory = getCSVFormatterFactory( '\\', new Character[] {','}, null  );
+	    final CSVFormatterFactory factory = getCSVFormatterFactory( '\\', new char[] {','}, null  );
 	    final CSVFormatter formatter = factory.create( writer );
 	    
 	    formatter.writeField( "abcd,efgh", false );
@@ -220,7 +216,7 @@ public class CSVFormatterTest extends BaseTest
 	{
 	    
 	    final StringWriter writer = new StringWriter( 300 );
-	    final CSVFormatterFactory factory = getCSVFormatterFactory( null, null, new Character[] {','} );
+	    final CSVFormatterFactory factory = getCSVFormatterFactory( null, null, new char[] {','} );
 	    final CSVFormatter formatter = factory.create( writer );
 	    
 	    formatter.writeField( "abcd,efgh", false );
@@ -235,7 +231,7 @@ public class CSVFormatterTest extends BaseTest
 	{
 	    
 	    final StringWriter writer = new StringWriter( 300 );
-	    final CSVFormatterFactory factory = getCSVFormatterFactory( '\\', new Character[] {','}, new Character[] {','} );
+	    final CSVFormatterFactory factory = getCSVFormatterFactory( '\\', new char[] {','}, new char[] {','} );
 	    final CSVFormatter formatter = factory.create( writer );
 	    
 	    formatter.writeField( "abcd,efgh", false );
@@ -253,7 +249,7 @@ public class CSVFormatterTest extends BaseTest
 	{
 	    
 	    final StringWriter writer = new StringWriter( 300 );
-	    final CSVFormatterFactory factory = getCSVFormatterFactory( '\\', new Character[] {'\n'}, null  );
+	    final CSVFormatterFactory factory = getCSVFormatterFactory( '\\', new char[] {'\n'}, null  );
 	    final CSVFormatter formatter = factory.create( writer );
 	    
 	    formatter.writeField( "abcd\nefgh", false );
@@ -268,7 +264,7 @@ public class CSVFormatterTest extends BaseTest
 	{
 	    
 	    final StringWriter writer = new StringWriter( 300 );
-	    final CSVFormatterFactory factory = getCSVFormatterFactory( null, null, new Character[] {'\n'} );
+	    final CSVFormatterFactory factory = getCSVFormatterFactory( null, null, new char[] {'\n'} );
 	    final CSVFormatter formatter = factory.create( writer );
 	    
 	    formatter.writeField( "abcd\nefgh", false );
@@ -283,7 +279,7 @@ public class CSVFormatterTest extends BaseTest
 	{
 	    
 	    final StringWriter writer = new StringWriter( 300 );
-	    final CSVFormatterFactory factory = getCSVFormatterFactory( '\\', new Character[] {'\n'}, new Character[] {'\n'} );
+	    final CSVFormatterFactory factory = getCSVFormatterFactory( '\\', new char[] {'\n'}, new char[] {'\n'} );
 	    final CSVFormatter formatter = factory.create( writer );
 	    
 	    formatter.writeField( "abcd\nefgh", false );
@@ -301,7 +297,7 @@ public class CSVFormatterTest extends BaseTest
     {
         
         final StringWriter writer = new StringWriter( 300 );
-        final CSVFormatterFactory factory = getCSVFormatterFactory( '\\', new Character[] {'\n'}, new Character[] {'\n'} );
+        final CSVFormatterFactory factory = getCSVFormatterFactory( '\\', new char[] {'\n'}, new char[] {'\n'} );
         final CSVFormatter formatter = factory.create( writer );
         
         formatter.writeField( "\uD834\uDD1E\uD834\uDD21\uD834\uDD22", false );
@@ -316,7 +312,7 @@ public class CSVFormatterTest extends BaseTest
 	{
 	    
 	    final StringWriter writer = new StringWriter( 300 );
-	    final CSVFormatterFactory factory = getCSVFormatterFactory( '\\', new Character[] {'\n'}, new Character[] {'\n'} );
+	    final CSVFormatterFactory factory = getCSVFormatterFactory( '\\', new char[] {'\n'}, new char[] {'\n'} );
 	    final CSVFormatter formatter = factory.create( writer );
 	    
 	    final String source = "\uD834\uDD1E,\uD834\uDD21,\uD834\uDD22";
@@ -344,27 +340,12 @@ public class CSVFormatterTest extends BaseTest
 	 * @param forceQuote characters that forces quoting.
 	 * @return the {@link CSVFormatterFactory}.
 	 */
-	private CSVFormatterFactory getCSVFormatterFactory( final Character escapeChar, final Character[] toEscape, final Character[] forceQuote )
+	private CSVFormatterFactory getCSVFormatterFactory( final Character escapeChar, final char[] toEscape, final char[] forceQuote )
 	{
 	    	    
 	    final CSVFormatterMetadata configuration = new CSVFormatterMetadata();
-
-	    final Set<Character> toEscapeChars;
-	    if( toEscape != null && toEscape.length > 0 )
-	        toEscapeChars = new HashSet<Character>( Arrays.asList(toEscape) );
-	    else
-	        toEscapeChars = Collections.emptySet();
-	    
-	    configuration.setCharsToEscape( toEscapeChars );
-
-	    
-	    final Set<Character> forceQuoteChars;
-        if( forceQuote != null && forceQuote.length > 0 )
-            forceQuoteChars = new HashSet<Character>( Arrays.asList(forceQuote) );
-	    else
-	        forceQuoteChars = Collections.emptySet();
-	    
-	    configuration.setCharsThatForceQuoting( forceQuoteChars );
+	    configuration.setCharsThatForceQuoting( forceQuote );
+	    configuration.setCharsToEscape( toEscape );
 	    
 	    if( escapeChar != null )
 	        configuration.setEscapeChar( escapeChar );

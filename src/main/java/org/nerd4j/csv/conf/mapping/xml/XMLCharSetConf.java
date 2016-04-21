@@ -21,9 +21,6 @@
  */
 package org.nerd4j.csv.conf.mapping.xml;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
@@ -45,8 +42,9 @@ public class XMLCharSetConf
     private static final String QUOTE = "quote";
     private static final String ESCAPE = "escape";
     private static final String FIELD_SEPARATOR = "field-sep";
-    private static final String RECORD_SEPARATOR_1 = "record-sep-1";
-    private static final String RECORD_SEPARATOR_2 = "record-sep-2";
+    private static final String RECORD_SEPARATOR = "record-sep";
+//    private static final String RECORD_SEPARATOR_1 = "record-sep-1";
+//    private static final String RECORD_SEPARATOR_2 = "record-sep-2";
     
 
     /** Name used to identify the parser. */
@@ -66,20 +64,28 @@ public class XMLCharSetConf
     private String fieldSeparatorString;
     
     /**
-     * The first of at most two record separator characters.
-     * This character is mandatory, the second one is optional.
-     *(the [\n] character is used by default). 
+     * Characters used to separate records.
+     * By default the operating system line
+     * separator will be used.
      */
-    @XmlAttribute(name=RECORD_SEPARATOR_1,required=true)
-    private String recordSeparator1String;
+    @XmlAttribute(name=RECORD_SEPARATOR,required=false)
+    private String recordSeparatorString;
     
-    /**
-     * The second of at most two record separator characters.
-     * This character is optional, the first one is mandatory.
-     *(by default this field is empty). 
-     */
-    @XmlAttribute(name=RECORD_SEPARATOR_2,required=false)
-    private String recordSeparator2String;
+//    /**
+//     * The first of at most two record separator characters.
+//     * This character is mandatory, the second one is optional.
+//     *(the [\n] character is used by default). 
+//     */
+//    @XmlAttribute(name=RECORD_SEPARATOR_1,required=true)
+//    private String recordSeparator1String;
+//    
+//    /**
+//     * The second of at most two record separator characters.
+//     * This character is optional, the first one is mandatory.
+//     *(by default this field is empty). 
+//     */
+//    @XmlAttribute(name=RECORD_SEPARATOR_2,required=false)
+//    private String recordSeparator2String;
     
 
     /**
@@ -93,9 +99,10 @@ public class XMLCharSetConf
     
         this.name = null;
         this.fieldSeparatorString   = null;
+        this.recordSeparatorString = null;
         
-        this.recordSeparator1String = null;
-        this.recordSeparator2String = null;
+//        this.recordSeparator1String = null;
+//        this.recordSeparator2String = null;
         
         this.escapeCharString = null;
         this.quoteCharString  = null;
@@ -137,23 +144,13 @@ public class XMLCharSetConf
      * separated list of characters an exception will be thrown.
      * 
      * @param value the value to parse.
-     * @param field the related field.
      * @return the represented character set.
      * @throws CSVConfigurationException if the given value is not a character.
      */
-    protected Set<Character> parseCharSet( String value, String field )
+    protected char[] parseCharSet( String value )
     {
         
-        if( value == null ) return null;
-        
-        final Set<Character> charSet = new HashSet<Character>();
-        if( ! value.isEmpty() )
-        {
-            for( int i = 0; i < value.length(); ++i )
-                charSet.add( value.charAt(i) );
-        }
-        
-        return charSet;
+       return value != null ? value.toCharArray() : null;
         
     }
 
@@ -164,17 +161,10 @@ public class XMLCharSetConf
      * @param value the value to format.
      * @return the string representation of the character set.
      */
-    protected String formatCharSet( Set<Character> value )
+    protected String formatCharSet(  char[] value )
     {
         
-        if( value == null || value.isEmpty() )
-            return "";
-        
-        final StringBuilder sb = new StringBuilder(value.size());
-        for( Character c : value )
-            sb.append( c );
-        
-        return sb.toString();
+        return value != null && value.length > 0 ? new String(value) : "";
         
     }
     
@@ -202,26 +192,37 @@ public class XMLCharSetConf
     }
     
     @XmlTransient
-    public Character getRecordSeparator1()
+    public char[] getRecordSeparator()
     {
-        return parseChar( recordSeparator1String, RECORD_SEPARATOR_1 );
+        return parseCharSet( recordSeparatorString );
     }
     
-    public void setRecordSeparator1( Character recordSeparator1 )
+    public void setRecordSeparator1( char[] recordSeparator )
     {
-        this.recordSeparator1String = String.valueOf( recordSeparator1 );
+        this.recordSeparatorString = formatCharSet( recordSeparator );
     }
-    
-    @XmlTransient
-    public Character getRecordSeparator2()
-    {
-        return parseChar( recordSeparator2String, RECORD_SEPARATOR_2 );
-    }
-    
-    public void setRecordSeparator2( Character recordSeparator2 )
-    {
-        this.recordSeparator2String = String.valueOf( recordSeparator2 );
-    }
+
+//    @XmlTransient
+//    public Character getRecordSeparator1()
+//    {
+//    	return parseChar( recordSeparator1String, RECORD_SEPARATOR_1 );
+//    }
+//    
+//    public void setRecordSeparator1( Character recordSeparator1 )
+//    {
+//    	this.recordSeparator1String = String.valueOf( recordSeparator1 );
+//    }
+//    
+//    @XmlTransient
+//    public Character getRecordSeparator2()
+//    {
+//        return parseChar( recordSeparator2String, RECORD_SEPARATOR_2 );
+//    }
+//    
+//    public void setRecordSeparator2( Character recordSeparator2 )
+//    {
+//        this.recordSeparator2String = String.valueOf( recordSeparator2 );
+//    }
     
     @XmlTransient
     public Character getEscapeChar()

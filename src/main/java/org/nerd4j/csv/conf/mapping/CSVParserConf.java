@@ -21,10 +21,8 @@
  */
 package org.nerd4j.csv.conf.mapping;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.nerd4j.csv.parser.CSVParser;
+import org.nerd4j.csv.parser.CSVParserMetadata;
 
 
 /**
@@ -39,14 +37,14 @@ public class CSVParserConf extends CSVCharSetConf implements Cloneable
      * Set of characters to be completely ignored while parsing.
      * (by default this set is empty).
      */
-    private Set<Character> charsToIgnore;
+    private char[] charsToIgnore;
     
     /**
      * Set of characters to be ignored if found
      * on heading or trailing of a field.
      * (by default this set is: {[ ], [\t],[\n]}).
      */
-    private Set<Character> charsToIgnoreAroundFields;
+    private char[] charsToIgnoreAroundFields;
     
     /**
      * Tells if to treat CSV quotes less strictly.
@@ -55,6 +53,17 @@ public class CSVParserConf extends CSVCharSetConf implements Cloneable
      * into a field.
      */
     private Boolean lazyQuotes;
+    
+    /**
+     * Tells the strategy to use for match a record separator.
+     * If {@code true} matches the exact character sequence
+     * provided in the {@link CSVParserMetadata#recordSeparator}
+     * field. By default it will match a record separator as
+     * soon as it finds any record separator character (this is
+     * the behaviour implemented by Mucrosoft Excel and OpenOffice
+     * Calc).
+     */
+    private Boolean matchRecordSeparatorExactSequence;
     
     
     /**
@@ -66,9 +75,10 @@ public class CSVParserConf extends CSVCharSetConf implements Cloneable
 
         super();
         
-        this.charsToIgnore             = null;
-        this.charsToIgnoreAroundFields = null;
-        this.lazyQuotes                = null;
+        this.charsToIgnore                     = null;
+        this.charsToIgnoreAroundFields         = null;
+        this.lazyQuotes                        = null;
+        this.matchRecordSeparatorExactSequence = null;
         
     }
 
@@ -78,22 +88,22 @@ public class CSVParserConf extends CSVCharSetConf implements Cloneable
     /* ******************* */
     
     
-    public Set<Character> getCharsToIgnore()
+    public char[] getCharsToIgnore()
     {
         return charsToIgnore;
     }
     
-    public void setCharsToIgnore( Set<Character> charsToIgnore )
+    public void setCharsToIgnore( char[] charsToIgnore )
     {
         this.charsToIgnore = charsToIgnore;
     }
     
-    public Set<Character> getCharsToIgnoreAroundFields()
+    public char[] getCharsToIgnoreAroundFields()
     {
         return charsToIgnoreAroundFields;
     }
 
-    public void setCharsToIgnoreAroundFields( Set<Character> charsToIgnoreAroundFields )
+    public void setCharsToIgnoreAroundFields( char[] charsToIgnoreAroundFields )
     {
         this.charsToIgnoreAroundFields = charsToIgnoreAroundFields;
     }
@@ -107,11 +117,21 @@ public class CSVParserConf extends CSVCharSetConf implements Cloneable
     {
     	this.lazyQuotes = lazyQuotes;
     }
+
+    public Boolean isMatchRecordSeparatorExactSequence()
+    {
+    	return matchRecordSeparatorExactSequence;
+    }
+    
+    public void setMatchRecordSeparatorExactSequence( Boolean matchRecordSeparatorExactSequence )
+    {
+    	this.matchRecordSeparatorExactSequence = matchRecordSeparatorExactSequence;
+    }
+
     
     /* ******************* */
     /*  INTERFACE METHODS  */
     /* ******************* */
-    
 
 
 	/**
@@ -124,10 +144,10 @@ public class CSVParserConf extends CSVCharSetConf implements Cloneable
         final CSVParserConf clone = (CSVParserConf) super.clone();
         
         if( this.charsToIgnore != null )
-            clone.charsToIgnore = new HashSet<Character>( this.charsToIgnore );
+            clone.charsToIgnore = this.charsToIgnore.clone();
         
         if( this.charsToIgnoreAroundFields != null )
-            clone.charsToIgnoreAroundFields = new HashSet<Character>( this.charsToIgnoreAroundFields );
+            clone.charsToIgnoreAroundFields = this.charsToIgnoreAroundFields.clone();
         
         return clone;
         

@@ -53,9 +53,13 @@ public final class CSVParserFactory
 	
 	/**
 	 * Accept more lazy quotes: in unquoted fields are handled as
-	 * {@link CharacterClass#NORMAL} without beeing escaped
+	 * {@link CharacterClass#NORMAL} without being escaped.
 	 */
 	private final boolean lazyQuotes;
+	
+	/** Sequence of characters that represents a record separator. */
+	private final char[] recordSeparatorSequence;
+	
 	
 	/* ******************** */
 	/* *** CONSTRUCTORS *** */
@@ -85,26 +89,35 @@ public final class CSVParserFactory
 		this.lazyQuotes = configuration.isLazyQuotes();
 	    this.asciiCharClasses = new int[ RemarkableASCII.ASCII_TABLE_SIZE ];
 
-	    for( char toIgnore : configuration.getCharsToIgnore() )
-	        addCharClass( toIgnore, CharacterClass.TO_IGNORE, "TO IGNORE", false );
-
 	    for( char toIgnoreAround : configuration.getCharsToIgnoreAroundFields() )
 	        addCharClass( toIgnoreAround, CharacterClass.TO_IGNORE_AROUND_FIELDS, "TO IGNORE AROUND FIELDS", false );
+	    
+	    for( char toIgnore : configuration.getCharsToIgnore() )
+	    	addCharClass( toIgnore, CharacterClass.TO_IGNORE, "TO IGNORE", false );
+	    
+	    final char[] recordSeparators = configuration.getRecordSeparator();
+	    if( recordSeparators == null || recordSeparators.length == 0 )
+	    	throw new CSVConfigurationException( "The RECORD SEPARATOR characters are mandatory, at least one must be defined, check the configuration" );
+	    	
+	    for( char recordSeparator : recordSeparators )
+	    	addCharClass( recordSeparator, CharacterClass.RECORD_SEPARATOR, "RECORD SEPARATOR", true );
+	    
+	    this.recordSeparatorSequence = configuration.isMatchRecordSeparatorExactSequence() ? recordSeparators : null;
 	    
 	    addCharClass( configuration.getQuoteChar(), CharacterClass.QUOTE, "QUOTE", true );
 	    addCharClass( configuration.getEscapeChar(), CharacterClass.ESCAPE, "ESCAPE", false );
 	    addCharClass( configuration.getFieldSeparator(), CharacterClass.FIELD_SEPARATOR, "FIELD SEPARATOR", true );
 	    
 	    
-	    if( configuration.getRecordSeparator2() != null )
-	    {
-	        addCharClass( configuration.getRecordSeparator1(), CharacterClass.RECORD_SEPARATOR_1, "RECORD SEPARATOR 1", true );
-	        addCharClass( configuration.getRecordSeparator2(), CharacterClass.RECORD_SEPARATOR_2, "RECORD SEPARATOR 2", true );
-	    }
-	    else
-	    {
-	        addCharClass( configuration.getRecordSeparator1(), CharacterClass.RECORD_SEPARATOR, "RECORD SEPARATOR", true );
-	    }
+//	    if( configuration.getRecordSeparator2() != null )
+//	    {
+//	        addCharClass( configuration.getRecordSeparator1(), CharacterClass.RECORD_SEPARATOR_1, "RECORD SEPARATOR 1", true );
+//	        addCharClass( configuration.getRecordSeparator2(), CharacterClass.RECORD_SEPARATOR_2, "RECORD SEPARATOR 2", true );
+//	    }
+//	    else
+//	    {
+//	        addCharClass( configuration.getRecordSeparator1(), CharacterClass.RECORD_SEPARATOR, "RECORD SEPARATOR", true );
+//	    }
 	        
 	}
 	
@@ -127,7 +140,7 @@ public final class CSVParserFactory
 		 * We don't need a buffered reader, the parser
 		 * already handles his reading buffer.
 		 */
-		return new CSVParserImpl( reader, asciiCharClasses, lazyQuotes );
+		return new CSVParserImpl( reader, asciiCharClasses, recordSeparatorSequence, lazyQuotes );
 		
 	}
 	
@@ -195,11 +208,11 @@ public final class CSVParserFactory
         /** Character used to separate records. */
         public static final int RECORD_SEPARATOR        = 4;
         
-        /** First of two characters used to separate records. */
-        public static final int RECORD_SEPARATOR_1      = 5;
-        
-        /** Second of two characters used to separate records. */
-        public static final int RECORD_SEPARATOR_2      = 6;
+//        /** First of two characters used to separate records. */
+//        public static final int RECORD_SEPARATOR_1      = 5;
+//        
+//        /** Second of two characters used to separate records. */
+//        public static final int RECORD_SEPARATOR_2      = 6;
         
         /** Character to be ignored during parsing. */
         public static final int TO_IGNORE               = 7;

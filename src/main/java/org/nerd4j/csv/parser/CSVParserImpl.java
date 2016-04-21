@@ -52,7 +52,7 @@ final class CSVParserImpl implements CSVParser
 	/**
 	 * Accept more lazy quotes: in unquoted fields ({@link FieldState#NORMAL}
 	 * and {@link FieldState#NORMAL_END}) are handled as
-	 * {@link CharacterClass#NORMAL} without beeing escaped
+	 * {@link CharacterClass#NORMAL} without being escaped
 	 */
 	private final boolean lazyQuotes;
 	
@@ -64,6 +64,9 @@ final class CSVParserImpl implements CSVParser
 	
 	/** Buffer from which read characters. Populated from {@link #reader} */
 	private final char[] buffer;
+	
+	/** The strategy to use in case a record separator character is read. */
+	private final RecordSeparatorStrategy recordSeparatorStrategy;
 	
 	/** Next character to be read from the {@link #buffer reading char buffer}. */
 	private int bufferIndex;
@@ -105,9 +108,11 @@ final class CSVParserImpl implements CSVParser
 	 * Create a new {@link CSVParserImpl} with the given character configuration.
 	 * 
 	 * @param reader csv data source.
-	 * @param characterConfiguration character classes configuration.
+	 * @param types  character classes configuration.
+	 * @param recordSeparator the record separator sequence.
+	 * @param lazyQuotes tells if quotes inside text are admitted.
 	 */
-	CSVParserImpl( final Reader reader, final int[] types, boolean lazyQuotes )
+	CSVParserImpl( final Reader reader, final int[] types, final char[] recordSeparator, boolean lazyQuotes )
 	{
 		
 		this.reader = reader;
@@ -127,6 +132,10 @@ final class CSVParserImpl implements CSVParser
 		this.charCount = 0;		
 		this.builder = new FieldBuilderImpl( 1024 );
 		this.previousFieldEndReason = FieldEndReason.UNKNOWN;
+		
+		this.recordSeparatorStrategy = recordSeparator != null && recordSeparator.length > 0
+				                     ? new MatchSeparatorSequenceStrategy( recordSeparator )
+									 : new MatchAnySeparatorCharStrategy();
 		
 	}
 	
@@ -251,7 +260,8 @@ final class CSVParserImpl implements CSVParser
 		FIELD_SEPARATOR,
 		
 		/**
-		 * Found a row separator {@link CharacterClass#RECORD_SEPARATOR},
+		 * Found a record separator
+		 * {@link CharacterClass#RECORD_SEPARATOR},
 		 * {@link CharacterClass#RECORD_SEPARATOR_1},
 		 * {@link CharacterClass#RECORD_SEPARATOR_2}.
 		 */
@@ -475,7 +485,7 @@ final class CSVParserImpl implements CSVParser
 				
 			}
 			
-			if( bufferElements == -1 || bufferIndex >= bufferElements )
+			if( bufferElements <= 0 || bufferIndex >= bufferElements )
 				/* Got an end of data. */
 				switch ( state )
 				{
@@ -508,7 +518,7 @@ final class CSVParserImpl implements CSVParser
 				}
 			
 			/* Read current character. */
-			current = buffer[ bufferIndex++ ];
+			current = buffer[bufferIndex++];
 			
 			/* Find the current character class. */
 			if( current < RemarkableASCII.ASCII_TABLE_SIZE )
@@ -554,22 +564,27 @@ final class CSVParserImpl implements CSVParser
 					return FieldEndReason.FIELD_SEPARATOR;
 					
 				case FieldState.INITIAL ^ CharacterClass.RECORD_SEPARATOR:
-					return FieldEndReason.RECORD_SEPARATOR;
-					
-				case FieldState.INITIAL ^ CharacterClass.RECORD_SEPARATOR_1:
-					if ( checkRecordSequence( current ) )
+					if ( recordSeparatorStrategy.apply(read) )
 						return FieldEndReason.RECORD_SEPARATOR;
 						
 					/* Handle as CharacterClass.NORMAL */
-					if( read ) builder.append( current );
 					state = FieldState.NORMAL;
 					break;
 					
-				case FieldState.INITIAL ^ CharacterClass.RECORD_SEPARATOR_2:
-					/* Handle as CharacterClass.NORMAL */
-				    if( read ) builder.append( current );
-				    state = FieldState.NORMAL;
-					break;
+//				case FieldState.INITIAL ^ CharacterClass.RECORD_SEPARATOR_1:
+//					if ( checkRecordSequence( current ) )
+//						return FieldEndReason.RECORD_SEPARATOR;
+						
+//					/* Handle as CharacterClass.NORMAL */
+//					if( read ) builder.append( current );
+//					state = FieldState.NORMAL;
+//					break;
+					
+//				case FieldState.INITIAL ^ CharacterClass.RECORD_SEPARATOR_2:
+//					/* Handle as CharacterClass.NORMAL */
+//				    if( read ) builder.append( current );
+//				    state = FieldState.NORMAL;
+//					break;
 					
 				/* ************************* */
 				/* *** FieldState.NORMAL *** */
@@ -613,20 +628,25 @@ final class CSVParserImpl implements CSVParser
 					return FieldEndReason.FIELD_SEPARATOR;
 					
 				case FieldState.NORMAL ^ CharacterClass.RECORD_SEPARATOR:
-					return FieldEndReason.RECORD_SEPARATOR;
-					
-				case FieldState.NORMAL ^ CharacterClass.RECORD_SEPARATOR_1:
-					if ( checkRecordSequence( current ) )
+					if ( recordSeparatorStrategy.apply(read) )
 						return FieldEndReason.RECORD_SEPARATOR;
 						
 					/* Handle as CharacterClass.NORMAL */
-					if( read ) builder.append( current );
+					state = FieldState.NORMAL;
 					break;
 					
-				case FieldState.NORMAL ^ CharacterClass.RECORD_SEPARATOR_2:
-					/* Handle as CharacterClass.NORMAL */
-				    if( read ) builder.append( current );
-					break;
+//				case FieldState.NORMAL ^ CharacterClass.RECORD_SEPARATOR_1:
+//					if ( checkRecordSequence( current ) )
+//						return FieldEndReason.RECORD_SEPARATOR;
+//						
+//					/* Handle as CharacterClass.NORMAL */
+//					if( read ) builder.append( current );
+//					break;
+//					
+//				case FieldState.NORMAL ^ CharacterClass.RECORD_SEPARATOR_2:
+//					/* Handle as CharacterClass.NORMAL */
+//				    if( read ) builder.append( current );
+//					break;
 				
 				/* ******************************** */
 				/* *** FieldState.NORMAL_ESCAPE *** */
@@ -667,16 +687,16 @@ final class CSVParserImpl implements CSVParser
 					if( read ) builder.append( current );
 					break;
 					
-				case FieldState.NORMAL_ESCAPE ^ CharacterClass.RECORD_SEPARATOR_1:
-					state = FieldState.NORMAL;
-					if( read ) builder.append( current );
-					break;
-					
-				case FieldState.NORMAL_ESCAPE ^ CharacterClass.RECORD_SEPARATOR_2:
-					/* Handle as CharacterClass.NORMAL */
-					state = FieldState.NORMAL;
-					if( read ) builder.append( current );
-					break;
+//				case FieldState.NORMAL_ESCAPE ^ CharacterClass.RECORD_SEPARATOR_1:
+//					state = FieldState.NORMAL;
+//					if( read ) builder.append( current );
+//					break;
+//					
+//				case FieldState.NORMAL_ESCAPE ^ CharacterClass.RECORD_SEPARATOR_2:
+//					/* Handle as CharacterClass.NORMAL */
+//					state = FieldState.NORMAL;
+//					if( read ) builder.append( current );
+//					break;
 					
 				/* ***************************** */
 				/* *** FieldState.NORMAL_END *** */
@@ -722,23 +742,30 @@ final class CSVParserImpl implements CSVParser
 					return FieldEndReason.FIELD_SEPARATOR;
 					
 				case FieldState.NORMAL_END ^ CharacterClass.RECORD_SEPARATOR:
-				    if( read ) builder.rollbackToMark();
-					return FieldEndReason.RECORD_SEPARATOR;
+				    if( recordSeparatorStrategy.apply(read) )
+				    {					
+				    	if( read ) builder.rollbackToMark();
+				    	return FieldEndReason.RECORD_SEPARATOR;
+				    }
 					
-				case FieldState.NORMAL_END ^ CharacterClass.RECORD_SEPARATOR_1:
-					if ( checkRecordSequence( current ) )
-						return FieldEndReason.RECORD_SEPARATOR;
-						
-					/* Handle as CharacterClass.NORMAL */
+				    /* Handle as CharacterClass.NORMAL */
 					state = FieldState.NORMAL;
-					if( read ) builder.append( current );
 					break;
 					
-				case FieldState.NORMAL_END ^ CharacterClass.RECORD_SEPARATOR_2:
-					/* Handle as CharacterClass.NORMAL */
-					state = FieldState.NORMAL;
-					if( read ) builder.append( current );
-					break;
+//				case FieldState.NORMAL_END ^ CharacterClass.RECORD_SEPARATOR_1:
+//					if ( checkRecordSequence( current ) )
+//						return FieldEndReason.RECORD_SEPARATOR;
+//						
+//					/* Handle as CharacterClass.NORMAL */
+//					state = FieldState.NORMAL;
+//					if( read ) builder.append( current );
+//					break;
+//					
+//				case FieldState.NORMAL_END ^ CharacterClass.RECORD_SEPARATOR_2:
+//					/* Handle as CharacterClass.NORMAL */
+//					state = FieldState.NORMAL;
+//					if( read ) builder.append( current );
+//					break;
 					
 				/* ************************* */
 				/* *** FieldState.QUOTED *** */
@@ -773,14 +800,14 @@ final class CSVParserImpl implements CSVParser
 				    if( read ) builder.append( current );
 					break;
 					
-				case FieldState.QUOTED ^ CharacterClass.RECORD_SEPARATOR_1:
-				    if( read ) builder.append( current );
-					break;
-					
-				case FieldState.QUOTED ^ CharacterClass.RECORD_SEPARATOR_2:
-					/* Handle as CharacterClass.NORMAL */
-				    if( read ) builder.append( current );
-					break;
+//				case FieldState.QUOTED ^ CharacterClass.RECORD_SEPARATOR_1:
+//				    if( read ) builder.append( current );
+//					break;
+//					
+//				case FieldState.QUOTED ^ CharacterClass.RECORD_SEPARATOR_2:
+//					/* Handle as CharacterClass.NORMAL */
+//				    if( read ) builder.append( current );
+//					break;
 				
 				/* ******************************** */
 				/* *** FieldState.QUOTED_ESCAPE *** */
@@ -821,16 +848,16 @@ final class CSVParserImpl implements CSVParser
 					if( read ) builder.append( current );
 					break;
 					
-				case FieldState.QUOTED_ESCAPE ^ CharacterClass.RECORD_SEPARATOR_1:
-					state = FieldState.QUOTED;
-					if( read ) builder.append( current );
-					break;
-					
-				case FieldState.QUOTED_ESCAPE ^ CharacterClass.RECORD_SEPARATOR_2:
-					/* Handle as CharacterClass.NORMAL */
-					state = FieldState.QUOTED;
-					if( read ) builder.append( current );
-					break;
+//				case FieldState.QUOTED_ESCAPE ^ CharacterClass.RECORD_SEPARATOR_1:
+//					state = FieldState.QUOTED;
+//					if( read ) builder.append( current );
+//					break;
+//					
+//				case FieldState.QUOTED_ESCAPE ^ CharacterClass.RECORD_SEPARATOR_2:
+//					/* Handle as CharacterClass.NORMAL */
+//					state = FieldState.QUOTED;
+//					if( read ) builder.append( current );
+//					break;
 				
 				/* ***************************** */
 				/* *** FieldState.QUOTED_END *** */
@@ -858,20 +885,25 @@ final class CSVParserImpl implements CSVParser
 					return FieldEndReason.FIELD_SEPARATOR;
 					
 				case FieldState.QUOTED_END ^ CharacterClass.RECORD_SEPARATOR:
-					return FieldEndReason.RECORD_SEPARATOR;
-					
-				case FieldState.QUOTED_END ^ CharacterClass.RECORD_SEPARATOR_1:
-					if ( checkRecordSequence( current ) )
+					if ( recordSeparatorStrategy.apply(read) )
 						return FieldEndReason.RECORD_SEPARATOR;
 						
 					/* Handle as CharacterClass.NORMAL */
 					/* Normal character outside a quoted field. */
 					throw new MalformedCSVException( "Invalid record separator sequence." );
 					
-				case FieldState.QUOTED_END ^ CharacterClass.RECORD_SEPARATOR_2:
-					/* Handle as CharacterClass.NORMAL */
-					/* Normal character outside a quoted field. */
-					throw new MalformedCSVException( "Invalid record separator sequence." );
+//				case FieldState.QUOTED_END ^ CharacterClass.RECORD_SEPARATOR_1:
+//					if ( checkRecordSequence( current ) )
+//						return FieldEndReason.RECORD_SEPARATOR;
+//						
+//					/* Handle as CharacterClass.NORMAL */
+//					/* Normal character outside a quoted field. */
+//					throw new MalformedCSVException( "Invalid record separator sequence." );
+//					
+//				case FieldState.QUOTED_END ^ CharacterClass.RECORD_SEPARATOR_2:
+//					/* Handle as CharacterClass.NORMAL */
+//					/* Normal character outside a quoted field. */
+//					throw new MalformedCSVException( "Invalid record separator sequence." );
 				
 				/* ******************************* */
 				/* *** FieldState.DOUBLE_QUOTE *** */
@@ -906,20 +938,25 @@ final class CSVParserImpl implements CSVParser
 					 * character is considered as RECORD_SEPARATOR_1
 					 */
 				case FieldState.DOUBLE_QUOTE ^ CharacterClass.RECORD_SEPARATOR:
-					return FieldEndReason.RECORD_SEPARATOR;
-					
-				case FieldState.DOUBLE_QUOTE ^ CharacterClass.RECORD_SEPARATOR_1:
-					if ( checkRecordSequence( current ) )
+					if ( recordSeparatorStrategy.apply(read) )
 						return FieldEndReason.RECORD_SEPARATOR;
 						
 					/* Handle as CharacterClass.NORMAL */
 					/* Normal character outside a quoted field. */
 					throw new MalformedCSVException( "Invalid record separator sequence." );
 					
-				case FieldState.DOUBLE_QUOTE ^ CharacterClass.RECORD_SEPARATOR_2:
-					/* Handle as CharacterClass.NORMAL */
-					/* Normal character outside a quoted field. */
-					throw new MalformedCSVException( "Invalid record separator sequence." );
+//				case FieldState.DOUBLE_QUOTE ^ CharacterClass.RECORD_SEPARATOR_1:
+//					if ( checkRecordSequence( current ) )
+//						return FieldEndReason.RECORD_SEPARATOR;
+//						
+//					/* Handle as CharacterClass.NORMAL */
+//					/* Normal character outside a quoted field. */
+//					throw new MalformedCSVException( "Invalid record separator sequence." );
+//					
+//				case FieldState.DOUBLE_QUOTE ^ CharacterClass.RECORD_SEPARATOR_2:
+//					/* Handle as CharacterClass.NORMAL */
+//					/* Normal character outside a quoted field. */
+//					throw new MalformedCSVException( "Invalid record separator sequence." );
 						
 				default:
 					throw new IllegalStateException( "Unknown couple FieldState " + state + " CharacterClass " + type + ". This is a bug evidence." );
@@ -930,68 +967,339 @@ final class CSVParserImpl implements CSVParser
 		
 	}
 	
+	
 	/**
-	 * Check if there is a correct record separator sequence following a
-	 * character of type {@link CharacterClass.RECORD_SEPARATOR_1}.
-	 * <p>
-	 * Provided character is assumed a
-	 * {@link CharacterClass.RECORD_SEPARATOR_1} and no further checks
-	 * will be done on his type.
+	 * Represents the selected strategy to apply when
+	 * a record separator character has been read.
 	 * 
-	 * </p>
-	 * 
-	 * @param character first character of a record separator sequence
-	 * @return {@code true} if a complete record separator sequence has been
-	 *         read.
-	 * @throws IOException if an error occurs while parsing data.
+	 * @author Nerd4j Team
 	 */
-	private boolean checkRecordSequence( final int character ) throws IOException
+	private static interface RecordSeparatorStrategy
 	{
 		
-		/*
-		 * Read next character to discover if is a second character record
-		 * separator.
+		/**
+		 * Applies the related strategy to handle record
+		 * separator and returns {@code true} if the
+		 * current position represents a record end.
+		 * 
+		 * @param read tells if to actually read the field or to skip it.
+		 * @return {@code true} if it's a valid record separator.
+		 * @throws IOException if there are problems in reading the buffer.
 		 */
-		
-		/*
-		 * Check if buffer need to be refilled. Checking on BUFFER_SIZE
-		 * instead of bufferElements because is faster on a constant value
-		 * AND if bufferElements is less than BUFFER_SIZE it can't be
-		 * refilled (data already completely read into buffer)
-		 */
-		if ( bufferIndex >= BUFFER_SIZE )
-		{
-			
-			bufferElements = reader.read( buffer, 0 , BUFFER_SIZE );
-			bufferIndex = 0;
-			
-		}
-		
-		/* No more elements can be read. */
-		if( bufferElements == -1 || bufferIndex >= bufferElements )
-			return false;
-		
-		/* Read next character. To be used as types array index. */
-		final char next = buffer[ bufferIndex ];
-		
-		final int type;
-		
-		/* Find the next character class. */
-		if( next < RemarkableASCII.ASCII_TABLE_SIZE )
-			type =  types[ next ];
-		else
-			type = CharacterClass.NORMAL;
-		
-		if ( type == CharacterClass.RECORD_SEPARATOR_2 )
-		{
-			/* Found a complete record separator. */
-			++bufferIndex;
-			return true;
-		}
-		
-		/* Not a record separator. */
-		return false;
+		public boolean apply( boolean read ) throws IOException;
 		
 	}
+
+	
+	/**
+	 * Implementation of the {@link RecordSeparatorStrategy} that
+	 * matches the exact character sequence. If the sequence does
+	 * not match the characters are treated as normal characters.
+	 * 
+	 * @author Nerd4j Team
+	 */
+	private class MatchSeparatorSequenceStrategy implements RecordSeparatorStrategy
+	{
+		
+		/** The character sequence that represents the record separator. */
+		private final char[] sequence;
+		
+		
+		/**
+		 * Constructor with parameters.
+		 * 
+		 * @param sequence record separator character sequence.
+		 */
+		public MatchSeparatorSequenceStrategy( char[] sequence )
+		{
+			
+			super();
+			
+			this.sequence = sequence;
+			
+		}
+		
+		
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean apply( boolean read ) throws IOException
+		{
+			
+			/*
+			 * We need to step back to catch the first character
+			 * in the sequence. Due to the fact that we just
+			 * read a character 'bufferIndex' can be at least 0.
+			 */
+			--bufferIndex;
+			
+			for( int i = 0; i < sequence.length; ++i )
+			{
+			
+				/*
+				 * Check if buffer need to be refilled. Checking on BUFFER_SIZE
+				 * instead of bufferElements because is faster on a constant value
+				 * AND if bufferElements is less than BUFFER_SIZE it can't be
+				 * refilled (data already completely read into buffer)
+				 */
+				if ( bufferIndex >= BUFFER_SIZE )
+				{
+				
+					bufferElements = reader.read( buffer, 0 , BUFFER_SIZE );
+					bufferIndex = 0;
+				
+				}
+			
+				/* No more elements can be read. */
+				if( bufferIndex >= bufferElements || bufferElements <= 0 )
+				{
+					if( read ) readPartialSequence( i );
+					return false;
+				}
+			
+				/* Read next character. To be used as types array index. */
+				final char next = buffer[bufferIndex++];
+				
+				/* 
+				 * If the next character is the expected character in the sequence
+				 * we step forward otherwise we return false.
+				 */
+				if( next != sequence[i] )
+				{
+					
+					/*
+					 * If we failed reading the first character in the sequence
+					 * we need to handle it. We already know that it is of type
+					 * "record separator".
+					 */
+					if( i == 0 )
+					{
+						if( read ) builder.append( next );
+					}
+					else
+					{
+						/* 
+						 * Otherwise we write the partial sequence read before
+						 * and we step back the last character so that can be
+						 * handled by the standard process.
+						 */
+						if( read ) readPartialSequence( i );
+						--bufferIndex;
+					}
+					
+					return false;
+					
+				}
+				
+			}
+
+			return true;
+			
+		}
+			
+		/**
+		 * This method is called when the record separator sequence
+		 * has not been recognized. It writes the portion of the sequence
+		 * actually read to the field builder.
+		 * 
+		 * @param length length of the sequence portion to read.
+		 */
+		private void readPartialSequence( int length )
+		{
+			
+			for( int i = 0; i < length; ++i )
+				builder.append( sequence[i] );
+			
+		}
+		
+	}
+	
+	/**
+	 * Implementation of the {@link RecordSeparatorStrategy} that
+	 * matches any character of type "record separator". It will
+	 * skip any following character of type "record separator".
+	 * 
+	 * @author Nerd4j Team
+	 */
+	private class MatchAnySeparatorCharStrategy implements RecordSeparatorStrategy
+	{
+		
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean apply( boolean read ) throws IOException
+		{
+			
+			/*
+			 * Read the following characters and skip them until
+			 * it finds a character that is not a record separator.
+			 */		
+			int type;					
+			do{
+			
+				/*
+				 * Check if buffer need to be refilled. Checking on BUFFER_SIZE
+				 * instead of bufferElements because is faster on a constant value
+				 * AND if bufferElements is less than BUFFER_SIZE it can't be
+				 * refilled (data already completely read into buffer)
+				 */
+				if ( bufferIndex >= BUFFER_SIZE )
+				{
+					
+					bufferElements = reader.read( buffer, 0 , BUFFER_SIZE );
+					bufferIndex = 0;
+					
+				}
+			
+				/* No more elements can be read. */
+				if( bufferIndex >= bufferElements || bufferElements <= 0 )
+					return true;
+			
+				/* Read next character. To be used as types array index. */
+				final char next = buffer[bufferIndex++];
+				
+				type = next < RemarkableASCII.ASCII_TABLE_SIZE ? types[next] : CharacterClass.NORMAL;		
+			
+			}while( type == CharacterClass.RECORD_SEPARATOR );
+			
+			/*
+			 * If we reach this point the last character is not a record separator
+			 * so we step back and let it be handled by the standard process.
+			 */
+			--bufferIndex;
+			
+			return true;
+			
+		}
+		
+	}
+	
+	
+//	/**
+//	 * Check if there is a correct record separator sequence following a
+//	 * character of type {@link CharacterClass.RECORD_SEPARATOR_1}.
+//	 * <p>
+//	 * Provided character is assumed a
+//	 * {@link CharacterClass.RECORD_SEPARATOR_1} and no further checks
+//	 * will be done on his type.
+//	 * 
+//	 * </p>
+//	 * 
+//	 * @param character first character of a record separator sequence
+//	 * @return {@code true} if a complete record separator sequence has been
+//	 *         read.
+//	 * @throws IOException if an error occurs while parsing data.
+//	 */
+//	private void skipRecordSeparators() throws IOException
+//	{
+//		
+//		/*
+//		 * Read the following characters and skip them until
+//		 * it finds a character that is not a record separator.
+//		 */		
+//		int type;
+//		
+//		/*
+//		 * We do a step back so we don't need to check if 
+//		 * type == CharacterClass.RECORD_SEPARATOR inside
+//		 * the loop.
+//		 */
+//		--bufferIndex;
+//		
+//		do{
+//		
+//			/*
+//			 * Check if buffer need to be refilled. Checking on BUFFER_SIZE
+//			 * instead of bufferElements because is faster on a constant value
+//			 * AND if bufferElements is less than BUFFER_SIZE it can't be
+//			 * refilled (data already completely read into buffer)
+//			 */
+//			if ( bufferIndex >= BUFFER_SIZE )
+//			{
+//				
+//				bufferElements = reader.read( buffer, 0 , BUFFER_SIZE );
+//				bufferIndex = 0;
+//				
+//			}
+//		
+//			/* No more elements can be read. */
+//			if( bufferElements == -1 || bufferIndex >= bufferElements )
+//				return;
+//		
+//			/* Read next character. To be used as types array index. */
+//			final char next = buffer[++bufferIndex];
+//			
+//			type = next < RemarkableASCII.ASCII_TABLE_SIZE ? types[next] : CharacterClass.NORMAL;		
+//		
+//		}while( type == CharacterClass.RECORD_SEPARATOR );
+//		
+//	}
+	
+	
+//	/**
+//	 * Check if there is a correct record separator sequence following a
+//	 * character of type {@link CharacterClass.RECORD_SEPARATOR_1}.
+//	 * <p>
+//	 * Provided character is assumed a
+//	 * {@link CharacterClass.RECORD_SEPARATOR_1} and no further checks
+//	 * will be done on his type.
+//	 * 
+//	 * </p>
+//	 * 
+//	 * @param character first character of a record separator sequence
+//	 * @return {@code true} if a complete record separator sequence has been
+//	 *         read.
+//	 * @throws IOException if an error occurs while parsing data.
+//	 */
+//	private boolean checkRecordSequence( final int character ) throws IOException
+//	{
+//		
+//		/*
+//		 * Read next character to discover if is a second character record
+//		 * separator.
+//		 */
+//		
+//		/*
+//		 * Check if buffer need to be refilled. Checking on BUFFER_SIZE
+//		 * instead of bufferElements because is faster on a constant value
+//		 * AND if bufferElements is less than BUFFER_SIZE it can't be
+//		 * refilled (data already completely read into buffer)
+//		 */
+//		if ( bufferIndex >= BUFFER_SIZE )
+//		{
+//			
+//			bufferElements = reader.read( buffer, 0 , BUFFER_SIZE );
+//			bufferIndex = 0;
+//			
+//		}
+//		
+//		/* No more elements can be read. */
+//		if( bufferElements == -1 || bufferIndex >= bufferElements )
+//			return false;
+//		
+//		/* Read next character. To be used as types array index. */
+//		final char next = buffer[ bufferIndex ];
+//		
+//		final int type;
+//		
+//		/* Find the next character class. */
+//		if( next < RemarkableASCII.ASCII_TABLE_SIZE )
+//			type =  types[ next ];
+//		else
+//			type = CharacterClass.NORMAL;
+//		
+//		if ( type == CharacterClass.RECORD_SEPARATOR_2 )
+//		{
+//			/* Found a complete record separator. */
+//			++bufferIndex;
+//			return true;
+//		}
+//		
+//		/* Not a record separator. */
+//		return false;
+//		
+//	}
 	
 }

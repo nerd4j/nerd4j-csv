@@ -21,10 +21,6 @@
  */
 package org.nerd4j.csv.formatter;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.nerd4j.csv.RemarkableASCII;
 
 
@@ -48,31 +44,38 @@ public final class CSVFormatterMetadata
     private char fieldSeparator;
     
     /**
-     * The first of at most two record separator characters.
-     * This character is mandatory, the second one is optional.
-     *(the [\n] character is used by default). 
+     * Characters used to separate records.
+     * By default the operating system line
+     * separator will be used.
      */
-    private char recordSeparator1;
+    private char[] recordSeparator;
+    
+//    /**
+//     * The first of at most two record separator characters.
+//     * This character is mandatory, the second one is optional.
+//     *(the [\n] character is used by default). 
+//     */
+//    private char recordSeparator1;
+//    
+//    /**
+//     * The second of at most two record separator characters.
+//     * This character is optional, the first one is mandatory
+//     *(by default this field is empty). 
+//     */
+//    private char recordSeparator2;
     
     /**
-     * The second of at most two record separator characters.
-     * This character is optional, the first one is mandatory
-     *(by default this field is empty). 
-     */
-    private char recordSeparator2;
-    
-    /**
-     * Set of characters (in the ASCII space) that has to be escaped
+     * Characters (in the ASCII space) that has to be escaped
      * using the {@link #escapeChar} (by default this set is empty).
      */
-    private Set<Character> charsToEscape;
+    private char[] charsToEscape;
     
     /**
-     * Set of characters (in the ASCII space) that forces the whole
+     * Characters (in the ASCII space) that forces the whole
      * field to be enclosed by {@link #quoteChar}s
-     * (by default this set is: {[,],[ ],[\t],[\n]}).
+     * (by default this set is: {[ ],[\t],[\n],[\r]}).
      */
-    private Set<Character> charsThatForceQuoting;
+    private char[] charsThatForceQuoting;
 
     
     /**
@@ -85,19 +88,16 @@ public final class CSVFormatterMetadata
         super();
     
         this.fieldSeparator   = RemarkableASCII.COMMA;
+        this.recordSeparator = System.getProperty( "line.separator" ).toCharArray();
         
-        this.recordSeparator1 = RemarkableASCII.LF;
-        this.recordSeparator2 = RemarkableASCII.NOT_AN_ASCII;
+//        this.recordSeparator1 = RemarkableASCII.LF;
+//        this.recordSeparator2 = RemarkableASCII.NOT_AN_ASCII;
         
         this.escapeChar = RemarkableASCII.NOT_AN_ASCII;
         this.quoteChar  = RemarkableASCII.DOUBLE_QUOTE;
         
         this.charsToEscape   = null;
-        this.charsThatForceQuoting = new HashSet<Character>();
-        this.charsThatForceQuoting.add( RemarkableASCII.COMMA );
-        this.charsThatForceQuoting.add( RemarkableASCII.SPACE );
-        this.charsThatForceQuoting.add( RemarkableASCII.HT );
-        this.charsThatForceQuoting.add( RemarkableASCII.LF );
+        this.charsThatForceQuoting = new char[] { RemarkableASCII.SPACE, RemarkableASCII.HT, RemarkableASCII.LF, RemarkableASCII.CR };
         
     }
 
@@ -117,25 +117,35 @@ public final class CSVFormatterMetadata
         this.fieldSeparator = fieldSeparator;
     }
 
-    public char getRecordSeparator1()
+    public char[] getRecordSeparator()
     {
-        return recordSeparator1;
+        return recordSeparator;
     }
     
-    public void setRecordSeparator1( char recordSeparator1 )
+    public void setRecordSeparator( char[] recordSeparator )
     {
-        this.recordSeparator1 = recordSeparator1;
+        this.recordSeparator = recordSeparator;
     }
     
-    public char getRecordSeparator2()
-    {
-        return recordSeparator2;
-    }
-    
-    public void setRecordSeparator2( char recordSeparator2 )
-    {
-        this.recordSeparator2 = recordSeparator2;
-    }
+//    public char getRecordSeparator1()
+//    {
+//    	return recordSeparator1;
+//    }
+//    
+//    public void setRecordSeparator1( char recordSeparator1 )
+//    {
+//    	this.recordSeparator1 = recordSeparator1;
+//    }
+//    
+//    public char getRecordSeparator2()
+//    {
+//        return recordSeparator2;
+//    }
+//    
+//    public void setRecordSeparator2( char recordSeparator2 )
+//    {
+//        this.recordSeparator2 = recordSeparator2;
+//    }
     
     public char getEscapeChar()
     {
@@ -157,28 +167,28 @@ public final class CSVFormatterMetadata
         this.quoteChar = quoteChar;
     }
     
-    public Set<Character> getCharsThatForceQuoting()
+    public char[] getCharsThatForceQuoting()
     {
         if( charsThatForceQuoting == null )
-            return Collections.emptySet();
+            return new char[0];
         else
             return charsThatForceQuoting;
     }
     
-    public void setCharsThatForceQuoting( Set<Character> charsThatForceQuoting )
+    public void setCharsThatForceQuoting( char[] charsThatForceQuoting )
     {
         this.charsThatForceQuoting = charsThatForceQuoting;
     }
     
-    public Set<Character> getCharsToEscape()
+    public char[] getCharsToEscape()
     {
         if( charsToEscape == null )
-            return Collections.emptySet();
+            return new char[0];
         else
             return charsToEscape; 
     }
     
-    public void setCharsToEscape( Set<Character> charsToEscape )
+    public void setCharsToEscape( char[] charsToEscape )
     {
         this.charsToEscape = charsToEscape; 
     }
