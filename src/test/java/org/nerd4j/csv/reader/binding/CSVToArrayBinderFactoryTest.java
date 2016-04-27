@@ -26,6 +26,7 @@ import org.junit.Test;
 import org.nerd4j.csv.exception.CSVToModelBindingException;
 import org.nerd4j.csv.field.CSVField;
 import org.nerd4j.csv.field.CSVFieldMetadata;
+import org.nerd4j.csv.field.CSVMappingDescriptor;
 import org.nerd4j.csv.field.processor.EmptyCSVFieldProcessor;
 import org.nerd4j.csv.parser.CSVParserMetadata;
 import org.nerd4j.csv.reader.CSVReaderMetadata;
@@ -101,11 +102,11 @@ public class CSVToArrayBinderFactoryTest
     {
         
         final CSVFieldMetadata<String,?>[] fieldConfs = new CSVFieldMetadata[3];
-        final CSVField field = new CSVField( new EmptyCSVFieldProcessor(), true );
+        final CSVField field = new CSVField( new EmptyCSVFieldProcessor(String.class), true );
         
-        fieldConfs[0] = new CSVFieldMetadata( "1", "0", field );
-        fieldConfs[1] = new CSVFieldMetadata( "2", "1", field );
-        fieldConfs[2] = new CSVFieldMetadata( "4", "2", field );
+        fieldConfs[0] = new CSVFieldMetadata( new CSVMappingDescriptor("1","0",String.class), field );
+        fieldConfs[1] = new CSVFieldMetadata( new CSVMappingDescriptor("2","1",String.class), field );
+        fieldConfs[2] = new CSVFieldMetadata( new CSVMappingDescriptor("4","2",String.class), field );
         
         final CSVParserMetadata parserConfiguration = new CSVParserMetadata();
         final CSVToArrayBinderFactory binderFactory = new CSVToArrayBinderFactory();

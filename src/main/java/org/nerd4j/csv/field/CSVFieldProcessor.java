@@ -73,6 +73,30 @@ public class CSVFieldProcessor<S,T>
     /*  INTERFACE METHODS  */
     /* ******************* */
     
+    
+    /**
+	 * Returns the source type accepted by this processor.
+	 * 
+	 * @return source type accepted by this processor.
+	 */
+	public Class<S> getSourceType()
+	{
+		
+		return converter.getSourceType();
+		
+	}
+	
+	/**
+	 * Returns the target type produced by this processor.
+	 * 
+	 * @return target type produced by this processor.
+	 */
+	public Class<T> getTargetType()
+	{
+		
+		return converter.getTargetType();
+		
+	}
 
     /**
      * Applies the steps needed to process a CSV

@@ -36,13 +36,15 @@ import org.nerd4j.csv.field.converter.EmptyCSVFieldConverter;
 public final class EmptyCSVFieldProcessor<V> extends CSVFieldProcessor<V,V>
 {
     
-    /**
-     * Default constructor.
+	/**
+     * Constructor with parameters.
+     * 
+     * @param the data type handled by this empty converter.
      */
-    public EmptyCSVFieldProcessor()
+    public EmptyCSVFieldProcessor( final Class<V> type )
     {
         
-        super( null, new EmptyCSVFieldConverter<V>(), null );
+        super( null, new EmptyCSVFieldConverter<V>(type), null );
         
     }
     

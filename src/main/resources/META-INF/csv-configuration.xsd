@@ -24,7 +24,7 @@
     Represents the set of characters used to define the CSV structure.
    </xs:documentation></xs:annotation>
    
-   <xs:attribute name="quote" type="xs:string" use="required">
+   <xs:attribute name="quote" type="xs:string">
     <xs:annotation><xs:documentation>
      Character used to quote fields.
      The character used by default is the double quote ["].
@@ -38,7 +38,7 @@
     </xs:documentation></xs:annotation>
    </xs:attribute>
      
-   <xs:attribute name="field-sep"    type="xs:string" use="required">
+   <xs:attribute name="field-sep"    type="xs:string">
     <xs:annotation><xs:documentation>
      Character used to separate fields in the CSV source.
 	 The character used by default is the comma [,].

@@ -65,13 +65,14 @@ public final class NumberToString<N extends Number> extends AbstractCSVFieldConv
     
 
     /**
-     * Default constructor.
+     * Constructor with parameters.
      * 
+     * @param numberType one of the accepted implementations of the {@link Number}.
      */
-    public NumberToString()
+    public NumberToString( final Class<N> numberType )
     {
 
-        this( null, null );
+        this( numberType, null, null );
         
     }
 
@@ -79,25 +80,27 @@ public final class NumberToString<N extends Number> extends AbstractCSVFieldConv
     /**
      * Constructor with parameters.
      * 
+     * @param numberType one of the accepted implementations of the {@link Number}.
      * @param numberPattern the pattern that describes the number format.
      */
-    public NumberToString( final String numberPattern )
+    public NumberToString( final Class<N> numberType, final String numberPattern )
     {
         
-    	this( numberPattern, null );
+    	this( numberType, numberPattern, null );
         
     }
     
     /**
      * Constructor with parameters.
      * 
+     * @param numberType one of the accepted implementations of the {@link Number}.
      * @param numberPattern the pattern that describes the number format.
      * @param numberLocale locale for formatter symbols, ignored if no pattern
      */
-    public NumberToString( final String numberPattern, final Locale numberLocale )
+    public NumberToString( final Class<N> numberType, final String numberPattern, final Locale numberLocale )
     {
         
-        super( "Unable to convert {1} into String" );
+        super( numberType, String.class, "Unable to convert {1} into String" );
         
         if( numberPattern == null || numberPattern.isEmpty() )
             this.numberFormat = null;

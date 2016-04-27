@@ -36,11 +36,11 @@ import org.nerd4j.csv.exception.CSVConfigurationException;
 public final class CSVFieldMetadata<S,T>
 {
 
-    /** The name of the CSV column corresponding to the field. */
-    private final String columnName;
+//    /** The name of the CSV column corresponding to the field. */
+//    private final String columnName;
 
     /** Object that describes the field-model mapping. */
-    private final String mappingDescriptor;
+    private final CSVMappingDescriptor mappingDescriptor;
     
     /** The field used to represent the column. */
     private final CSVField<S,T> field;
@@ -49,18 +49,17 @@ public final class CSVFieldMetadata<S,T>
     /**
      * Constructor with parameters.
      * 
-     * @param columnName        the name of the CSV column corresponding to the field (optional).
      * @param mappingDescriptor the field-model mapping (mandatory).
      * @param field             the field used to represent the column (mandatory).
      * 
      */
-    public CSVFieldMetadata( final String columnName, final String mappingDescriptor, final CSVField<S,T> field )
+    public CSVFieldMetadata( final CSVMappingDescriptor mappingDescriptor, final CSVField<S,T> field )
     {
         
         super();
         
-        if( columnName == null || columnName.isEmpty() )
-            throw new CSVConfigurationException( "The provided column name must be not null or empty. Check the configuration" );
+//        if( columnName == null || columnName.isEmpty() )
+//            throw new CSVConfigurationException( "The provided column name must be not null or empty. Check the configuration" );
 
         
         if( mappingDescriptor == null )
@@ -70,7 +69,7 @@ public final class CSVFieldMetadata<S,T>
             throw new CSVConfigurationException( "The field is mandatory. Check the configuration" );
         
         this.field = field;
-        this.columnName = columnName;
+//        this.columnName = columnName;
         this.mappingDescriptor = mappingDescriptor;
         
     }
@@ -81,12 +80,12 @@ public final class CSVFieldMetadata<S,T>
     /* ******************* */
 
     
-    public String getColumnName()
-    {
-        return columnName;
-    }
+//    public String getColumnName()
+//    {
+//        return columnName;
+//    }
     
-    public String getMappingDescriptor()
+    public CSVMappingDescriptor getMappingDescriptor()
     {
         return mappingDescriptor;
     }

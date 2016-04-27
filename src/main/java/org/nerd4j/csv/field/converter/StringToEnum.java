@@ -42,12 +42,12 @@ public final class StringToEnum<E extends Enum<E>> extends AbstractCSVFieldConve
     /**
      * Constructor with parameters.
      * 
-     * @param enumType one of the accepted implementations of the {@link Number}.
+     * @param enumType actual implementation of {@link Enum}.
      */
     public StringToEnum( final Class<E> enumType )
     {
 
-        super( "Unable to convert {1} into " + enumType );
+        super( String.class, enumType, "Unable to convert {1} into " + enumType );
         
         if( enumType == null )
             throw new NullPointerException( "The enum type is mandatory cannot be null" );

@@ -40,38 +40,43 @@ public final class FormatNumber<N extends Number> extends CSVFieldProcessor<N,St
 {
     
     /**
-     * Default constructor.
+     * Constructor with parameters.
      * 
+     * @param numberType one of the accepted implementations of the {@link Number}.
      */
-    public FormatNumber()
+    public FormatNumber( final Class<N> numberType )
     {
         
-        super( null, new NumberToString<N>(), null );
+        super( null, new NumberToString<N>(numberType), null );
         
     }
     
     /**
      * Constructor with parameters.
      * 
+     * @param numberType one of the accepted implementations of the {@link Number}.
      * @param numberPattern the pattern that describes the number format.
      */
-    public FormatNumber( final String numberPattern )
+    public FormatNumber( final Class<N> numberType, final String numberPattern )
     {
         
-        super( null, new NumberToString<N>(numberPattern), null );
+        super( null, new NumberToString<N>(numberType,numberPattern), null );
         
     }
     
     /**
      * Constructor with parameters.
      * 
+     * @param numberType one of the accepted implementations of the {@link Number}.
      * @param numberPattern the pattern that describes the number format.
      * @param numberLocale locale for formatter symbols, ignored if no pattern
      */
-    public FormatNumber( final String numberPattern, final Locale numberLocale )
+    public FormatNumber( final Class<N> numberType,
+    		             final String numberPattern,
+    		             final Locale numberLocale )
     {
         
-        super( null, new NumberToString<N>(numberPattern,numberLocale), null );
+        super( null, new NumberToString<N>(numberType,numberPattern,numberLocale), null );
         
     }
     
@@ -79,48 +84,54 @@ public final class FormatNumber<N extends Number> extends CSVFieldProcessor<N,St
     /**
      * Constructor with parameters.
      * 
+     * @param numberType one of the accepted implementations of the {@link Number}.
      * @param precondition  condition to satisfy before conversion.
      * @param postcondition condition to satisfy after conversion.
      */
-    public FormatNumber( final CSVFieldValidator<N> precondition,
+    public FormatNumber( final Class<N> numberType,
+    		             final CSVFieldValidator<N> precondition,
                          final CSVFieldValidator<String> postcondition )
     {
         
-        super( precondition, new NumberToString<N>(), postcondition );
+        super( precondition, new NumberToString<N>(numberType), postcondition );
         
     }
         
     /**
      * Constructor with parameters.
      * 
+     * @param numberType one of the accepted implementations of the {@link Number}.
      * @param numberPattern the pattern that describes the number format.
      * @param precondition  condition to satisfy before conversion.
      * @param postcondition condition to satisfy after conversion.
      */
-    public FormatNumber( final String numberPattern,
-            final CSVFieldValidator<N> precondition,
-            final CSVFieldValidator<String> postcondition )
+    public FormatNumber( final Class<N> numberType,
+    		             final String numberPattern,
+                         final CSVFieldValidator<N> precondition,
+                         final CSVFieldValidator<String> postcondition )
     {
         
-        super( precondition, new NumberToString<N>(numberPattern), postcondition );
+        super( precondition, new NumberToString<N>(numberType,numberPattern), postcondition );
         
     }
     
     /**
      * Constructor with parameters.
      * 
+     * @param numberType one of the accepted implementations of the {@link Number}.
      * @param numberPattern the pattern that describes the number format.
      * @param numberLocale locale for formatter symbols, ignored if no pattern
      * @param precondition  condition to satisfy before conversion.
      * @param postcondition condition to satisfy after conversion.
      */
-    public FormatNumber( final String numberPattern,
-            final Locale numberLocale,
-            final CSVFieldValidator<N> precondition,
-            final CSVFieldValidator<String> postcondition )
+    public FormatNumber( final Class<N> numberType,
+    		             final String numberPattern, 
+                         final Locale numberLocale,
+                         final CSVFieldValidator<N> precondition,
+                         final CSVFieldValidator<String> postcondition )
     {
         
-        super( precondition, new NumberToString<N>(numberPattern,numberLocale), postcondition );
+        super( precondition, new NumberToString<N>(numberType,numberPattern,numberLocale), postcondition );
         
     }
     

@@ -26,6 +26,7 @@ import java.util.Map;
 
 import org.nerd4j.csv.exception.CSVToModelBindingException;
 import org.nerd4j.csv.field.CSVFieldMetadata;
+import org.nerd4j.csv.field.CSVMappingDescriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,10 +66,10 @@ public final class CSVToMapBinderFactory extends AbstractCSVToModelBinderFactory
      * {@inheritDoc}
      */
     @Override
-    protected String getMapping( final String mappingDescriptor )
+    protected String getMapping( final CSVMappingDescriptor mappingDescriptor )
     {
         
-        return mappingDescriptor;
+        return mappingDescriptor.getModelKey();
         
     }
     

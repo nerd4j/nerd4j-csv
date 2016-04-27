@@ -76,9 +76,9 @@ public final class CSVWriterMetadata<Model>
      * @param writeHeader          tells if the header should be written.
      */
     public CSVWriterMetadata( final CSVFormatterMetadata formatterMetadata,
-                                   final ModelToCSVBinderFactory<Model> modelBinderFactory,
-                                   final CSVFieldMetadata<?,String>[] fieldConfigurations,
-                                   final boolean writeHeader )
+                              final ModelToCSVBinderFactory<Model> modelBinderFactory,
+                              final CSVFieldMetadata<?,String>[] fieldConfigurations,
+                              final boolean writeHeader )
     {
         
         super();
@@ -146,8 +146,11 @@ public final class CSVWriterMetadata<Model>
                 
         if( writeHeader )
             for( int i = 0; i < fieldConfigurations.length; ++i )
-                if( fieldConfigurations[i].getColumnName() == null || fieldConfigurations[i].getColumnName().isEmpty() )
+            {
+            	final String columnName = fieldConfigurations[i].getMappingDescriptor().getColumnKey(); 
+                if( columnName == null || columnName.isEmpty() )
                     throw new CSVConfigurationException( "The flag 'writeHeader' is true but there is no header for column " + i + ". Check the configuration" );
+            }
         
     }
 

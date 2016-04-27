@@ -36,15 +36,25 @@ import org.nerd4j.csv.field.CSVFieldProcessContext;
 public final class EmptyCSVFieldConverter<V> implements CSVFieldConverter<V,V>
 {
 
+	
+	/** The source type accepted by this converter. */
+	private Class<V> type;
+	
     
     /**
-     * Default constructor.
+     * Constructor with parameters.
      * 
+     * @param the data type handled by this empty converter.
      */
-    public EmptyCSVFieldConverter()
+    public EmptyCSVFieldConverter( final Class<V> type )
     {
         
         super();
+        
+        if( type == null )
+            throw new IllegalArgumentException( "The data type is mandatory cannot be null" );
+       
+        this.type = type;
         
     }
     
@@ -52,6 +62,29 @@ public final class EmptyCSVFieldConverter<V> implements CSVFieldConverter<V,V>
     /* ******************* */
     /*  INTERFACE METHODS  */
     /* ******************* */
+    
+    
+    /**
+	 * {@inheritDoc}
+	 */
+    @Override
+	public Class<V> getSourceType()
+	{
+    	
+    	return type;
+    	
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+    @Override
+	public Class<V> getTargetType()
+	{
+    	
+    	return type;
+    	
+	}
 
     
     /**

@@ -104,7 +104,7 @@ public final class StringToNumber<N extends Number> extends AbstractCSVFieldConv
     public StringToNumber( final Class<N> numberType, final String numberPattern, final Locale numberLocale )
     {
         
-        super( "Unable to convert {1} into " + numberType );
+        super( String.class, numberType, "Unable to convert {1} into " + numberType );
         
         if( numberType == null )
             throw new NullPointerException( "The number type is mandatory cannot be null" );

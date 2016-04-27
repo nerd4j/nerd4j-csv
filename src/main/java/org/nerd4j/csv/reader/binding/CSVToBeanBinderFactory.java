@@ -21,10 +21,12 @@
  */
 package org.nerd4j.csv.reader.binding;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import org.nerd4j.csv.exception.CSVToModelBindingException;
 import org.nerd4j.csv.field.CSVFieldMetadata;
+import org.nerd4j.csv.field.CSVMappingDescriptor;
 import org.nerd4j.util.ReflectionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +41,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Nerd4j Team
  */
-public final class CSVToBeanBinderFactory<B> extends AbstractCSVToModelBinderFactory<B,Method>
+public final class CSVToBeanBinderFactory<B> extends AbstractCSVToModelBinderFactory<B,CSVToBeanFieldWriter>
 {
     
     /** Internal logging system. */
@@ -59,7 +61,7 @@ public final class CSVToBeanBinderFactory<B> extends AbstractCSVToModelBinderFac
     throws CSVToModelBindingException
     {
         
-        super( Method.class );
+        super( CSVToBeanFieldWriter.class );
         
         if( beanClass == null )
             throw new CSVToModelBindingException( "The bean type is mandatory" );
@@ -78,10 +80,16 @@ public final class CSVToBeanBinderFactory<B> extends AbstractCSVToModelBinderFac
      * {@inheritDoc}
      */
     @Override
-    protected Method getMapping( final String mappingDescriptor )
+    protected CSVToBeanFieldWriter getMapping( final CSVMappingDescriptor mappingDescriptor )
     {
         
-        return ReflectionUtil.findPublicSetter( mappingDescriptor, beanClass );
+        final Method setter = ReflectionUtil.findPublicSetter( mappingDescriptor.getModelKey(), beanClass );
+        if( setter != null )return CSVToBeanFieldWriter.getWriter( setter );
+        
+        final Field field = ReflectionUtil.findField( mappingDescriptor.getModelType(), mappingDescriptor.getModelKey(), beanClass );
+        if( field != null ) return CSVToBeanFieldWriter.getWriter( field );
+        	
+        throw new NullPointerException( "There isn't a valid setter or field related to " + mappingDescriptor );
         
     }
     
@@ -89,7 +97,7 @@ public final class CSVToBeanBinderFactory<B> extends AbstractCSVToModelBinderFac
      * {@inheritDoc}
      */
     @Override
-    protected CSVToModelBinder<B> getBinder( final CSVFieldMetadata<?,?>[] fieldConfs, final Method[] fieldMapping )
+    protected CSVToModelBinder<B> getBinder( final CSVFieldMetadata<?,?>[] fieldConfs, final CSVToBeanFieldWriter[] fieldMapping )
     
     {
         
@@ -119,7 +127,7 @@ public final class CSVToBeanBinderFactory<B> extends AbstractCSVToModelBinderFac
          * This array is intended to contain a mapping that associates
          * each input column index into the related output bean property.
          */
-        private final Method[] columnMapping;
+        private final CSVToBeanFieldWriter[] columnMapping;
 
         
         /**
@@ -127,7 +135,7 @@ public final class CSVToBeanBinderFactory<B> extends AbstractCSVToModelBinderFac
          * 
          * @param columnMapping mapping of the columns.
          */
-        public CSVToBeanBinder( final Method[] columnMapping )
+        public CSVToBeanBinder( final CSVToBeanFieldWriter[] columnMapping )
         {
             
             super();
@@ -172,36 +180,36 @@ public final class CSVToBeanBinderFactory<B> extends AbstractCSVToModelBinderFac
         public void fill( int column, Object value ) throws CSVToModelBindingException
         {
                 
-            final Method setter = column < columnMapping.length
-                                ? columnMapping[column]
-                                : null;
+            final CSVToBeanFieldWriter writer = column < columnMapping.length
+                                              ? columnMapping[column]
+                                              : null;
 
             try{
                                 
                 
-                if( setter != null )
+                if( writer != null )
                 {
                     if( logger.isDebugEnabled() )
-                        logger.debug( "Setting value {} for column {} using method {}.", value, column, setter.getName() );
+                        logger.debug( "Setting value {} for column {} using writer {}.", value, column, writer.getName() );
                     
-                    setter.invoke( model, value );
+                    writer.write( value, model );
                 }
                 else
                 {
                     if( logger.isTraceEnabled() )
-                        logger.trace( "There is no valid setter for column {} unable to fill value.", column );
+                        logger.trace( "There is no valid field writer for column {} unable to fill value.", column );
                 }
             
             }catch( NullPointerException ex )
             {
                 
-                logger.error( "Try to invoke a method on a null object, the model needs to be initialized before filling.", ex );
+                logger.error( "Try to invoke a field writer on a null object, the model needs to be initialized before filling.", ex );
                 throw new CSVToModelBindingException( "Try to fill a model without initialization", ex );
 
             }catch( Exception ex )
             {
                 
-                logger.error( "Unable to invoke method " + setter, ex );
+                logger.error( "Unable to invoke field writer " + writer.getName(), ex );
                 throw new CSVToModelBindingException( ex );
                 
             }

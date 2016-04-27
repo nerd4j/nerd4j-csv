@@ -27,6 +27,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.nerd4j.csv.field.CSVField;
 import org.nerd4j.csv.field.CSVFieldMetadata;
+import org.nerd4j.csv.field.CSVMappingDescriptor;
 import org.nerd4j.csv.field.processor.EmptyCSVFieldProcessor;
 import org.nerd4j.csv.parser.CSVParserMetadata;
 import org.nerd4j.csv.reader.CSVReaderMetadata;
@@ -105,11 +106,11 @@ public class CSVToMapBinderFactoryTest
     {
         
         final CSVFieldMetadata<String,?>[] fieldConfs = new CSVFieldMetadata[3];
-        final CSVField field = new CSVField( new EmptyCSVFieldProcessor(), true );
+        final CSVField field = new CSVField( new EmptyCSVFieldProcessor(String.class), true );
         
-        fieldConfs[0] = new CSVFieldMetadata( "1", "KEY-1", field );
-        fieldConfs[1] = new CSVFieldMetadata( "2", "KEY-2", field );
-        fieldConfs[2] = new CSVFieldMetadata( "4", "KEY-4", field );
+        fieldConfs[0] = new CSVFieldMetadata( new CSVMappingDescriptor("1","KEY-1",String.class), field );
+        fieldConfs[1] = new CSVFieldMetadata( new CSVMappingDescriptor("2","KEY-2",String.class), field );
+        fieldConfs[2] = new CSVFieldMetadata( new CSVMappingDescriptor("4","KEY-4",String.class), field );
         
         final CSVParserMetadata parserConfiguration = new CSVParserMetadata();
         final CSVToMapBinderFactory binderFactory = new CSVToMapBinderFactory();
