@@ -181,7 +181,7 @@ public final class CSVWriterFactoryImpl<Model> implements CSVWriterFactory<Model
         String columnName;
         for( int i = 0; i < fieldConfs.length; ++i )
         {
-            columnName = fieldConfs[i].getColumnName();
+            columnName = fieldConfs[i].getMappingDescriptor().getColumnKey();
             
             csvFormatter.writeField( columnName, false );
             header[i] = columnName;

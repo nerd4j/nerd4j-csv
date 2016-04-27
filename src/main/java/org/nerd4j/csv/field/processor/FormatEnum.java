@@ -37,28 +37,31 @@ import org.nerd4j.csv.field.converter.EnumToString;
 public final class FormatEnum<E extends Enum<E>> extends CSVFieldProcessor<E,String>
 {
     
-    /**
-     * Default constructor.
+	/**
+     * Constructor with parameters.
      * 
+     * @param enumType actual implementation of {@link Enum}.
      */
-    public FormatEnum()
+    public FormatEnum( final Class<E> enumType )
     {
         
-        super( null, new EnumToString<E>(), null );
+        super( null, new EnumToString<E>(enumType), null );
         
     }
     
     /**
      * Constructor with parameters.
      * 
+     * @param enumType actual implementation of {@link Enum}.
      * @param precondition  condition to satisfy before conversion.
      * @param postcondition condition to satisfy after conversion.
      */
-    public FormatEnum( final CSVFieldValidator<E> precondition,
+    public FormatEnum( final Class<E> enumType,
+    		           final CSVFieldValidator<E> precondition,
                        final CSVFieldValidator<String> postcondition )
     {
         
-        super( precondition, new EnumToString<E>(), null );
+        super( precondition, new EnumToString<E>(enumType), null );
         
     }
 

@@ -25,6 +25,7 @@ import java.lang.reflect.Array;
 
 import org.nerd4j.csv.exception.CSVToModelBindingException;
 import org.nerd4j.csv.field.CSVFieldMetadata;
+import org.nerd4j.csv.field.CSVMappingDescriptor;
 import org.nerd4j.csv.reader.CSVReaderMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -155,7 +156,7 @@ public abstract class AbstractCSVToModelBinderFactory<Model,Mapping> implements 
      * @param mappingDescriptor the mapping descriptor.
      * @return the actual mapping object.
      */
-    protected abstract Mapping getMapping( final String mappingDescriptor );
+    protected abstract Mapping getMapping( final CSVMappingDescriptor mappingDescriptor );
     
     /**
      * Given the original field configurations and the computed column mapping

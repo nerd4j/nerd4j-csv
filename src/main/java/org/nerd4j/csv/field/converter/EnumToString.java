@@ -38,13 +38,14 @@ public final class EnumToString<E extends Enum<E>> extends AbstractCSVFieldConve
 
     
     /**
-     * Default constructor.
+     * Constructor with parameters.
      * 
+     * @param enumType actual implementation of {@link Enum}.
      */
-    public EnumToString()
+    public EnumToString( final Class<E> enumType )
     {
 
-        super( "Unable to convert {1} into String" );
+        super( enumType, String.class, "Unable to convert {1} into String" );
         
     }
 

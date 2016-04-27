@@ -42,6 +42,12 @@ import org.nerd4j.csv.field.CSVFieldProcessContext;
  */
 public abstract class AbstractCSVFieldConverter<S,T> implements CSVFieldConverter<S,T>
 {
+	
+	/** The source type accepted by this converter. */
+	private Class<S> sourceType;
+	
+	/** The target type produced by this converter. */
+	private Class<T> targetType;
     
     /** The error message pattern to set into the context in case of failure. */
     private String errorMessagePattern;
@@ -50,16 +56,26 @@ public abstract class AbstractCSVFieldConverter<S,T> implements CSVFieldConverte
     /**
      * Constructor with parameters.
      * 
+     * @param sourceType source type accepted by this converter. 
+     * @param targetType target type produced by this converter.
      * @param errorMessagePattern error message pattern to set into the context in case of failure.
      */
-    public AbstractCSVFieldConverter( final String errorMessagePattern )
+    public AbstractCSVFieldConverter( final Class<S> sourceType, Class<T> targetType, final String errorMessagePattern )
     {
         
         super();
         
-        if( errorMessagePattern == null || errorMessagePattern.isEmpty() )
-            throw new IllegalArgumentException( "The error message pattern is mandatory cannot be null or empty" );
+        if( sourceType == null )
+            throw new IllegalArgumentException( "The source type is mandatory cannot be null" );
+
+        if( targetType == null )
+        	throw new IllegalArgumentException( "The target type is mandatory cannot be null" );
         
+        if( errorMessagePattern == null || errorMessagePattern.isEmpty() )
+        	throw new IllegalArgumentException( "The error message pattern is mandatory cannot be null or empty" );
+        
+        this.sourceType = sourceType;
+        this.targetType = targetType;
         this.errorMessagePattern = errorMessagePattern;
         
     }
@@ -69,6 +85,28 @@ public abstract class AbstractCSVFieldConverter<S,T> implements CSVFieldConverte
     /*  INTERFACE METHODS  */
     /* ******************* */
 
+    
+    /**
+	 * {@inheritDoc}
+	 */
+    @Override
+	public Class<S> getSourceType()
+	{
+    	
+    	return sourceType;
+    	
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+    @Override
+	public Class<T> getTargetType()
+	{
+    	
+    	return targetType;
+    	
+	}
     
     /**
      * {@inheritDoc}

@@ -39,6 +39,7 @@ import org.nerd4j.csv.field.CSVFieldConverter;
 import org.nerd4j.csv.field.CSVFieldMetadata;
 import org.nerd4j.csv.field.CSVFieldProcessor;
 import org.nerd4j.csv.field.CSVFieldValidator;
+import org.nerd4j.csv.field.CSVMappingDescriptor;
 import org.nerd4j.csv.formatter.CSVFormatterMetadata;
 import org.nerd4j.csv.parser.CSVParserMetadata;
 import org.nerd4j.csv.reader.CSVReaderMetadata;
@@ -264,8 +265,9 @@ public final class CSVMetadataBuilder
         
         final String name = configuration.getName();
         final String mapping = configuration.getMapping();
+        final CSVMappingDescriptor mappingDescriptor = new CSVMappingDescriptor( name, mapping,  processor.getTargetType() );
         
-        return new CSVFieldMetadata( name, mapping, field );
+        return new CSVFieldMetadata( mappingDescriptor, field );
         
     }
     

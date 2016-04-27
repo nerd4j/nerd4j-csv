@@ -26,6 +26,7 @@ import org.junit.Test;
 import org.nerd4j.csv.exception.ModelToCSVBindingException;
 import org.nerd4j.csv.field.CSVField;
 import org.nerd4j.csv.field.CSVFieldMetadata;
+import org.nerd4j.csv.field.CSVMappingDescriptor;
 import org.nerd4j.csv.field.processor.EmptyCSVFieldProcessor;
 import org.nerd4j.csv.formatter.CSVFormatterMetadata;
 import org.nerd4j.csv.model.TestBean;
@@ -93,10 +94,10 @@ public class BeanToCSVBinderFactoryTest
         
         try{
             
-            final CSVField field = new CSVField( new EmptyCSVFieldProcessor(), false );
+            final CSVField field = new CSVField( new EmptyCSVFieldProcessor(String.class), false );
             final CSVFieldMetadata<Object,String>[] fieldConfs = new CSVFieldMetadata[3];
             
-            fieldConfs[0] = new CSVFieldMetadata<Object,String>( "COL-1", "value10", field );
+            fieldConfs[0] = new CSVFieldMetadata<Object,String>( new CSVMappingDescriptor("COL-1","value10",String.class), field );
         
             final CSVFormatterMetadata formatterConfiguration = new CSVFormatterMetadata();
             final ModelToCSVBinderFactory<TestBean> binderFactory = new BeanToCSVBinderFactory<TestBean>( TestBean.class );
@@ -149,12 +150,12 @@ public class BeanToCSVBinderFactoryTest
     throws ModelToCSVBindingException
     {
                        
-        final CSVField field = new CSVField( new EmptyCSVFieldProcessor(), false );
+        final CSVField field = new CSVField( new EmptyCSVFieldProcessor(String.class), false );
         final CSVFieldMetadata<Object,String>[] fieldConfs = new CSVFieldMetadata[3];
         
-        fieldConfs[0] = new CSVFieldMetadata<Object,String>( "COL-1", "value1", field );
-        fieldConfs[1] = new CSVFieldMetadata<Object,String>( "COL-2", "value3", field );
-        fieldConfs[2] = new CSVFieldMetadata<Object,String>( "COL-3", "value5", field );
+        fieldConfs[0] = new CSVFieldMetadata<Object,String>( new CSVMappingDescriptor("COL-1","value1",String.class), field );
+        fieldConfs[1] = new CSVFieldMetadata<Object,String>( new CSVMappingDescriptor("COL-2","value3",String.class), field );
+        fieldConfs[2] = new CSVFieldMetadata<Object,String>( new CSVMappingDescriptor("COL-3","value5",String.class), field );
         
         final CSVFormatterMetadata formatterConfiguration = new CSVFormatterMetadata();
         final ModelToCSVBinderFactory<TestBean> binderFactory = new BeanToCSVBinderFactory<TestBean>( TestBean.class );

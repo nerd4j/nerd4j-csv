@@ -101,11 +101,10 @@ final class CSVFieldProcessorRegistry extends CSVAbstractRegistry<CSVFieldProces
      * Creates and registers the default entries and builders.
      * 
      */
-    @SuppressWarnings("rawtypes")
     private void registerDefaults()
     {
 
-        setEntry( "default", new EmptyCSVFieldProcessor() );
+        setEntry( "default", new EmptyCSVFieldProcessor<String>(String.class) );
         
         /* Simple Boolean Processors. */
         setEntry( "parseBoolean",        new ParseBoolean() );
@@ -126,18 +125,18 @@ final class CSVFieldProcessorRegistry extends CSVAbstractRegistry<CSVFieldProces
         setEntry( "parseAtomicLong",     new ParseNumber<AtomicLong>( AtomicLong.class ) );
         
         /* Simple Number to String Processors. */
-        setEntry( "formatByte",          new FormatNumber<Byte>() );
-        setEntry( "formatShort",         new FormatNumber<Short>() );
-        setEntry( "formatInteger",       new FormatNumber<Integer>() );
-        setEntry( "formatLong",          new FormatNumber<Long>() );
+        setEntry( "formatByte",          new FormatNumber<Byte>(Byte.class) );
+        setEntry( "formatShort",         new FormatNumber<Short>(Short.class) );
+        setEntry( "formatInteger",       new FormatNumber<Integer>(Integer.class) );
+        setEntry( "formatLong",          new FormatNumber<Long>(Long.class) );
         
-        setEntry( "formatFloat",         new FormatNumber<Float>() );
-        setEntry( "formatDouble",        new FormatNumber<Double>() );
+        setEntry( "formatFloat",         new FormatNumber<Float>(Float.class) );
+        setEntry( "formatDouble",        new FormatNumber<Double>(Double.class) );
         
-        setEntry( "formatBigInteger",    new FormatNumber<BigInteger>() );
-        setEntry( "formatBigDecimal",    new FormatNumber<BigDecimal>() );
-        setEntry( "formatAtomicInteger", new FormatNumber<AtomicInteger>() );
-        setEntry( "formatAtomicLong",    new FormatNumber<AtomicLong>() );
+        setEntry( "formatBigInteger",    new FormatNumber<BigInteger>(BigInteger.class) );
+        setEntry( "formatBigDecimal",    new FormatNumber<BigDecimal>(BigDecimal.class) );
+        setEntry( "formatAtomicInteger", new FormatNumber<AtomicInteger>(AtomicInteger.class) );
+        setEntry( "formatAtomicLong",    new FormatNumber<AtomicLong>(AtomicLong.class) );
         
     }
 }

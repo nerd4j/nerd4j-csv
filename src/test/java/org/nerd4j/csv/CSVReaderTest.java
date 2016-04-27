@@ -63,9 +63,12 @@ public class CSVReaderTest
         final CSVFactory csvFactory = new CSVFactory( configuration );
         
         final CSVReaderFactory<Product> readerFactory = csvFactory.getCSVReaderFactory( Product.class.getName() );
-        final CSVReader<Product> reader = readerFactory.getCSVReader( new StringReader("NAME,DESCRIPTION,UPC,CURRENCY,PRICE,IN-STOCK,LAST-UPDATE") );
-        
+        final CSVReader<Product> reader = readerFactory.getCSVReader( new StringReader("NAME,DESCRIPTION,UPC,CURRENCY,PRICE,IN-STOCK,LAST-UPDATE\nname,description,1413475342304,EUR,1188896.8,true,16/04/27") );
+                
         Assert.assertNotNull( reader );
+        
+        final Product product = reader.readModel();
+        Assert.assertNotNull( product );
         
     }
         

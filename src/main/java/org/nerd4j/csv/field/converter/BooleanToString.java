@@ -71,7 +71,7 @@ public final class BooleanToString extends AbstractCSVFieldConverter<Boolean,Str
     public BooleanToString( final String trueValue, String falseValue )
     {
         
-        super( "Unable to convert {1} into String" );
+        super( Boolean.class, String.class, "Unable to convert {1} into String" );
         
         if( trueValue == null || trueValue.isEmpty() )
             throw new NullPointerException( "The representation of the value 'true' is mandatory and cannot be null or empty" );

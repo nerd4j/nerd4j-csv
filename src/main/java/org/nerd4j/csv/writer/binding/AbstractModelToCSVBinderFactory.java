@@ -120,7 +120,7 @@ public abstract class AbstractModelToCSVBinderFactory<Model,Mapping> implements 
             final Mapping[] fieldMapping = (Mapping[]) Array.newInstance( mappingType, fieldConfs.length );
             
             for( int i = 0; i < fieldMapping.length; ++i )
-                fieldMapping[i] = getMapping( fieldConfs[i].getMappingDescriptor() );
+                fieldMapping[i] = getMapping( fieldConfs[i].getMappingDescriptor().getModelKey() );
             
             return getBinder( fieldConfs, fieldMapping );
         

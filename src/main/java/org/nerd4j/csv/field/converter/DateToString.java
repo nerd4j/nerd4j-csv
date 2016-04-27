@@ -86,7 +86,7 @@ public final class DateToString extends AbstractCSVFieldConverter<Date,String>
     public DateToString( final String datePattern, final TimeZone timeZone, final Locale dateLocale )
     {
 
-        super( "Unable to convert {1} into String" );
+        super( Date.class, String.class, "Unable to convert {1} into String" );
         
 		if( datePattern == null || datePattern.isEmpty() )
 		{

@@ -23,6 +23,7 @@ package org.nerd4j.csv.reader.binding;
 
 import org.nerd4j.csv.exception.CSVToModelBindingException;
 import org.nerd4j.csv.field.CSVFieldMetadata;
+import org.nerd4j.csv.field.CSVMappingDescriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,10 +63,10 @@ public final class CSVToArrayBinderFactory extends AbstractCSVToModelBinderFacto
      * {@inheritDoc}
      */
     @Override
-    protected Integer getMapping( final String mappingDescriptor )
+    protected Integer getMapping( final CSVMappingDescriptor mappingDescriptor )
     {
         
-        return Integer.parseInt( mappingDescriptor );
+        return Integer.parseInt( mappingDescriptor.getModelKey() );
         
     }
     

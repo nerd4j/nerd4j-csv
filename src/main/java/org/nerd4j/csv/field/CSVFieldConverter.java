@@ -37,6 +37,20 @@ import org.nerd4j.csv.CSVProcessOperation;
  */
 public interface CSVFieldConverter<S,T> extends CSVProcessOperation
 {
+	
+	/**
+	 * Returns the source type accepted by this converter.
+	 * 
+	 * @return source type accepted by this converter.
+	 */
+	public Class<S> getSourceType();
+	
+	/**
+	 * Returns the target type produced by this converter.
+	 * 
+	 * @return target type produced by this converter.
+	 */
+	public Class<T> getTargetType();
 
     /**
      * Applies the conversion of the field in source

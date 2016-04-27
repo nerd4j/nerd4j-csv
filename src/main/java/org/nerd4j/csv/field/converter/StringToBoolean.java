@@ -53,7 +53,7 @@ public final class StringToBoolean extends AbstractCSVFieldConverter<String,Bool
     public StringToBoolean()
     {
 
-        super( "Unable to convert {1} into a Boolean value" );
+        super( String.class, Boolean.class, "Unable to convert {1} into a Boolean value" );
         
     }
 

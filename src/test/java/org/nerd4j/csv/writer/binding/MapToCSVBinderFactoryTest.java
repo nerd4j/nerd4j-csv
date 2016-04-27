@@ -29,6 +29,7 @@ import org.junit.Test;
 import org.nerd4j.csv.exception.ModelToCSVBindingException;
 import org.nerd4j.csv.field.CSVField;
 import org.nerd4j.csv.field.CSVFieldMetadata;
+import org.nerd4j.csv.field.CSVMappingDescriptor;
 import org.nerd4j.csv.field.processor.EmptyCSVFieldProcessor;
 import org.nerd4j.csv.formatter.CSVFormatterMetadata;
 import org.nerd4j.csv.writer.CSVWriterMetadata;
@@ -151,12 +152,12 @@ public class MapToCSVBinderFactoryTest
     throws ModelToCSVBindingException
     {
                        
-        final CSVField field = new CSVField( new EmptyCSVFieldProcessor(), false );
+        final CSVField field = new CSVField( new EmptyCSVFieldProcessor(String.class), false );
         final CSVFieldMetadata<Object,String>[] fieldConfs = new CSVFieldMetadata[3];
         
-        fieldConfs[0] = new CSVFieldMetadata<Object,String>( "COL-1", "KEY-1", field );
-        fieldConfs[1] = new CSVFieldMetadata<Object,String>( "COL-2", "KEY-3", field );
-        fieldConfs[2] = new CSVFieldMetadata<Object,String>( "COL-3", "KEY-5", field );
+        fieldConfs[0] = new CSVFieldMetadata<Object,String>( new CSVMappingDescriptor("COL-1","KEY-1",String.class), field );
+        fieldConfs[1] = new CSVFieldMetadata<Object,String>( new CSVMappingDescriptor("COL-2","KEY-3",String.class), field );
+        fieldConfs[2] = new CSVFieldMetadata<Object,String>( new CSVMappingDescriptor("COL-3","KEY-5",String.class), field );
         
         final CSVFormatterMetadata formatterConfiguration = new CSVFormatterMetadata();
         final ModelToCSVBinderFactory<Map<String,Object>> binderFactory = new MapToCSVBinderFactory();

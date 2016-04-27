@@ -189,16 +189,21 @@ final class CSVFieldConverterRegistry extends CSVAbstractRegistry<CSVFieldConver
      */
     private static final class NumberToStringProvider<N extends Number> implements CSVRegistryEntryProvider<CSVFieldConverter<?,?>>
     {
+    	
+    	/** The type of the {@link Number} to be provided. */
+        private final Class<N> numberType;
         
         /**
          * Constructor with parameters.
          * 
          * @param numberType one of the accepted implementations of the {@link Number}.
          */
-        public NumberToStringProvider()
+        public NumberToStringProvider( final Class<N> numberType )
         {
             
             super();
+            
+            this.numberType = numberType;
             
         }
         
@@ -213,7 +218,7 @@ final class CSVFieldConverterRegistry extends CSVAbstractRegistry<CSVFieldConver
             
             final Locale locale = nlocale == null ? null : LocaleUtil.getLocale(nlocale);
             
-            return new NumberToString<N>( pattern, locale );
+            return new NumberToString<N>( numberType, pattern, locale );
         }
         
     }
@@ -234,7 +239,7 @@ final class CSVFieldConverterRegistry extends CSVAbstractRegistry<CSVFieldConver
     {
         
         /* The empty converter to use in case of missing configuration. */
-        setEntry( "default", new EmptyCSVFieldConverter() );
+        setEntry( "default", new EmptyCSVFieldConverter<String>(String.class) );
         
      
         /* String to Number Providers. */
@@ -254,19 +259,19 @@ final class CSVFieldConverterRegistry extends CSVAbstractRegistry<CSVFieldConver
 
         
         /* Number to String Providers. */
-        setProvider( "formatByte",         new NumberToStringProvider<Byte>() );
-        setProvider( "formatShort",        new NumberToStringProvider<Short>() );
-        setProvider( "formatInteger",      new NumberToStringProvider<Integer>() );
-        setProvider( "formatLong",         new NumberToStringProvider<Long>() );
+        setProvider( "formatByte",         new NumberToStringProvider<Byte>(Byte.class) );
+        setProvider( "formatShort",        new NumberToStringProvider<Short>(Short.class) );
+        setProvider( "formatInteger",      new NumberToStringProvider<Integer>(Integer.class) );
+        setProvider( "formatLong",         new NumberToStringProvider<Long>(Long.class) );
         
-        setProvider( "formatFloat",        new NumberToStringProvider<Float>() );
-        setProvider( "formatDouble",       new NumberToStringProvider<Double>() );
+        setProvider( "formatFloat",        new NumberToStringProvider<Float>(Float.class) );
+        setProvider( "formatDouble",       new NumberToStringProvider<Double>(Double.class) );
         
-        setProvider( "formatBigInteger",   new NumberToStringProvider<BigInteger>() );
-        setProvider( "formatBigDecimal",   new NumberToStringProvider<BigDecimal>() );
+        setProvider( "formatBigInteger",   new NumberToStringProvider<BigInteger>(BigInteger.class) );
+        setProvider( "formatBigDecimal",   new NumberToStringProvider<BigDecimal>(BigDecimal.class) );
         
-        setProvider( "formatAtomicInteger", new NumberToStringProvider<AtomicInteger>() );
-        setProvider( "formatAtomicLong",    new NumberToStringProvider<AtomicLong>() );
+        setProvider( "formatAtomicInteger", new NumberToStringProvider<AtomicInteger>(AtomicInteger.class) );
+        setProvider( "formatAtomicLong",    new NumberToStringProvider<AtomicLong>(AtomicLong.class) );
 
         
         /* String to Boolean Provider. */
@@ -407,12 +412,31 @@ final class CSVFieldConverterRegistry extends CSVAbstractRegistry<CSVFieldConver
         /* Enum to String Provider. */
         setProvider( "formatEnum", new CSVRegistryEntryProvider<CSVFieldConverter<?,?>>()
         {
-            @Override
+        	@Override
             @SuppressWarnings({ "unchecked" })
             public CSVFieldConverter<Enum<?>,String> get( Map<String,String> params )
             {
-                return new EnumToString();
+                
+                final String enumType = params.get( "enum-type" );
+                if( enumType == null )
+                    throw new CSVConfigurationException( "The enum-type is mandatory to build formatEnum" );
+                
+                try{
+
+                    final Class<?> enumClass = Class.forName( enumType );
+                    
+                    if( ! enumClass.isEnum() )
+                        throw new CSVConfigurationException( "The value enum-type do not represent an enum" );
+                    
+                    return new EnumToString( enumClass );
+                    
+                }catch( ClassNotFoundException ex )
+                {
+                    throw new CSVConfigurationException( "The value enum-type do not represent a canonical class name", ex );
+                }
+                
             }
+
         });
         
         
