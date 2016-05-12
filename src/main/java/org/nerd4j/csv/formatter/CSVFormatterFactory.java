@@ -177,26 +177,6 @@ public final class CSVFormatterFactory
             actions[c] = FieldAction.FORCE_QUOTE;
         }
         
-//        /*
-//         * A record separator can be escaped, quoted or both.
-//         * No other action is accepted for this character. 
-//         */
-//        final char recordSeparator1 = configuration.getRecordSeparator1();
-//        if( fieldSeparator == RemarkableASCII.NOT_AN_ASCII )
-//            throw new IllegalArgumentException( "The first record separator character is mandatory" );
-//        
-//        if( actions[recordSeparator1] != FieldAction.DO_ESCAPE && actions[recordSeparator1] != FieldAction.QUOTE_AND_ESCAPE )
-//            actions[recordSeparator1] = FieldAction.FORCE_QUOTE;
-//        
-//        /*
-//         * A record separator can be escaped, quoted or both.
-//         * No other action is accepted for this character. 
-//         */
-//        final char recordSeparator2 = configuration.getRecordSeparator2();
-//        if( recordSeparator2 != RemarkableASCII.NOT_AN_ASCII )
-//            if( actions[recordSeparator2] != FieldAction.DO_ESCAPE && actions[recordSeparator2] != FieldAction.QUOTE_AND_ESCAPE )
-//                actions[recordSeparator2] = FieldAction.FORCE_QUOTE;
-        
         /*
          * The escape character if any must be escaped itself.
          * The way to escape the escape character is to write it twice. 
@@ -252,27 +232,6 @@ public final class CSVFormatterFactory
     			throw new IllegalArgumentException( "Record separators are mandatory and can't be null" );
     	
     	return recordSeparator;
-    	
-//        final char rs1 = configuration.getRecordSeparator1();
-//        final char rs2 = configuration.getRecordSeparator2();
-//        
-//        if( rs1 == RemarkableASCII.NOT_AN_ASCII && rs2 == RemarkableASCII.NOT_AN_ASCII )
-//            throw new IllegalArgumentException( "Record separators are mandatory and can't be null" );
-//        
-//        final char[] recordSeparators;
-//        if( rs1 != RemarkableASCII.NOT_AN_ASCII && rs2 != RemarkableASCII.NOT_AN_ASCII )
-//        {
-//            recordSeparators = new char[2];
-//            recordSeparators[0] = rs1;
-//            recordSeparators[1] = rs2;
-//        }
-//        else
-//        {
-//            recordSeparators = new char[1];
-//            recordSeparators[0] = rs1 != RemarkableASCII.NOT_AN_ASCII ? rs1 : rs2;
-//        }
-//        
-//        return recordSeparators;
         
     }
     
@@ -332,7 +291,6 @@ public final class CSVFormatterFactory
         
         /** Size of writer char buffer, 8MB. Different from fieldBuffer size. */
         private final int BUFFER_SIZE = 1024 * 1024 * 8;
-//        private final int BUFFER_SIZE = 128 * 1024;
         
         /** Character buffer used to build fields. */
         private char[] fieldBuffer;

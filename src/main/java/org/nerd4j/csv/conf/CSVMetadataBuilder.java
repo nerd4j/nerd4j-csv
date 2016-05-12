@@ -88,12 +88,6 @@ public final class CSVMetadataBuilder
         if( configuration.isMatchRecordSeparatorExactSequence() != null )
         	metadata.setMatchRecordSeparatorExactSequence( configuration.isMatchRecordSeparatorExactSequence() );
         
-//        if( configuration.getRecordSeparator1() != null )
-//            metadata.setRecordSeparator1( configuration.getRecordSeparator1() );
-//        
-//        if( configuration.getRecordSeparator2() != null )
-//            metadata.setRecordSeparator2( configuration.getRecordSeparator2() );
-        
         if( configuration.getCharsToIgnore() != null )
             metadata.setCharsToIgnore( configuration.getCharsToIgnore() );
         
@@ -132,12 +126,6 @@ public final class CSVMetadataBuilder
         
         if( configuration.getRecordSeparator() != null )
             metadata.setRecordSeparator( configuration.getRecordSeparator() );
-        
-//        if( configuration.getRecordSeparator1() != null )
-//        	metadata.setRecordSeparator1( configuration.getRecordSeparator1() );
-//        
-//        if( configuration.getRecordSeparator2() != null )
-//            metadata.setRecordSeparator2( configuration.getRecordSeparator2() );
         
         if( configuration.getCharsToEscape() != null )
             metadata.setCharsToEscape( configuration.getCharsToEscape() );

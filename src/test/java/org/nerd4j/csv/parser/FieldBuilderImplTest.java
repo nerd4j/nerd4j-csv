@@ -163,6 +163,31 @@ public class FieldBuilderImplTest extends BaseTest
 		
 		builder.rollbackToMark();
 		
+		Assert.assertEquals( "012" , builder.toString() );
+		Assert.assertEquals( 3 , builder.length() );
+		
+	}
+
+	@Test
+	public void extendMark()
+	{
+		
+		final FieldBuilder builder = new FieldBuilderImpl();
+		
+		builder.mark();
+		builder.append( '0' );
+		
+		builder.extendMark();
+		builder.append( '1' );
+		
+		builder.extendMark();
+		builder.append( '2' );
+		
+		builder.extendMark();
+		builder.append( '3' );
+		
+		builder.rollbackToMark();
+		
 		Assert.assertEquals( null , builder.toString() );
 		Assert.assertEquals( 0 , builder.length() );
 		

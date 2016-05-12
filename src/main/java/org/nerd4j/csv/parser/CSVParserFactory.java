@@ -108,17 +108,6 @@ public final class CSVParserFactory
 	    addCharClass( configuration.getEscapeChar(), CharacterClass.ESCAPE, "ESCAPE", false );
 	    addCharClass( configuration.getFieldSeparator(), CharacterClass.FIELD_SEPARATOR, "FIELD SEPARATOR", true );
 	    
-	    
-//	    if( configuration.getRecordSeparator2() != null )
-//	    {
-//	        addCharClass( configuration.getRecordSeparator1(), CharacterClass.RECORD_SEPARATOR_1, "RECORD SEPARATOR 1", true );
-//	        addCharClass( configuration.getRecordSeparator2(), CharacterClass.RECORD_SEPARATOR_2, "RECORD SEPARATOR 2", true );
-//	    }
-//	    else
-//	    {
-//	        addCharClass( configuration.getRecordSeparator1(), CharacterClass.RECORD_SEPARATOR, "RECORD SEPARATOR", true );
-//	    }
-	        
 	}
 	
 	
@@ -207,12 +196,6 @@ public final class CSVParserFactory
         
         /** Character used to separate records. */
         public static final int RECORD_SEPARATOR        = 4;
-        
-//        /** First of two characters used to separate records. */
-//        public static final int RECORD_SEPARATOR_1      = 5;
-//        
-//        /** Second of two characters used to separate records. */
-//        public static final int RECORD_SEPARATOR_2      = 6;
         
         /** Character to be ignored during parsing. */
         public static final int TO_IGNORE               = 7;
