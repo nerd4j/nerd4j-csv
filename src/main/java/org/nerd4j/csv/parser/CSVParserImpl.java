@@ -328,12 +328,21 @@ final class CSVParserImpl implements CSVParser
 				{
 				
 				    /* 
-				     * If the previous end reason in unknown it means that
+				     * If the previous end reason in unknown and the
+				     * current parsed value is empty it means that
 				     * the CSV source is empty.
 				     */
 				    case UNKNOWN:
 				        
-				        token = CSVToken.END_OF_DATA;
+				    	if( value == null || value.isEmpty() )
+				    		token = CSVToken.END_OF_DATA;
+				    	else
+				    	{
+				    		token = CSVToken.FIELD;
+							
+							nexts.add( CSVToken.END_OF_RECORD );
+							nexts.add( CSVToken.END_OF_DATA );
+				    	}
 				        break;
 
 				        
@@ -492,11 +501,11 @@ final class CSVParserImpl implements CSVParser
 				
 				    case FieldState.NORMAL_END:
 				    case FieldState.QUOTED_END:
+				    case FieldState.DOUBLE_QUOTE:
 				        if( read ) builder.rollbackToMark();
 				    
 				    case FieldState.NORMAL:
 					case FieldState.INITIAL:
-					case FieldState.DOUBLE_QUOTE:
 						/* Normal field termination. */
 						return FieldEndReason.DATA_END;
 						
@@ -571,21 +580,6 @@ final class CSVParserImpl implements CSVParser
 					state = FieldState.NORMAL;
 					break;
 					
-//				case FieldState.INITIAL ^ CharacterClass.RECORD_SEPARATOR_1:
-//					if ( checkRecordSequence( current ) )
-//						return FieldEndReason.RECORD_SEPARATOR;
-						
-//					/* Handle as CharacterClass.NORMAL */
-//					if( read ) builder.append( current );
-//					state = FieldState.NORMAL;
-//					break;
-					
-//				case FieldState.INITIAL ^ CharacterClass.RECORD_SEPARATOR_2:
-//					/* Handle as CharacterClass.NORMAL */
-//				    if( read ) builder.append( current );
-//				    state = FieldState.NORMAL;
-//					break;
-					
 				/* ************************* */
 				/* *** FieldState.NORMAL *** */
 				/* ************************* */
@@ -635,19 +629,6 @@ final class CSVParserImpl implements CSVParser
 					state = FieldState.NORMAL;
 					break;
 					
-//				case FieldState.NORMAL ^ CharacterClass.RECORD_SEPARATOR_1:
-//					if ( checkRecordSequence( current ) )
-//						return FieldEndReason.RECORD_SEPARATOR;
-//						
-//					/* Handle as CharacterClass.NORMAL */
-//					if( read ) builder.append( current );
-//					break;
-//					
-//				case FieldState.NORMAL ^ CharacterClass.RECORD_SEPARATOR_2:
-//					/* Handle as CharacterClass.NORMAL */
-//				    if( read ) builder.append( current );
-//					break;
-				
 				/* ******************************** */
 				/* *** FieldState.NORMAL_ESCAPE *** */
 				/* ******************************** */
@@ -687,17 +668,6 @@ final class CSVParserImpl implements CSVParser
 					if( read ) builder.append( current );
 					break;
 					
-//				case FieldState.NORMAL_ESCAPE ^ CharacterClass.RECORD_SEPARATOR_1:
-//					state = FieldState.NORMAL;
-//					if( read ) builder.append( current );
-//					break;
-//					
-//				case FieldState.NORMAL_ESCAPE ^ CharacterClass.RECORD_SEPARATOR_2:
-//					/* Handle as CharacterClass.NORMAL */
-//					state = FieldState.NORMAL;
-//					if( read ) builder.append( current );
-//					break;
-					
 				/* ***************************** */
 				/* *** FieldState.NORMAL_END *** */
 				/* ***************************** */
@@ -713,7 +683,7 @@ final class CSVParserImpl implements CSVParser
 				case FieldState.NORMAL_END ^ CharacterClass.TO_IGNORE_AROUND_FIELDS:
 				    if( read ) 
 				    {
-				        builder.mark();
+				        builder.extendMark();
 				        builder.append( current );
 				    }
 					break;
@@ -752,21 +722,6 @@ final class CSVParserImpl implements CSVParser
 					state = FieldState.NORMAL;
 					break;
 					
-//				case FieldState.NORMAL_END ^ CharacterClass.RECORD_SEPARATOR_1:
-//					if ( checkRecordSequence( current ) )
-//						return FieldEndReason.RECORD_SEPARATOR;
-//						
-//					/* Handle as CharacterClass.NORMAL */
-//					state = FieldState.NORMAL;
-//					if( read ) builder.append( current );
-//					break;
-//					
-//				case FieldState.NORMAL_END ^ CharacterClass.RECORD_SEPARATOR_2:
-//					/* Handle as CharacterClass.NORMAL */
-//					state = FieldState.NORMAL;
-//					if( read ) builder.append( current );
-//					break;
-					
 				/* ************************* */
 				/* *** FieldState.QUOTED *** */
 				/* ************************* */
@@ -783,6 +738,11 @@ final class CSVParserImpl implements CSVParser
 					break;
 					
 				case FieldState.QUOTED ^ CharacterClass.QUOTE:
+					if( read )
+					{
+						builder.mark();
+						builder.append( current );
+					}
 					state = FieldState.DOUBLE_QUOTE;
 					break;
 					
@@ -793,22 +753,11 @@ final class CSVParserImpl implements CSVParser
 				case FieldState.QUOTED ^ CharacterClass.FIELD_SEPARATOR:
 				    if( read ) builder.append( current );
 					break;
-					/*
-					 * character is considered ad RECORD_SEPARATOR_1
-					 */
+					
 				case FieldState.QUOTED ^ CharacterClass.RECORD_SEPARATOR:
 				    if( read ) builder.append( current );
 					break;
 					
-//				case FieldState.QUOTED ^ CharacterClass.RECORD_SEPARATOR_1:
-//				    if( read ) builder.append( current );
-//					break;
-//					
-//				case FieldState.QUOTED ^ CharacterClass.RECORD_SEPARATOR_2:
-//					/* Handle as CharacterClass.NORMAL */
-//				    if( read ) builder.append( current );
-//					break;
-				
 				/* ******************************** */
 				/* *** FieldState.QUOTED_ESCAPE *** */
 				/* ******************************** */
@@ -848,22 +797,19 @@ final class CSVParserImpl implements CSVParser
 					if( read ) builder.append( current );
 					break;
 					
-//				case FieldState.QUOTED_ESCAPE ^ CharacterClass.RECORD_SEPARATOR_1:
-//					state = FieldState.QUOTED;
-//					if( read ) builder.append( current );
-//					break;
-//					
-//				case FieldState.QUOTED_ESCAPE ^ CharacterClass.RECORD_SEPARATOR_2:
-//					/* Handle as CharacterClass.NORMAL */
-//					state = FieldState.QUOTED;
-//					if( read ) builder.append( current );
-//					break;
-				
 				/* ***************************** */
 				/* *** FieldState.QUOTED_END *** */
 				/* ***************************** */
 				
 				case FieldState.QUOTED_END ^ CharacterClass.NORMAL:
+					/* If quotes have to be handled less strictly */
+					if( lazyQuotes )
+					{
+						/* Handle as CharacterClass.NORMAL */
+						state = FieldState.QUOTED;
+						if( read ) builder.append( current );
+						break;
+					}
 					/* Normal character outside a quoted field. */
 					throw new MalformedCSVException( "Encountered a normal character outside a quoted field." );
 					
@@ -871,93 +817,130 @@ final class CSVParserImpl implements CSVParser
 					break;
 					
 				case FieldState.QUOTED_END ^ CharacterClass.TO_IGNORE_AROUND_FIELDS:
+					if( lazyQuotes && read )
+					{
+						builder.extendMark();
+						builder.append( current );
+					}
 					break;
 					
 				case FieldState.QUOTED_END ^ CharacterClass.QUOTE:
+					/* If quotes have to be handled less strictly */
+					if ( lazyQuotes )
+					{
+						state = FieldState.DOUBLE_QUOTE;
+						if( read ) builder.append( current );
+						break;
+					}
+					
 					/* Quote character outside a quoted field. */
 					throw new MalformedCSVException( "Encountered a quote character outside a quoted field." );
 					
 				case FieldState.QUOTED_END ^ CharacterClass.ESCAPE:
+					/* If quotes have to be handled less strictly */
+					if ( lazyQuotes )
+					{
+						state = FieldState.QUOTED_ESCAPE;
+						break;
+					}
+					
 					/* Escape character outside a quoted field. */
 					throw new MalformedCSVException( "Encountered an escape character outside a quoted field." );
 					
 				case FieldState.QUOTED_END ^ CharacterClass.FIELD_SEPARATOR:
+					/*
+					 * If we are in lazyQuote mode we wrote the last quote
+					 * and all the characters TO_IGNORE_AROUND_FIELDS so in
+					 * this case we need to rollback.
+					 */
+					if( lazyQuotes ) builder.rollbackToMark();
 					return FieldEndReason.FIELD_SEPARATOR;
 					
 				case FieldState.QUOTED_END ^ CharacterClass.RECORD_SEPARATOR:
 					if ( recordSeparatorStrategy.apply(read) )
+					{
+						/*
+						 * If we are in lazyQuote mode we wrote the last quote
+						 * and all the characters TO_IGNORE_AROUND_FIELDS so in
+						 * this case we need to rollback.
+						 */
+						if( lazyQuotes ) builder.rollbackToMark();
 						return FieldEndReason.RECORD_SEPARATOR;
+					}
 						
 					/* Handle as CharacterClass.NORMAL */
 					/* Normal character outside a quoted field. */
 					throw new MalformedCSVException( "Invalid record separator sequence." );
 					
-//				case FieldState.QUOTED_END ^ CharacterClass.RECORD_SEPARATOR_1:
-//					if ( checkRecordSequence( current ) )
-//						return FieldEndReason.RECORD_SEPARATOR;
-//						
-//					/* Handle as CharacterClass.NORMAL */
-//					/* Normal character outside a quoted field. */
-//					throw new MalformedCSVException( "Invalid record separator sequence." );
-//					
-//				case FieldState.QUOTED_END ^ CharacterClass.RECORD_SEPARATOR_2:
-//					/* Handle as CharacterClass.NORMAL */
-//					/* Normal character outside a quoted field. */
-//					throw new MalformedCSVException( "Invalid record separator sequence." );
-				
 				/* ******************************* */
 				/* *** FieldState.DOUBLE_QUOTE *** */
 				/* ******************************* */
 				
 				case FieldState.DOUBLE_QUOTE ^ CharacterClass.NORMAL:
-					/* Normal character outside a quoted field. *//*
-					 * character è considerato RECORD_SEPARATOR_1
-					 */
+					/* If quotes have to be handled less strictly */
+					if( lazyQuotes )
+					{
+						/* Handle as CharacterClass.NORMAL */
+						state = FieldState.QUOTED;
+						if( read ) builder.append( current );
+						break;
+					}
+					
+					/* Normal character outside a quoted field. */
 					throw new MalformedCSVException( "Encountered a normal character outside a quoted field." );
 					
 				case FieldState.DOUBLE_QUOTE ^ CharacterClass.TO_IGNORE:
-					state = FieldState.QUOTED_END;
 					break;
 					
 				case FieldState.DOUBLE_QUOTE ^ CharacterClass.TO_IGNORE_AROUND_FIELDS:
+					/* If quotes have to be handled less strictly */
+					if( lazyQuotes && read )
+					{
+						builder.extendMark();
+						builder.append( current );
+					}
 					state = FieldState.QUOTED_END;
 					break;
 					
 				case FieldState.DOUBLE_QUOTE ^ CharacterClass.QUOTE:
 					state = FieldState.QUOTED;
-					if( read ) builder.append(current);
 					break;
 					
 				case FieldState.DOUBLE_QUOTE ^ CharacterClass.ESCAPE:
+					/* If quotes have to be handled less strictly */
+					if( lazyQuotes )
+					{
+						state = FieldState.QUOTED_ESCAPE;
+						break;
+					}
 					/* Escape character outside a quoted field. */
 					throw new MalformedCSVException( "Encountered an escape character outside a quoted field." );
 					
 				case FieldState.DOUBLE_QUOTE ^ CharacterClass.FIELD_SEPARATOR:
-					return FieldEndReason.FIELD_SEPARATOR;
 					/*
-					 * character is considered as RECORD_SEPARATOR_1
+					 * We wrote the last quote and all the characters
+					 * TO_IGNORE_AROUND_FIELDS so in this case we need
+					 * to rollback.
 					 */
+					builder.rollbackToMark();
+					return FieldEndReason.FIELD_SEPARATOR;
+					
 				case FieldState.DOUBLE_QUOTE ^ CharacterClass.RECORD_SEPARATOR:
 					if ( recordSeparatorStrategy.apply(read) )
+					{
+						/*
+						 * We wrote the last quote and all the characters
+						 * TO_IGNORE_AROUND_FIELDS so in this case we need
+						 * to rollback.
+						 */
+						builder.rollbackToMark();						
 						return FieldEndReason.RECORD_SEPARATOR;
+					}
 						
 					/* Handle as CharacterClass.NORMAL */
 					/* Normal character outside a quoted field. */
 					throw new MalformedCSVException( "Invalid record separator sequence." );
 					
-//				case FieldState.DOUBLE_QUOTE ^ CharacterClass.RECORD_SEPARATOR_1:
-//					if ( checkRecordSequence( current ) )
-//						return FieldEndReason.RECORD_SEPARATOR;
-//						
-//					/* Handle as CharacterClass.NORMAL */
-//					/* Normal character outside a quoted field. */
-//					throw new MalformedCSVException( "Invalid record separator sequence." );
-//					
-//				case FieldState.DOUBLE_QUOTE ^ CharacterClass.RECORD_SEPARATOR_2:
-//					/* Handle as CharacterClass.NORMAL */
-//					/* Normal character outside a quoted field. */
-//					throw new MalformedCSVException( "Invalid record separator sequence." );
-						
 				default:
 					throw new IllegalStateException( "Unknown couple FieldState " + state + " CharacterClass " + type + ". This is a bug evidence." );
 					
@@ -1175,131 +1158,5 @@ final class CSVParserImpl implements CSVParser
 		}
 		
 	}
-	
-	
-//	/**
-//	 * Check if there is a correct record separator sequence following a
-//	 * character of type {@link CharacterClass.RECORD_SEPARATOR_1}.
-//	 * <p>
-//	 * Provided character is assumed a
-//	 * {@link CharacterClass.RECORD_SEPARATOR_1} and no further checks
-//	 * will be done on his type.
-//	 * 
-//	 * </p>
-//	 * 
-//	 * @param character first character of a record separator sequence
-//	 * @return {@code true} if a complete record separator sequence has been
-//	 *         read.
-//	 * @throws IOException if an error occurs while parsing data.
-//	 */
-//	private void skipRecordSeparators() throws IOException
-//	{
-//		
-//		/*
-//		 * Read the following characters and skip them until
-//		 * it finds a character that is not a record separator.
-//		 */		
-//		int type;
-//		
-//		/*
-//		 * We do a step back so we don't need to check if 
-//		 * type == CharacterClass.RECORD_SEPARATOR inside
-//		 * the loop.
-//		 */
-//		--bufferIndex;
-//		
-//		do{
-//		
-//			/*
-//			 * Check if buffer need to be refilled. Checking on BUFFER_SIZE
-//			 * instead of bufferElements because is faster on a constant value
-//			 * AND if bufferElements is less than BUFFER_SIZE it can't be
-//			 * refilled (data already completely read into buffer)
-//			 */
-//			if ( bufferIndex >= BUFFER_SIZE )
-//			{
-//				
-//				bufferElements = reader.read( buffer, 0 , BUFFER_SIZE );
-//				bufferIndex = 0;
-//				
-//			}
-//		
-//			/* No more elements can be read. */
-//			if( bufferElements == -1 || bufferIndex >= bufferElements )
-//				return;
-//		
-//			/* Read next character. To be used as types array index. */
-//			final char next = buffer[++bufferIndex];
-//			
-//			type = next < RemarkableASCII.ASCII_TABLE_SIZE ? types[next] : CharacterClass.NORMAL;		
-//		
-//		}while( type == CharacterClass.RECORD_SEPARATOR );
-//		
-//	}
-	
-	
-//	/**
-//	 * Check if there is a correct record separator sequence following a
-//	 * character of type {@link CharacterClass.RECORD_SEPARATOR_1}.
-//	 * <p>
-//	 * Provided character is assumed a
-//	 * {@link CharacterClass.RECORD_SEPARATOR_1} and no further checks
-//	 * will be done on his type.
-//	 * 
-//	 * </p>
-//	 * 
-//	 * @param character first character of a record separator sequence
-//	 * @return {@code true} if a complete record separator sequence has been
-//	 *         read.
-//	 * @throws IOException if an error occurs while parsing data.
-//	 */
-//	private boolean checkRecordSequence( final int character ) throws IOException
-//	{
-//		
-//		/*
-//		 * Read next character to discover if is a second character record
-//		 * separator.
-//		 */
-//		
-//		/*
-//		 * Check if buffer need to be refilled. Checking on BUFFER_SIZE
-//		 * instead of bufferElements because is faster on a constant value
-//		 * AND if bufferElements is less than BUFFER_SIZE it can't be
-//		 * refilled (data already completely read into buffer)
-//		 */
-//		if ( bufferIndex >= BUFFER_SIZE )
-//		{
-//			
-//			bufferElements = reader.read( buffer, 0 , BUFFER_SIZE );
-//			bufferIndex = 0;
-//			
-//		}
-//		
-//		/* No more elements can be read. */
-//		if( bufferElements == -1 || bufferIndex >= bufferElements )
-//			return false;
-//		
-//		/* Read next character. To be used as types array index. */
-//		final char next = buffer[ bufferIndex ];
-//		
-//		final int type;
-//		
-//		/* Find the next character class. */
-//		if( next < RemarkableASCII.ASCII_TABLE_SIZE )
-//			type =  types[ next ];
-//		else
-//			type = CharacterClass.NORMAL;
-//		
-//		if ( type == CharacterClass.RECORD_SEPARATOR_2 )
-//		{
-//			/* Found a complete record separator. */
-//			++bufferIndex;
-//			return true;
-//		}
-//		
-//		/* Not a record separator. */
-//		return false;
-//		
-//	}
 	
 }

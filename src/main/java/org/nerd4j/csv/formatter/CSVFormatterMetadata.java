@@ -50,20 +50,6 @@ public final class CSVFormatterMetadata
      */
     private char[] recordSeparator;
     
-//    /**
-//     * The first of at most two record separator characters.
-//     * This character is mandatory, the second one is optional.
-//     *(the [\n] character is used by default). 
-//     */
-//    private char recordSeparator1;
-//    
-//    /**
-//     * The second of at most two record separator characters.
-//     * This character is optional, the first one is mandatory
-//     *(by default this field is empty). 
-//     */
-//    private char recordSeparator2;
-    
     /**
      * Characters (in the ASCII space) that has to be escaped
      * using the {@link #escapeChar} (by default this set is empty).
@@ -89,9 +75,6 @@ public final class CSVFormatterMetadata
     
         this.fieldSeparator   = RemarkableASCII.COMMA;
         this.recordSeparator = System.getProperty( "line.separator" ).toCharArray();
-        
-//        this.recordSeparator1 = RemarkableASCII.LF;
-//        this.recordSeparator2 = RemarkableASCII.NOT_AN_ASCII;
         
         this.escapeChar = RemarkableASCII.NOT_AN_ASCII;
         this.quoteChar  = RemarkableASCII.DOUBLE_QUOTE;
@@ -126,26 +109,6 @@ public final class CSVFormatterMetadata
     {
         this.recordSeparator = recordSeparator;
     }
-    
-//    public char getRecordSeparator1()
-//    {
-//    	return recordSeparator1;
-//    }
-//    
-//    public void setRecordSeparator1( char recordSeparator1 )
-//    {
-//    	this.recordSeparator1 = recordSeparator1;
-//    }
-//    
-//    public char getRecordSeparator2()
-//    {
-//        return recordSeparator2;
-//    }
-//    
-//    public void setRecordSeparator2( char recordSeparator2 )
-//    {
-//        this.recordSeparator2 = recordSeparator2;
-//    }
     
     public char getEscapeChar()
     {

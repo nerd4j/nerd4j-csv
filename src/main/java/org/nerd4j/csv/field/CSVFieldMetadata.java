@@ -36,9 +36,6 @@ import org.nerd4j.csv.exception.CSVConfigurationException;
 public final class CSVFieldMetadata<S,T>
 {
 
-//    /** The name of the CSV column corresponding to the field. */
-//    private final String columnName;
-
     /** Object that describes the field-model mapping. */
     private final CSVMappingDescriptor mappingDescriptor;
     
@@ -58,10 +55,6 @@ public final class CSVFieldMetadata<S,T>
         
         super();
         
-//        if( columnName == null || columnName.isEmpty() )
-//            throw new CSVConfigurationException( "The provided column name must be not null or empty. Check the configuration" );
-
-        
         if( mappingDescriptor == null )
             throw new CSVConfigurationException( "The mapping descriptor is mandatory. Check the configuration" );
         
@@ -69,7 +62,6 @@ public final class CSVFieldMetadata<S,T>
             throw new CSVConfigurationException( "The field is mandatory. Check the configuration" );
         
         this.field = field;
-//        this.columnName = columnName;
         this.mappingDescriptor = mappingDescriptor;
         
     }
@@ -79,11 +71,6 @@ public final class CSVFieldMetadata<S,T>
     /*  GETTERS & SETTERS  */
     /* ******************* */
 
-    
-//    public String getColumnName()
-//    {
-//        return columnName;
-//    }
     
     public CSVMappingDescriptor getMappingDescriptor()
     {

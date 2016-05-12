@@ -56,20 +56,6 @@ public final class CSVParserMetadata
     /** Character used to separate fields (the comma [,] is used by default). */ 
     private Character fieldSeparator;
     
-//    /**
-//     * The first of at most two record separator characters.
-//     * This character is mandatory, the second one is optional.
-//     *(the [\n] character is used by default). 
-//     */
-//    private Character recordSeparator1;
-//    
-//    /**
-//     * The second of at most two record separator characters.
-//     * This character is optional, the first one is mandatory.
-//     *(by default this field is empty). 
-//     */
-//    private Character recordSeparator2;
-    
     /** Characters used to separate records (by default this set is: {[\r],[\n]}). */
     private char[] recordSeparator;
     
@@ -89,7 +75,6 @@ public final class CSVParserMetadata
      * (by default this set is empty).
      */
     char[] charsToIgnore;
-//    private Set<Character> charsToIgnore;
     
     /**
      * Characters to be ignored if found
@@ -97,7 +82,6 @@ public final class CSVParserMetadata
      * (by default this set is: {[ ],[\t],[\n]}).
      */
     private char[] charsToIgnoreAroundFields;
-//    private Set<Character> charsToIgnoreAroundFields;
 
     /**
      * Default constructor.
@@ -112,17 +96,11 @@ public final class CSVParserMetadata
         
         this.fieldSeparator   = RemarkableASCII.COMMA;
         
-//        this.recordSeparator1 = RemarkableASCII.LF;
-//        this.recordSeparator2 = null;
-        
         this.escapeChar = null;
         this.quoteChar  = RemarkableASCII.DOUBLE_QUOTE;
         
         this.charsToIgnore   = null;
         this.charsToIgnoreAroundFields = new char[] { RemarkableASCII.SPACE, RemarkableASCII.HT };
-//        this.charsToIgnoreAroundFields = new HashSet<Character>();
-//        this.charsToIgnoreAroundFields.add( RemarkableASCII.SPACE );
-//        this.charsToIgnoreAroundFields.add( RemarkableASCII.HT );
         
         this.matchRecordSeparatorExactSequence = false;
         this.recordSeparator = new char[] { RemarkableASCII.CR, RemarkableASCII.LF };
@@ -156,26 +134,6 @@ public final class CSVParserMetadata
         this.fieldSeparator = fieldSeparator;
     }
 
-//    public Character getRecordSeparator1()
-//    {
-//        return recordSeparator1;
-//    }
-//    
-//    public void setRecordSeparator1( Character recordSeparator1 )
-//    {
-//        this.recordSeparator1 = recordSeparator1;
-//    }
-//    
-//    public Character getRecordSeparator2()
-//    {
-//        return recordSeparator2;
-//    }
-//    
-//    public void setRecordSeparator2( Character recordSeparator2 )
-//    {
-//        this.recordSeparator2 = recordSeparator2;
-//    }
-    
     public Character getEscapeChar()
     {
         return escapeChar;
@@ -244,44 +202,5 @@ public final class CSVParserMetadata
 	{
 		this.matchRecordSeparatorExactSequence = matchRecordSeparatorExactSequence;
 	}
-    
-//    public Set<Character> getCharsToIgnore()
-//    {
-//    	if( charsToIgnore == null )
-//    		return Collections.emptySet();
-//    	else
-//    		return charsToIgnore;
-//    }
-//    
-//    public void setCharsToIgnore( Set<Character> charsToIgnore )
-//    {
-//    	this.charsToIgnore = charsToIgnore;
-//    }
-//    
-//    public Set<Character> getCharsToIgnoreAroundFields()
-//    {
-//    	if( charsToIgnoreAroundFields == null )
-//    		return Collections.emptySet();
-//    	else
-//    		return charsToIgnoreAroundFields; 
-//    }
-//    
-//    public void setCharsToIgnoreAroundFields( Set<Character> charsToIgnoreAroundFields )
-//    {
-//    	this.charsToIgnoreAroundFields = charsToIgnoreAroundFields; 
-//    }
-//    
-//    public Set<Character> getRecordSeparators()
-//    {
-//    	if( recordSeparators == null )
-//    		return Collections.emptySet();
-//    	else
-//    		return recordSeparators; 
-//    }
-//    
-//    public void setRecordSeparators( Set<Character> recordSeparators )
-//    {
-//    	this.recordSeparators = recordSeparators; 
-//    }
 
 }

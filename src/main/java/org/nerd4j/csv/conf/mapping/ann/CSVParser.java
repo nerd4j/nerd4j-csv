@@ -110,26 +110,6 @@ public @interface CSVParser
      */
     public boolean recordSepMatchExactSequence() default false;
 	
-//	/**
-//	 * The first of at most two record separator characters.
-//     * This character is mandatory, the second one is optional.
-//	 * <p>
-//	 *  The character used by default is the new line feed [\n].
-//	 * </p>
-//	 * @return first character used to separate records.
-//	 */
-//	public char recordSep1();
-//
-//	/**
-//	 * The second of at most two record separator characters.
-//     * This character is optional, the first one is mandatory.
-//	 * <p>
-//	 *  There is no default values for this feature.
-//	 * </p>
-//	 * @return second character used to separate records.
-//	 */
-//	public char recordSep2() default RemarkableASCII.NOT_AN_ASCII;
-	
 	/**
 	 * Set of characters to be completely ignored while parsing.
 	 * <p>

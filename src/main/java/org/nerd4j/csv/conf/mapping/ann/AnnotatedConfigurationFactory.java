@@ -242,10 +242,6 @@ public class AnnotatedConfigurationFactory
         if( isValued(annConf.recordSep()) ) csvConf.setRecordSeparator( annConf.recordSep() );
         if( isValued(annConf.charsToIgnore()) ) csvConf.setCharsToIgnore( annConf.charsToIgnore() );
         if( isValued(annConf.charsToIgnoreAroundFields()) ) csvConf.setCharsToIgnoreAroundFields( annConf.charsToIgnoreAroundFields() );
-//        if( isValued(annConf.recordSep1()) ) csvConf.setRecordSeparator1( annConf.recordSep1() );
-//        if( isValued(annConf.recordSep2()) ) csvConf.setRecordSeparator2( annConf.recordSep2() );
-//        overwriteCharSets( annConf.charsToIgnore(), csvConf.getCharsToIgnore(), "chars-to-ignore" );
-//        overwriteCharSets( annConf.charsToIgnoreAroundFields(), csvConf.getCharsToIgnoreAroundFields(), "chars-to-ignore-aroud-fields" );
         
     }
     
@@ -263,12 +259,8 @@ public class AnnotatedConfigurationFactory
         if( isValued(annConf.quote()) ) csvConf.setQuoteChar( annConf.quote() );
         if( isValued(annConf.escape()) ) csvConf.setEscapeChar( annConf.escape() );
         if( isValued(annConf.fieldSep()) ) csvConf.setFieldSeparator( annConf.fieldSep() );
-//        if( isValued(annConf.recordSep1()) ) csvConf.setRecordSeparator1( annConf.recordSep1() );
-//        if( isValued(annConf.recordSep2()) ) csvConf.setRecordSeparator2( annConf.recordSep2() );
         if( isValued(annConf.charsToEscape()) ) csvConf.setCharsToEscape( annConf.charsToEscape() );
         if( isValued(annConf.charsThatForceQuoting()) ) csvConf.setCharsThatForceQuoting( annConf.charsThatForceQuoting() );
-//        overwriteCharSets( annConf.charsToEscape(), csvConf.getCharsToEscape(), "chars-to-escape" );
-//        overwriteCharSets( annConf.charsThatForceQuoting(), csvConf.getCharsThatForceQuoting(), "chars-that-force-quoting" );
         
     }
 
@@ -297,9 +289,6 @@ public class AnnotatedConfigurationFactory
             property = entry.getKey();
             couple = entry.getValue();
             column = couple.getFirst();
-            
-//            if( ! isValued(column.name()) )
-//                throw new NullPointerException( "Invalid configuration, column name is not defined" );
             
             if( ! isValued(column.name()) )
             	logger.warn( "Column name not defined going to use property name {}", property );
@@ -564,27 +553,6 @@ public class AnnotatedConfigurationFactory
                 
     }
     
-//    /**
-//     * Overwrites the given CSV configuration with the given annotation.
-//     * 
-//     * @param annConf the source annotation.
-//     * @param csvConf the target CSV configuration.
-//     * @param charSetType the type of char set to merge.
-//     */
-//    private static void overwriteCharSets( final char[] annConf, final Set<Character> csvConf, final String charSetType )
-//    {
-//        
-//        if( ! isValued(annConf) ) return;
-//        
-//        if( csvConf == null )
-//            throw new NullPointerException( "The character set for type " + charSetType + " must be not null" );
-//        
-//        csvConf.clear();
-//        for( char c : annConf )
-//            csvConf.add( c );
-//        
-//    }
-    
     /**
      * Overwrites the given CSV configuration with the given annotation.
      * 
@@ -595,7 +563,7 @@ public class AnnotatedConfigurationFactory
     private static void overwriteParams( final CSVParam[] annConf, final Map<String,String> csvConf, final String paramsType )
     {
         
-        // can be empty
+        /* Can be empty. */
         if( annConf == null ) return;
         
         if( csvConf == null )

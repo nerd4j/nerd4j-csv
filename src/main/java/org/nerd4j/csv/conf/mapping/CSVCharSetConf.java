@@ -46,20 +46,6 @@ public class CSVCharSetConf implements Cloneable
     /** Characters used to separate records. */ 
     private char[] recordSeparator;
     
-//    /**
-//     * The first of at most two record separator characters.
-//     * This character is mandatory, the second one is optional.
-//     *(the [\n] character is used by default). 
-//     */
-//    private Character recordSeparator1;
-//    
-//    /**
-//     * The second of at most two record separator characters.
-//     * This character is optional, the first one is mandatory.
-//     *(by default this field is empty). 
-//     */
-//    private Character recordSeparator2;
-    
 
     /**
      * Default constructor.
@@ -73,9 +59,6 @@ public class CSVCharSetConf implements Cloneable
         this.name = null;
         this.fieldSeparator   = null;
         this.recordSeparator  = null;
-        
-//        this.recordSeparator1 = null;
-//        this.recordSeparator2 = null;
         
         this.escapeChar = null;
         this.quoteChar  = null;
@@ -117,26 +100,6 @@ public class CSVCharSetConf implements Cloneable
     {
         this.recordSeparator = recordSeparator;
     }
-    
-//    public Character getRecordSeparator1()
-//    {
-//    	return recordSeparator1;
-//    }
-//    
-//    public void setRecordSeparator1( Character recordSeparator1 )
-//    {
-//    	this.recordSeparator1 = recordSeparator1;
-//    }
-//    
-//    public Character getRecordSeparator2()
-//    {
-//        return recordSeparator2;
-//    }
-//    
-//    public void setRecordSeparator2( Character recordSeparator2 )
-//    {
-//        this.recordSeparator2 = recordSeparator2;
-//    }
     
     public Character getEscapeChar()
     {

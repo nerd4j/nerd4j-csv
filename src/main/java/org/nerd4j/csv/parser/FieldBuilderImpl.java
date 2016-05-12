@@ -123,22 +123,27 @@ final class FieldBuilderImpl implements FieldBuilder
     public void mark()
     {
         
-        /*
-         * If it is the first mark we set the mark
-         * position and length.
-         */
-        if( markPos < 0 || length > markPos + markLen )
-        {
-            this.markPos = length;
-            this.markLen = 1;
-        }
-        /*
-         * If the mark has been already set we just
-         * increment the mark length.
-         */
-        else
-            markLen++;
+    	/*
+    	 * We set the mark at the current position.
+    	 * and the mark space size to 1.
+    	 */
+        this.markPos = length;
+        this.markLen = 1;
         
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void extendMark()
+    {
+    	/*
+    	 * If the mark has been already set
+    	 * we increment the mark space size.
+    	 */
+    	if( isMarked() ) markLen++;
+    	
     }
 
     /**
@@ -179,6 +184,17 @@ final class FieldBuilderImpl implements FieldBuilder
         
     }
 	
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isMarked()
+    {
+    	
+    	return getMarkedPosition() != -1;
+    	
+    }
+    
 	/**
      * {@inheritDoc}
      */

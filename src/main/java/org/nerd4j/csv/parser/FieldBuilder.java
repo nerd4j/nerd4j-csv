@@ -66,26 +66,37 @@ interface FieldBuilder
 	public int getMarkedPosition();
 	
 	/**
+	 * Returns {@code true} if the the marked position
+	 * is greater than {@code -1} i.e. if there is an
+	 * active marked position.
+	 *  
+	 * @return {@code true} if there is an active marked position.
+	 */
+	public boolean isMarked();
+	
+	/**
 	 * Mark current position.
 	 * <p>
-	 * After a {@link #reset()} call the {@link FieldBuilder} will return at
-	 * the same position. Appending ({@link #append(char)}) more than a
-	 * character implicitly clear the marker an no return will be possibile
-	 * anymore (similar to {@link Reader#mark(int)} with value 1 supported
-	 * only).
+	 * After a {@link #rollbackToMark()} call the {@link FieldBuilder}
+	 * will return at the same position.
+	 * Appending ({@link #append(char)}) more than a character implicitly
+	 * clear the marker an no return will be possible anymore
+	 * regardless the method {@link FieldBuilder#extendMark()} is called.
 	 * </p>
 	 * <p>
-	 * Consecutive {@link #mark()} calls will extends marker space; they
-	 * won't reset it. For example the next {@link FieldBuilder} will
+	 * Consecutive {@link #mark()} calls will reset the marker position.
+	 * To extend the marker space {@link FieldBuilder#extendMark()} needs
+	 * to be called before appending a character.
+	 * For example the next {@link FieldBuilder} will
 	 * contain the "A" string at procedure end:
 	 * 
 	 * <pre>
 	 * builder.append('A');
 	 * builder.mark();
 	 * builder.append('B');
-	 * builder.mark();
+	 * builder.extendMark();
 	 * builder.append('C');
-	 * builder.reset();
+	 * builder.rollbackToMark();
 	 * </pre>
 	 * 
 	 * Differently next one will contain "ABC":
@@ -95,12 +106,20 @@ interface FieldBuilder
 	 * builder.mark();
 	 * builder.append('B');
 	 * builder.append('C');
-	 * builder.reset();
+	 * builder.rollbackToMark();
 	 * </pre>
 	 * 
 	 * </p>
 	 */
 	public void mark();
+	
+	/**
+	 * This method is intended to be called after
+	 * {@link FieldBuilder#mark()} to extend the
+	 * marker space. If no mark has been set this
+	 * method will not have any affect.
+	 */
+	public void extendMark();
 	
 	/**
 	 * Reset content state to last mark if possible;
