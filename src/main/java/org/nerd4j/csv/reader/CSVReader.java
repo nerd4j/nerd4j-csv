@@ -33,7 +33,16 @@ import org.nerd4j.csv.exception.CSVToModelBindingException;
  * 
  * <p>
  *  Reads a record in the CSV source and creates an object of
- *  type <e>M</e> that represents such record. 
+ *  type {@code M} that represents such record. 
+ * </p>
+ * 
+ * <h3>Synchronization</h3>
+ *
+ * <p>
+ *  CSV readers are not synchronized.
+ *  It is recommended to create separate CSV reader instances for each thread.
+ *  If multiple threads access a CSV reader concurrently, it must be synchronized
+ *  externally.
  * </p>
  * 
  * @param <M> type of the data model representing the CSV record.

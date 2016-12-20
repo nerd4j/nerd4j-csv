@@ -51,7 +51,8 @@ import org.nerd4j.csv.reader.binding.CSVToModelBinderFactory;
  * 
  * @author Nerd4j Team
  */
-final class CSVToModelBinderFactoryRegistry extends CSVAbstractRegistry<CSVToModelBinderFactory<?>>
+final class CSVToModelBinderFactoryRegistry
+      extends CSVAbstractRegistry<CSVToModelBinderFactory<?>>
 {
     
     
@@ -84,6 +85,9 @@ final class CSVToModelBinderFactoryRegistry extends CSVAbstractRegistry<CSVToMod
         /*  CSV to array binder factory provider. */
         setProvider( "array", new CSVRegistryEntryProvider<CSVToModelBinderFactory<?>>()
         {
+        	/**
+        	 * {@inheritDoc}
+        	 */
             @Override
             public CSVToModelBinderFactory<?> get( Map<String,String> params )
             {
@@ -96,11 +100,19 @@ final class CSVToModelBinderFactoryRegistry extends CSVAbstractRegistry<CSVToMod
                     throw new CSVConfigurationException( "Unable to build binder of type 'array'", ex );
                 }
             }
+            /**
+        	 * {@inheritDoc}
+        	 */
+            @Override
+            public void validate(  Map<String,String> params  ) {}
         });
         
         /*  CSV to bean binder factory provider. */
         setProvider( "bean", new CSVRegistryEntryProvider<CSVToModelBinderFactory<?>>()
         {
+        	/**
+        	 * {@inheritDoc}
+        	 */
             @Override
             @SuppressWarnings({ "rawtypes", "unchecked" })
             public CSVToModelBinderFactory<?> get( Map<String,String> params )
@@ -123,11 +135,37 @@ final class CSVToModelBinderFactoryRegistry extends CSVAbstractRegistry<CSVToMod
                     throw new CSVConfigurationException( "Unable to build binder of type 'bean'", ex );
                 }
             }
+            /**
+        	 * {@inheritDoc}
+        	 */
+            @Override
+            public void validate(  Map<String,String> params  )
+            {
+            	
+            	if( params == null || params.isEmpty() )
+            		throw new CSVConfigurationException( "The bean-class is mandatory to build CSVToBeanBinderFactory" );
+            		
+            	final String beanType = params.get( "bean-class" );
+                if( beanType == null )
+                    throw new CSVConfigurationException( "The bean-class is mandatory to build CSVToBeanBinderFactory" );
+                
+                try{
+
+                    Class.forName( beanType );
+                    
+                }catch( ClassNotFoundException ex )
+                {
+                    throw new CSVConfigurationException( "The value bean-class do not represent a canonical class name", ex );
+                }
+            }
         }); 
         
         /*  CSV to map binder factory provider. */
         setProvider( "map", new CSVRegistryEntryProvider<CSVToModelBinderFactory<?>>()
         {
+        	/**
+        	 * {@inheritDoc}
+        	 */
             @Override
             public CSVToModelBinderFactory<?> get( Map<String,String> params )
             {
@@ -140,6 +178,11 @@ final class CSVToModelBinderFactoryRegistry extends CSVAbstractRegistry<CSVToMod
                     throw new CSVConfigurationException( "Unable to build binder of type 'map'", ex );
                 }
             }
+            /**
+        	 * {@inheritDoc}
+        	 */
+            @Override
+            public void validate(  Map<String,String> params  ) {}
         }); 
         
     }

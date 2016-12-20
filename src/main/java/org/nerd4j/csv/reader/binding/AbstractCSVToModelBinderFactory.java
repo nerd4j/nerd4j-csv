@@ -78,18 +78,18 @@ public abstract class AbstractCSVToModelBinderFactory<Model,Mapping> implements 
      */
     @Override
     public CSVToModelBinder<Model> getCSVToModelBinder( final CSVReaderMetadata<Model> configuration,
-                                                        final Integer[] columnMapping )
-    throws CSVToModelBindingException
+    		final Integer[] columnMapping )
+    				throws CSVToModelBindingException
     {
-        
-        if( configuration == null )
-            throw new CSVToModelBindingException( "The CSV reader configuration is mandatory" );
-        
-        if( columnMapping == null )
-            throw new CSVToModelBindingException( "The CSV column mapping is mandatory" );
-                
-        return createBinder( configuration, columnMapping );
-        
+    	
+    	if( configuration == null )
+    		throw new CSVToModelBindingException( "The CSV reader configuration is mandatory" );
+    	
+    	if( columnMapping == null )
+    		throw new CSVToModelBindingException( "The CSV column mapping is mandatory" );
+    	
+    	return createBinder( configuration, columnMapping );
+    	
     }
     
     

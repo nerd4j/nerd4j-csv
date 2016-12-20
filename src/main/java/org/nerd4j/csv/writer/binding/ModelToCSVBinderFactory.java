@@ -22,6 +22,7 @@
 package org.nerd4j.csv.writer.binding;
 
 import org.nerd4j.csv.exception.ModelToCSVBindingException;
+import org.nerd4j.csv.registry.CSVRegistryEntry;
 import org.nerd4j.csv.writer.CSVWriterMetadata;
 
 
@@ -35,7 +36,7 @@ import org.nerd4j.csv.writer.CSVWriterMetadata;
  * 
  * @author Nerd4j Team
  */
-public interface ModelToCSVBinderFactory<Model>
+public interface ModelToCSVBinderFactory<Model> extends CSVRegistryEntry
 {
     
     /**

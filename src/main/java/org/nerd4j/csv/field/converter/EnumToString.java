@@ -23,7 +23,6 @@ package org.nerd4j.csv.field.converter;
 
 import org.nerd4j.csv.field.CSVFieldConverter;
 
-
 /**
  * Implementation of the {@link CSVFieldConverter} interface
  * that converts {@link Enum}s into {@link String}s.

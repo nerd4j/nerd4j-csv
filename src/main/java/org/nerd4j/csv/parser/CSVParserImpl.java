@@ -38,6 +38,15 @@ import org.nerd4j.csv.parser.CSVParserFactory.CharacterClass;
  *  After usage it should be closed to permit resource release.
  * </p>
  * 
+ * <h3>Synchronization</h3>
+ *
+ * <p>
+ *  CSV parsers are not synchronized.
+ *  It is recommended to create separate CSV parser instances for each thread.
+ *  If multiple threads access a CSV parser concurrently, it must be synchronized
+ *  externally.
+ * </p>
+ * 
  * @author Nerd4j Team
  */
 final class CSVParserImpl implements CSVParser

@@ -273,8 +273,18 @@ public final class CSVFormatterFactory
     /**
      * <tt>CSVParser</tt> reads character data from a {@link String}, parsing and
      * quoting if needed and writing into a {@link Writer}.
+     * 
      * <p>
-     * After use it should be closed to permit resource release.
+     *  After use it should be closed to permit resource release.
+     * </p>
+     * 
+     * <h3>Synchronization</h3>
+     *
+     * <p>
+     *  CSV formatters are not synchronized.
+     *  It is recommended to create separate CSV formatter instances for each thread.
+     *  If multiple threads access a CSV formatter concurrently, it must be synchronized
+     *  externally.
      * </p>
      * 
      * @author Nerd4j Team

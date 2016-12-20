@@ -34,10 +34,11 @@ import org.nerd4j.csv.field.CSVFieldConverter;
 import org.nerd4j.csv.field.CSVFieldProcessContext;
 import org.nerd4j.csv.model.Product;
 import org.nerd4j.csv.registry.CSVRegistry;
+import org.nerd4j.csv.registry.CSVRegistryEntryFactory;
 import org.nerd4j.test.BaseTest;
 
 /**
- * {@link CSVFieldConverterRegistry} unit tests.
+ * {@link CSVFieldConverterFactory} unit tests.
  * 
  * @author Nerd4j Team
  */
@@ -153,20 +154,22 @@ public class CSVFieldConverterRegisterTest extends BaseTest
         
     }
     
+    @SuppressWarnings("unchecked")
     private <T> T parse( String name, String source, Map<String,String> params )
     {
         
-        @SuppressWarnings("unchecked")
-        final CSVFieldConverter<String,T> converter = (CSVFieldConverter<String,T>) registry.getConverterRegistry().provideEntry( name, params );
+        final CSVRegistryEntryFactory<CSVFieldConverter<?, ?>> factory = registry.getConverterRegistry().provideFactory( name, params );
+        final CSVFieldConverter<String,T> converter = (CSVFieldConverter<String,T>) factory.create();
         return converter.convert( source, context );
         
     }
 
+    @SuppressWarnings("unchecked")
     private <T> String format( String name, T source, Map<String,String> params )
     {
         
-        @SuppressWarnings("unchecked")
-        final CSVFieldConverter<T,String> converter = (CSVFieldConverter<T,String>) registry.getConverterRegistry().provideEntry( name, params );
+    	final CSVRegistryEntryFactory<CSVFieldConverter<?, ?>> factory = registry.getConverterRegistry().provideFactory( name, params );
+        final CSVFieldConverter<T,String> converter = (CSVFieldConverter<T,String>) factory.create();
         return converter.convert( source, context );
         
     }

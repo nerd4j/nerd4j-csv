@@ -23,6 +23,7 @@ package org.nerd4j.csv.reader.binding;
 
 import org.nerd4j.csv.exception.CSVToModelBindingException;
 import org.nerd4j.csv.reader.CSVReaderMetadata;
+import org.nerd4j.csv.registry.CSVRegistryEntry;
 
 
 
@@ -35,7 +36,7 @@ import org.nerd4j.csv.reader.CSVReaderMetadata;
  * 
  * @author Nerd4j Team
  */
-public interface CSVToModelBinderFactory<Model>
+public interface CSVToModelBinderFactory<Model> extends CSVRegistryEntry
 {
     
     /**

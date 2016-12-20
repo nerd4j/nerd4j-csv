@@ -40,7 +40,7 @@ import org.nerd4j.csv.reader.CSVReaderFactory;
 import org.nerd4j.test.BaseTest;
 
 /**
- * {@link CSVFieldConverterRegistry} unit tests.
+ * {@link CSVFieldConverterFactory} unit tests.
  * 
  * @author Nerd4j Team
  */

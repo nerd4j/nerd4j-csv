@@ -35,6 +35,7 @@ import org.nerd4j.csv.field.CSVFieldProcessor;
 import org.nerd4j.csv.field.CSVFieldValidator;
 import org.nerd4j.csv.registry.CSVAbstractRegistry;
 import org.nerd4j.csv.registry.CSVRegistry;
+import org.nerd4j.csv.registry.CSVRegistryEntryFactory;
 import org.nerd4j.csv.registry.CSVRegistryEntryProvider;
 
 
@@ -127,10 +128,11 @@ public final class CSVMetadataRegister
         final String name = configuration.getName();
         if( name == null || name.isEmpty() ) return;
         
-        final CSVFieldValidator<?> vadilator = CSVMetadataBuilder.build( configuration, registry );
+        final CSVRegistryEntryFactory<CSVFieldValidator<?>> vadilatorFactory =
+              CSVMetadataBuilder.build( configuration, registry );
         
-        if( vadilator != null )
-            registry.getValidatorRegistry().setEntry( name, vadilator );
+        if( vadilatorFactory != null )
+            registry.getValidatorRegistry().setFactory( name, vadilatorFactory );
         
     }
     
@@ -148,10 +150,11 @@ public final class CSVMetadataRegister
         final String name = configuration.getName();
         if( name == null || name.isEmpty() ) return;
         
-        final CSVFieldConverter<?,?> converter = CSVMetadataBuilder.build( configuration, registry );
+        final CSVRegistryEntryFactory<CSVFieldConverter<?,?>> converterFactory = 
+              CSVMetadataBuilder.build( configuration, registry );
         
-        if( converter != null )
-            registry.getConverterRegistry().setEntry( name, converter );
+        if( converterFactory != null )
+            registry.getConverterRegistry().setFactory( name, converterFactory );
         
     }
     
@@ -169,10 +172,11 @@ public final class CSVMetadataRegister
         final String name = configuration.getName();
         if( name == null || name.isEmpty() ) return;
         
-        final CSVFieldProcessor<?,?> processor = CSVMetadataBuilder.build( configuration, registry );
+        final CSVRegistryEntryFactory<CSVFieldProcessor<?,?>> processorFactory =
+              CSVMetadataBuilder.build( configuration, registry );
         
-        if( processor != null )
-            registry.getProcessorRegistry().setEntry( name, processor );
+        if( processorFactory != null )
+            registry.getProcessorRegistry().setFactory( name, processorFactory );
         
     }
     
@@ -208,12 +212,7 @@ public final class CSVMetadataRegister
             
             throw new CSVConfigurationException( "The value of 'provider-class' do not represent a canonical class name", ex );
             
-        }catch( InstantiationException ex )
-        {
-            
-            throw new CSVConfigurationException( "Unable to instantiate the provider", ex );
-            
-        }catch( IllegalAccessException ex )
+        }catch( InstantiationException | IllegalAccessException ex )
         {
             
             throw new CSVConfigurationException( "Unable to instantiate the provider", ex );

@@ -40,12 +40,16 @@ import org.nerd4j.csv.field.CSVFieldMetadata;
 import org.nerd4j.csv.field.CSVFieldProcessor;
 import org.nerd4j.csv.field.CSVFieldValidator;
 import org.nerd4j.csv.field.CSVMappingDescriptor;
+import org.nerd4j.csv.field.processor.CSVFieldProcessorFactory;
 import org.nerd4j.csv.formatter.CSVFormatterMetadata;
 import org.nerd4j.csv.parser.CSVParserMetadata;
 import org.nerd4j.csv.reader.CSVReaderMetadata;
 import org.nerd4j.csv.reader.binding.CSVToModelBinderFactory;
 import org.nerd4j.csv.registry.CSVAbstractRegistry;
 import org.nerd4j.csv.registry.CSVRegistry;
+import org.nerd4j.csv.registry.CSVRegistryEntryFactory;
+import org.nerd4j.csv.registry.CSVRegistryEntryProvider;
+import org.nerd4j.csv.registry.CSVRegistryEntryProviderBasedFactory;
 import org.nerd4j.csv.writer.CSVWriterMetadata;
 import org.nerd4j.csv.writer.binding.ModelToCSVBinderFactory;
 
@@ -244,12 +248,13 @@ public final class CSVMetadataBuilder
         
         final String processorRef = configuration.getProcessorRef();
         final CSVFieldProcessorConf processorConf = configuration.getProcessor();
-        final CSVFieldProcessor<?,?> processor = processorRef != null
-                                               ? registry.getProcessorRegistry().getEntry( processorRef )
+        final CSVRegistryEntryFactory<CSVFieldProcessor<?,?>> processorFactory = processorRef != null
+                                               ? registry.getProcessorRegistry().getFactory( processorRef )
                                                : build( processorConf, registry );
         
+        final CSVFieldProcessor<?,?> processor = processorFactory.create();                                       
         final boolean optional = configuration.getOptional() != null ? configuration.getOptional() : false;
-        final CSVField<?,?> field = new CSVField(processor, optional );
+        final CSVField<?,?> field = new CSVField( processor, optional );
         
         final String name = configuration.getName();
         final String mapping = configuration.getMapping();
@@ -268,78 +273,83 @@ public final class CSVMetadataBuilder
      * @return the {@link CSVFieldProcessor} described by the given configuration.
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public static CSVFieldProcessor<?,?> build( CSVFieldProcessorConf configuration, CSVRegistry registry )
+    public static CSVRegistryEntryFactory<CSVFieldProcessor<?,?>> build( CSVFieldProcessorConf configuration, CSVRegistry registry )
     {
        
         final CSVAbstractRegistry<CSVFieldProcessor<?,?>> processorRegistry = registry.getProcessorRegistry();
 
         if( configuration == null )
-            return processorRegistry.getEntry( "default" );
+            return processorRegistry.getFactory( "default" );
         
         CSVConfChecker.check( configuration );
         
         final String preconditionRef  = configuration.getPreconditionRef();
         final CSVFieldValidatorConf preconditionConf  = configuration.getPrecondition();
-        final CSVFieldValidator<?> precondition = preconditionRef != null
-                                                ? registry.getValidatorRegistry().getEntry( preconditionRef )
+        final CSVRegistryEntryFactory<CSVFieldValidator<?>> preconditionFactory = preconditionRef != null
+                                                ? registry.getValidatorRegistry().getFactory( preconditionRef )
                                                 : build( preconditionConf, registry );
         
         final String converterRef  = configuration.getConverterRef();
         final CSVFieldConverterConf converterConf = configuration.getConverter();
-        final CSVFieldConverter<?,?> converter = converterRef != null
-                                               ? registry.getConverterRegistry().getEntry( converterRef )
+        final CSVRegistryEntryFactory<CSVFieldConverter<?,?>> converterFactory = converterRef != null
+                                               ? registry.getConverterRegistry().getFactory( converterRef )
                                                : build( converterConf, registry );
                 
         final String postconditionRef  = configuration.getPostconditionRef();
         final CSVFieldValidatorConf postconditionConf = configuration.getPostcondition();
-        final CSVFieldValidator<?> postcondition = postconditionRef != null
-                                                 ? registry.getValidatorRegistry().getEntry( postconditionRef )
+        final CSVRegistryEntryFactory<CSVFieldValidator<?>> postconditionFactory = postconditionRef != null
+                                                 ? registry.getValidatorRegistry().getFactory( postconditionRef )
                                                  : build( postconditionConf, registry );
                 
-        return new CSVFieldProcessor( precondition, converter, postcondition );
+        return new CSVFieldProcessorFactory( preconditionFactory, converterFactory, postconditionFactory );
         
     }
     
     
     /**
-     * Returns the {@link CSVFieldValidator} described by the given configuration.
+     * Returns the meta-data needed to create the {@link CSVFieldValidator} described by the given configuration.
      *  
      * @param configuration the configuration to parse.
      * @param registry      the builder registry to use.
-     * @return the {@link CSVFieldValidator} described by the given configuration.
+     * @return the meta-data needed to create the {@link CSVFieldValidator} described by the given configuration.
      */
-    public static CSVFieldValidator<?> build( CSVFieldValidatorConf configuration, CSVRegistry registry )
+    public static CSVRegistryEntryFactory<CSVFieldValidator<?>> build( CSVFieldValidatorConf configuration, CSVRegistry registry )
     {
         
         if( configuration == null ) return null;
         
-        final String type = configuration.getType();
-        final Map<String,String> params = configuration.getParams();
         final CSVAbstractRegistry<CSVFieldValidator<?>> validatorRegistry = registry.getValidatorRegistry();
         
-        return validatorRegistry.provideEntry( type, params );
+        final String type = configuration.getType();
+        final CSVRegistryEntryProvider<CSVFieldValidator<?>> provider = validatorRegistry.getProvider( type );
+        
+        final Map<String,String> params = configuration.getParams();
+        
+        return new CSVRegistryEntryProviderBasedFactory<>( provider, params );
                                 
     }
     
     /**
-     * Returns the {@link CSVFieldConverter} described by the given configuration.
+     * Returns the meta-data needed to create the {@link CSVFieldConverter} described by the given configuration.
      *  
      * @param configuration the configuration to parse.
      * @param registry      the builder registry to use.
-     * @return the {@link CSVFieldConverter} described by the given configuration.
+     * @return the meta-data needed to create the {@link CSVFieldConverter} described by the given configuration.
      */
-    public static CSVFieldConverter<?,?> build( CSVFieldConverterConf configuration, CSVRegistry registry )
+    public static CSVRegistryEntryFactory<CSVFieldConverter<?,?>> build( CSVFieldConverterConf configuration, CSVRegistry registry )
     {
         
         final CSVAbstractRegistry<CSVFieldConverter<?,?>> converterRegistry = registry.getConverterRegistry();
 
         if( configuration == null )
-            return converterRegistry.getEntry( "default" );
+            return converterRegistry.getFactory( "default" );
         
         final String type = configuration.getType();
+        final CSVRegistryEntryProvider<CSVFieldConverter<?,?>> provider = converterRegistry.getProvider( type );
+        
         final Map<String,String> params = configuration.getParams();
         
-        return converterRegistry.provideEntry( type, params );
+        return new CSVRegistryEntryProviderBasedFactory<>( provider, params );
         
     }
     
@@ -363,7 +373,7 @@ public final class CSVMetadataBuilder
         final Map<String,String> params = binderConf.getParams();
         final CSVAbstractRegistry<CSVToModelBinderFactory<?>> modelBinderRegistry = registry.getCsvToModelBinderFactoryRegistry();
         
-        return (CSVToModelBinderFactory<?>) modelBinderRegistry.provideEntry( type, params );
+        return (CSVToModelBinderFactory<?>) modelBinderRegistry.provideFactory( type, params ).create();
         
     }
     
@@ -381,7 +391,7 @@ public final class CSVMetadataBuilder
         final Map<String,String> params = binderConf.getParams();
         final CSVAbstractRegistry<ModelToCSVBinderFactory<?>> modelBinderRegistry = registry.getModelToCSVBinderFactoryRegistry();
         
-        return (ModelToCSVBinderFactory<?>) modelBinderRegistry.provideEntry( type, params );
+        return (ModelToCSVBinderFactory<?>) modelBinderRegistry.provideFactory( type, params ).create();
         
     }
     

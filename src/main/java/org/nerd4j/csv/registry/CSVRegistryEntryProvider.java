@@ -23,6 +23,8 @@ package org.nerd4j.csv.registry;
 
 import java.util.Map;
 
+import org.nerd4j.csv.exception.CSVConfigurationException;
+
 
 /**
  * Represents a provider able to create an instance
@@ -39,7 +41,7 @@ import java.util.Map;
  * 
  * @author Nerd4j Team
  */
-public interface CSVRegistryEntryProvider<Entry>
+public interface CSVRegistryEntryProvider<Entry extends CSVRegistryEntry>
 {
 
     /**
@@ -49,5 +51,13 @@ public interface CSVRegistryEntryProvider<Entry>
      * @return a new registry entry instance.
      */
     public Entry get( Map<String,String> params );
+    
+    /**
+     * Validates the parameters used to provide the entry.
+     *  
+     * @param params map of parameters to validate.
+     * @throws CSVConfigurationException if the parameters are not valid.
+     */
+    public void validate( Map<String,String> params ) throws CSVConfigurationException;
     
 }

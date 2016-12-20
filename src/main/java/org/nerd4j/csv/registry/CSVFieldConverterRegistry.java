@@ -23,6 +23,8 @@ package org.nerd4j.csv.registry;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
@@ -178,6 +180,30 @@ final class CSVFieldConverterRegistry extends CSVAbstractRegistry<CSVFieldConver
             return new StringToNumber<N>( numberType, pattern, locale );
         }
         
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void validate( Map<String,String> params )
+        {
+        	if( params == null || params.isEmpty() ) return;
+        	
+        	try{
+        	
+        		final String pattern = params.get( "pattern" );
+        		if( pattern != null && ! pattern.isEmpty() )
+        			new DecimalFormat( pattern );
+        	
+        		final String locale = params.get( "locale" );
+        		if( locale != null && ! locale.isEmpty() )
+        			LocaleUtil.getLocale( locale );
+        	
+        	}catch( Exception ex )
+        	{
+        		throw new CSVConfigurationException( ex );        		
+        	}
+        }
+        
     }
     
     /**
@@ -221,6 +247,30 @@ final class CSVFieldConverterRegistry extends CSVAbstractRegistry<CSVFieldConver
             return new NumberToString<N>( numberType, pattern, locale );
         }
         
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void validate( Map<String,String> params )
+        {
+        	if( params == null || params.isEmpty() ) return;
+        	
+        	try{
+        	
+        		final String pattern = params.get( "pattern" );
+        		if( pattern != null && ! pattern.isEmpty() )
+        			new DecimalFormat( pattern );
+        	
+        		final String locale = params.get( "locale" );
+        		if( locale != null && ! locale.isEmpty() )
+        			LocaleUtil.getLocale( locale );
+        	
+        	}catch( Exception ex )
+        	{
+        		throw new CSVConfigurationException( ex );        		
+        	}
+        }
+        
     }
     
     
@@ -239,36 +289,49 @@ final class CSVFieldConverterRegistry extends CSVAbstractRegistry<CSVFieldConver
     {
         
         /* The empty converter to use in case of missing configuration. */
-        setEntry( "default", new EmptyCSVFieldConverter<String>(String.class) );
+        setFactory( "default", new CSVRegistryEntryFactory<CSVFieldConverter<?,?>>()
+        {
+        	/** Singleton instance of the empty converter. */
+        	private final CSVFieldConverter<?,?> emptyConverter = new EmptyCSVFieldConverter<String>( String.class );
+        	
+        	/**
+        	 * {@inheritDoc}
+        	 */
+			@Override
+			public CSVFieldConverter<?,?> create()
+			{
+				return emptyConverter;
+			}
+        });
         
      
         /* String to Number Providers. */
-        setProvider( "parseByte",          new StringToNumberProvider<Byte>(Byte.class) );
-        setProvider( "parseShort",         new StringToNumberProvider<Short>(Short.class) );
-        setProvider( "parseInteger",       new StringToNumberProvider<Integer>(Integer.class) );
-        setProvider( "parseLong",          new StringToNumberProvider<Long>(Long.class) );
-        
-        setProvider( "parseFloat",         new StringToNumberProvider<Float>(Float.class) );
-        setProvider( "parseDouble",        new StringToNumberProvider<Double>(Double.class) );
-        
-        setProvider( "parseBigInteger",    new StringToNumberProvider<BigInteger>(BigInteger.class) );
-        setProvider( "parseBigDecimal",    new StringToNumberProvider<BigDecimal>(BigDecimal.class) );
-
-        setProvider( "parseAtomicInteger", new StringToNumberProvider<AtomicInteger>(AtomicInteger.class) );
-        setProvider( "parseAtomicLong",    new StringToNumberProvider<AtomicLong>(AtomicLong.class) );
-
-        
-        /* Number to String Providers. */
-        setProvider( "formatByte",         new NumberToStringProvider<Byte>(Byte.class) );
-        setProvider( "formatShort",        new NumberToStringProvider<Short>(Short.class) );
-        setProvider( "formatInteger",      new NumberToStringProvider<Integer>(Integer.class) );
-        setProvider( "formatLong",         new NumberToStringProvider<Long>(Long.class) );
-        
-        setProvider( "formatFloat",        new NumberToStringProvider<Float>(Float.class) );
-        setProvider( "formatDouble",       new NumberToStringProvider<Double>(Double.class) );
-        
-        setProvider( "formatBigInteger",   new NumberToStringProvider<BigInteger>(BigInteger.class) );
-        setProvider( "formatBigDecimal",   new NumberToStringProvider<BigDecimal>(BigDecimal.class) );
+        setProvider( "parseByte",           new StringToNumberProvider<Byte>(Byte.class) );
+        setProvider( "parseShort",          new StringToNumberProvider<Short>(Short.class) );
+        setProvider( "parseInteger",        new StringToNumberProvider<Integer>(Integer.class) );
+        setProvider( "parseLong",           new StringToNumberProvider<Long>(Long.class) );
+                                            
+        setProvider( "parseFloat",          new StringToNumberProvider<Float>(Float.class) );
+        setProvider( "parseDouble",         new StringToNumberProvider<Double>(Double.class) );
+                                            
+        setProvider( "parseBigInteger",     new StringToNumberProvider<BigInteger>(BigInteger.class) );
+        setProvider( "parseBigDecimal",     new StringToNumberProvider<BigDecimal>(BigDecimal.class) );
+                                            
+        setProvider( "parseAtomicInteger",  new StringToNumberProvider<AtomicInteger>(AtomicInteger.class) );
+        setProvider( "parseAtomicLong",     new StringToNumberProvider<AtomicLong>(AtomicLong.class) );
+                                            
+                                            
+        /* Number to String Providers. */   
+        setProvider( "formatByte",          new NumberToStringProvider<Byte>(Byte.class) );
+        setProvider( "formatShort",         new NumberToStringProvider<Short>(Short.class) );
+        setProvider( "formatInteger",       new NumberToStringProvider<Integer>(Integer.class) );
+        setProvider( "formatLong",          new NumberToStringProvider<Long>(Long.class) );
+                                            
+        setProvider( "formatFloat",         new NumberToStringProvider<Float>(Float.class) );
+        setProvider( "formatDouble",        new NumberToStringProvider<Double>(Double.class) );
+                                            
+        setProvider( "formatBigInteger",    new NumberToStringProvider<BigInteger>(BigInteger.class) );
+        setProvider( "formatBigDecimal",    new NumberToStringProvider<BigDecimal>(BigDecimal.class) );
         
         setProvider( "formatAtomicInteger", new NumberToStringProvider<AtomicInteger>(AtomicInteger.class) );
         setProvider( "formatAtomicLong",    new NumberToStringProvider<AtomicLong>(AtomicLong.class) );
@@ -277,26 +340,45 @@ final class CSVFieldConverterRegistry extends CSVAbstractRegistry<CSVFieldConver
         /* String to Boolean Provider. */
         setProvider( "parseBoolean", new CSVRegistryEntryProvider<CSVFieldConverter<?,?>>()
         {
+        	/**
+        	 * {@inheritDoc}
+        	 */
             @Override
             public CSVFieldConverter<String,Boolean> get( Map<String,String> params )
             {
                 return new StringToBoolean();
             }
+            /**
+        	 * {@inheritDoc}
+        	 */
+            @Override
+            public void validate( Map<String,String> params ) {}
         });
         
         /* Boolean to String Provider. */
         setProvider( "formatBoolean", new CSVRegistryEntryProvider<CSVFieldConverter<?,?>>()
         {
+        	/**
+        	 * {@inheritDoc}
+        	 */
             @Override
             public CSVFieldConverter<Boolean,String> get( Map<String,String> params )
             {
                 return new BooleanToString();
             }
+            /**
+        	 * {@inheritDoc}
+        	 */
+            @Override
+            public void validate( Map<String,String> params ) {}
          });
 
         /* String to Date Provider. */
         setProvider( "parseDate", new CSVRegistryEntryProvider<CSVFieldConverter<?,?>>()
         {
+        	/**
+        	 * {@inheritDoc}
+        	 */
             @Override
             public CSVFieldConverter<String,Date> get( Map<String,String> params )
             {
@@ -335,11 +417,41 @@ final class CSVFieldConverterRegistry extends CSVAbstractRegistry<CSVFieldConver
             	final Locale locale = dlocale == null ? null : LocaleUtil.getLocale(dlocale);
                 return new StringToDate( pattern, timeZone, locale ); 
             }
+            /**
+        	 * {@inheritDoc}
+        	 */
+            @Override
+            public void validate( Map<String,String> params )
+            {            	
+            	if( params == null || params.isEmpty() ) return;
+            	
+            	try{
+                	
+            		final String pattern = params.get( "pattern" );
+            		if( pattern != null && ! pattern.isEmpty() )
+            			new SimpleDateFormat( pattern );
+            	
+            		final String locale = params.get( "locale" );
+            		if( locale != null && ! locale.isEmpty() )
+            			LocaleUtil.getLocale( locale );
+            		
+            		final String timezone = params.get( "time-zone" );
+            		if( timezone != null && ! timezone.isEmpty() )
+            			TimeZone.getTimeZone( timezone );
+            	
+            	}catch( Exception ex )
+            	{
+            		throw new CSVConfigurationException( ex );        		
+            	}
+            }
         });
         
         /* Date to String Provider. */
         setProvider( "formatDate", new CSVRegistryEntryProvider<CSVFieldConverter<?,?>>()
         {
+        	/**
+        	 * {@inheritDoc}
+        	 */
             @Override
             public CSVFieldConverter<Date,String> get( Map<String,String> params )
             {
@@ -378,16 +490,45 @@ final class CSVFieldConverterRegistry extends CSVAbstractRegistry<CSVFieldConver
             	final Locale locale = dlocale == null ? null : LocaleUtil.getLocale(dlocale);
             	return new DateToString( pattern, timeZone, locale ); 
             }
+            /**
+        	 * {@inheritDoc}
+        	 */
+            @Override
+            public void validate( Map<String,String> params )
+            {            	
+            	if( params == null || params.isEmpty() ) return;
+            	
+            	try{
+                	
+            		final String pattern = params.get( "pattern" );
+            		if( pattern != null && ! pattern.isEmpty() )
+            			new SimpleDateFormat( pattern );
+            	
+            		final String locale = params.get( "locale" );
+            		if( locale != null && ! locale.isEmpty() )
+            			LocaleUtil.getLocale( locale );
+            		
+            		final String timezone = params.get( "time-zone" );
+            		if( timezone != null && ! timezone.isEmpty() )
+            			TimeZone.getTimeZone( timezone );
+            	
+            	}catch( Exception ex )
+            	{
+            		throw new CSVConfigurationException( ex );        		
+            	}
+            }
         });
         
         /* String to Enum Provider. */
         setProvider( "parseEnum", new CSVRegistryEntryProvider<CSVFieldConverter<?,?>>()
         {
+        	/**
+        	 * {@inheritDoc}
+        	 */
             @Override
             @SuppressWarnings({ "unchecked" })
             public CSVFieldConverter<String,Enum<?>> get( Map<String,String> params )
-            {
-                
+            {                
                 final String enumType = params.get( "enum-type" );
                 if( enumType == null )
                     throw new CSVConfigurationException( "The enum-type is mandatory to build parseEnum" );
@@ -405,18 +546,44 @@ final class CSVFieldConverterRegistry extends CSVAbstractRegistry<CSVFieldConver
                 {
                     throw new CSVConfigurationException( "The value enum-type do not represent a canonical class name", ex );
                 }
+            }
+            /**
+        	 * {@inheritDoc}
+        	 */
+            @Override
+            public void validate( Map<String,String> params )
+            {            	
+            	if( params == null || params.isEmpty() )
+            		throw new CSVConfigurationException( "The parameter enum-type is mandatory" );
+            	
+            	final String enumType = params.get( "enum-type" );
+                if( enumType == null )
+                    throw new CSVConfigurationException( "The parameter enum-type is mandatory." );
                 
+                try{
+
+                    final Class<?> enumClass = Class.forName( enumType );
+                    
+                    if( ! enumClass.isEnum() )
+                        throw new CSVConfigurationException( "The value enum-type to not represent an enum" );
+                    
+                }catch( ClassNotFoundException ex )
+                {
+                    throw new CSVConfigurationException( "The value enum-type do not represent a canonical class name", ex );
+                }
             }
         });
         
         /* Enum to String Provider. */
         setProvider( "formatEnum", new CSVRegistryEntryProvider<CSVFieldConverter<?,?>>()
         {
+        	/**
+        	 * {@inheritDoc}
+        	 */
         	@Override
             @SuppressWarnings({ "unchecked" })
             public CSVFieldConverter<Enum<?>,String> get( Map<String,String> params )
             {
-                
                 final String enumType = params.get( "enum-type" );
                 if( enumType == null )
                     throw new CSVConfigurationException( "The enum-type is mandatory to build formatEnum" );
@@ -434,11 +601,33 @@ final class CSVFieldConverterRegistry extends CSVAbstractRegistry<CSVFieldConver
                 {
                     throw new CSVConfigurationException( "The value enum-type do not represent a canonical class name", ex );
                 }
-                
             }
+        	/**
+        	 * {@inheritDoc}
+        	 */
+            @Override
+            public void validate( Map<String,String> params )
+            {            	
+            	if( params == null || params.isEmpty() )
+            		throw new CSVConfigurationException( "The parameter enum-type is mandatory" );
+            	
+            	final String enumType = params.get( "enum-type" );
+                if( enumType == null )
+                    throw new CSVConfigurationException( "The parameter enum-type is mandatory." );
+                
+                try{
 
+                    final Class<?> enumClass = Class.forName( enumType );
+                    
+                    if( ! enumClass.isEnum() )
+                        throw new CSVConfigurationException( "The value enum-type to not represent an enum" );
+                    
+                }catch( ClassNotFoundException ex )
+                {
+                    throw new CSVConfigurationException( "The value enum-type do not represent a canonical class name", ex );
+                }
+            }
         });
-        
         
     }
     

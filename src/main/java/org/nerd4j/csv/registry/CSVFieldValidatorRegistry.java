@@ -24,6 +24,7 @@ package org.nerd4j.csv.registry;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.nerd4j.csv.exception.CSVConfigurationException;
 import org.nerd4j.csv.field.CSVFieldValidator;
@@ -95,6 +96,9 @@ final class CSVFieldValidatorRegistry extends CSVAbstractRegistry<CSVFieldValida
         /* Validator that checks the length of a given string */
         setProvider( "checkStringLength", new CSVRegistryEntryProvider<CSVFieldValidator<?>>()
         {
+        	/**
+        	 * {@inheritDoc}
+        	 */
             @Override
             public CSVFieldValidator<?> get( Map<String,String> params )
             {
@@ -117,11 +121,56 @@ final class CSVFieldValidatorRegistry extends CSVAbstractRegistry<CSVFieldValida
                 return new CheckStringLength( minVal, maxVal );
                 
             }
+            
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public void validate( Map<String,String> params )
+            {
+            	if( params == null || params.isEmpty() )
+            		throw new CSVConfigurationException( "Unable to build validator, neither 'lenght' nor 'min','max' parameters are available" );
+            	
+            	final String length = params.get( "length" );
+                if( length != null && ! length.isEmpty() )
+                {
+                	try{
+                        
+                		Integer.parseInt( length );
+                    
+                    }catch( Exception ex )
+                    {
+                    	throw new CSVConfigurationException( ex );
+                    }
+                }
+                
+            	final String min = params.get( "min" );
+                final String max = params.get( "max" );
+                
+                final boolean emptyMin = (min == null || min.isEmpty());
+                final boolean emptyMax = (max == null || max.isEmpty());
+                
+                if ( emptyMin && emptyMax )
+                	throw new CSVConfigurationException( "Unable to build validator, neither 'lenght' nor 'min','max' parameters are available" );
+                
+                try{
+                
+                	Integer.parseInt( min );
+                	Integer.parseInt( max );
+                
+                }catch( Exception ex )
+                {
+                	throw new CSVConfigurationException( ex );
+                }
+            }
         });
 
         /* Validator that checks if the given string matches the regular expression */
         setProvider( "checkRegEx", new CSVRegistryEntryProvider<CSVFieldValidator<?>>()
         {
+        	/**
+        	 * {@inheritDoc}
+        	 */
             @Override
             public CSVFieldValidator<?> get( Map<String,String> params )
             {
@@ -132,13 +181,38 @@ final class CSVFieldValidatorRegistry extends CSVAbstractRegistry<CSVFieldValida
                 return new CheckRegEx( regEx );
                 
             }
+            
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public void validate( Map<String,String> params )
+            {
+            	if( params == null || params.isEmpty() )
+            		throw new CSVConfigurationException( "Unable to build validator, regular expression 'pattern' unavailable" );
+            	
+            	final String regEx = params.get( "pattern" );
+                if( regEx == null || regEx.isEmpty() )
+                    throw new CSVConfigurationException( "Unable to build validator, regular expression 'pattern' unavailable" );
+                
+                try{
+                    
+                	Pattern.compile( regEx );
+                
+                }catch( Exception ex )
+                {
+                	throw new CSVConfigurationException( ex );
+                }
+            }
         });
         
         
         /* Validators that checks minimum and maximum value of a given number */
         setProvider( "checkByteRange", new AbstractCheckNumberRangeProvider<Byte>()
         {
-
+        	/**
+        	 * {@inheritDoc}
+        	 */
 			@Override
 			protected Byte parseNumber( String number )
 			{
@@ -149,7 +223,9 @@ final class CSVFieldValidatorRegistry extends CSVAbstractRegistry<CSVFieldValida
         
         setProvider( "checkShortRange", new AbstractCheckNumberRangeProvider<Short>()
         {
-
+        	/**
+        	 * {@inheritDoc}
+        	 */
 			@Override
 			protected Short parseNumber( String number )
 			{
@@ -160,7 +236,9 @@ final class CSVFieldValidatorRegistry extends CSVAbstractRegistry<CSVFieldValida
         
         setProvider( "checkIntegerRange", new AbstractCheckNumberRangeProvider<Integer>()
         {
-
+        	/**
+        	 * {@inheritDoc}
+        	 */
 			@Override
 			protected Integer parseNumber( String number )
 			{
@@ -171,7 +249,9 @@ final class CSVFieldValidatorRegistry extends CSVAbstractRegistry<CSVFieldValida
         
         setProvider( "checkLongRange", new AbstractCheckNumberRangeProvider<Long>()
         {
-
+        	/**
+        	 * {@inheritDoc}
+        	 */
 			@Override
 			protected Long parseNumber( String number )
 			{
@@ -182,7 +262,9 @@ final class CSVFieldValidatorRegistry extends CSVAbstractRegistry<CSVFieldValida
         
         setProvider( "checkFloatRange", new AbstractCheckNumberRangeProvider<Float>()
         {
-
+        	/**
+        	 * {@inheritDoc}
+        	 */
 			@Override
 			protected Float parseNumber( String number )
 			{
@@ -193,7 +275,9 @@ final class CSVFieldValidatorRegistry extends CSVAbstractRegistry<CSVFieldValida
         
         setProvider( "checkDoubleRange", new AbstractCheckNumberRangeProvider<Double>()
         {
-
+        	/**
+        	 * {@inheritDoc}
+        	 */
 			@Override
 			protected Double parseNumber( String number )
 			{
@@ -204,7 +288,9 @@ final class CSVFieldValidatorRegistry extends CSVAbstractRegistry<CSVFieldValida
         
         setProvider( "checkBigIntegerRange", new AbstractCheckNumberRangeProvider<BigInteger>()
         {
-
+        	/**
+        	 * {@inheritDoc}
+        	 */
 			@Override
 			protected BigInteger parseNumber( String number )
 			{
@@ -215,7 +301,9 @@ final class CSVFieldValidatorRegistry extends CSVAbstractRegistry<CSVFieldValida
         
         setProvider( "checkBigDecimalRange", new AbstractCheckNumberRangeProvider<BigDecimal>()
         {
-
+        	/**
+        	 * {@inheritDoc}
+        	 */
 			@Override
 			protected BigDecimal parseNumber( String number )
 			{
@@ -257,6 +345,35 @@ final class CSVFieldValidatorRegistry extends CSVAbstractRegistry<CSVFieldValida
             
             return new CheckNumberRange<N>( cmin, cmax );
             
+        }
+        
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void validate( Map<String,String> params )
+        {
+        	if( params == null || params.isEmpty() )
+        		throw new CSVConfigurationException( "Unable to build validator, neither 'min' nor 'max' parameters are available" );
+        	
+        	final String min = params.get( "min" );
+            final String max = params.get( "max" );
+            
+            final boolean emptyMin = (min == null || min.isEmpty());
+            final boolean emptyMax = (max == null || max.isEmpty());
+            
+            if ( emptyMin && emptyMax )
+            	throw new CSVConfigurationException( "Unable to build validator, neither 'min' nor 'max' parameters are available" );
+            
+            try{
+            
+            	parseNumber( min );
+            	parseNumber( max );
+            
+            }catch( Exception ex )
+            {
+            	throw new CSVConfigurationException( ex );
+            }
         }
         
         /**
