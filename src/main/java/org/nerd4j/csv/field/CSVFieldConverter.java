@@ -22,6 +22,7 @@
 package org.nerd4j.csv.field;
 
 import org.nerd4j.csv.CSVProcessOperation;
+import org.nerd4j.csv.registry.CSVRegistryEntry;
 
 
 
@@ -35,7 +36,7 @@ import org.nerd4j.csv.CSVProcessOperation;
  * 
  * @author Nerd4j Team
  */
-public interface CSVFieldConverter<S,T> extends CSVProcessOperation
+public interface CSVFieldConverter<S,T> extends CSVProcessOperation, CSVRegistryEntry
 {
 	
 	/**

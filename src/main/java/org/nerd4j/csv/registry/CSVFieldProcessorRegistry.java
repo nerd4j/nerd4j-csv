@@ -21,17 +21,10 @@
  */
 package org.nerd4j.csv.registry;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
-
+import org.nerd4j.csv.field.CSVFieldConverter;
 import org.nerd4j.csv.field.CSVFieldProcessor;
+import org.nerd4j.csv.field.processor.CSVFieldProcessorFactory;
 import org.nerd4j.csv.field.processor.EmptyCSVFieldProcessor;
-import org.nerd4j.csv.field.processor.FormatBoolean;
-import org.nerd4j.csv.field.processor.FormatNumber;
-import org.nerd4j.csv.field.processor.ParseBoolean;
-import org.nerd4j.csv.field.processor.ParseNumber;
 
 
 /**
@@ -76,18 +69,20 @@ import org.nerd4j.csv.field.processor.ParseNumber;
  */
 final class CSVFieldProcessorRegistry extends CSVAbstractRegistry<CSVFieldProcessor<?,?>>
 {
-
-    
+	
+	
     /**
-     * Default constructor.
+     * Constructor with parameters.
      * 
+     * @param converterRegistry registry of the {@link CSVFieldConverter}s to use
+     *                          to build the related {@link CSVFieldProcessor}s.
      */
-    public CSVFieldProcessorRegistry()
+    public CSVFieldProcessorRegistry( CSVFieldConverterRegistry converterRegistry )
     {
         
         super();
-        
-        this.registerDefaults();
+                
+        this.registerDefaults( converterRegistry );
         
     }
     
@@ -100,43 +95,83 @@ final class CSVFieldProcessorRegistry extends CSVAbstractRegistry<CSVFieldProces
     /**
      * Creates and registers the default entries and builders.
      * 
+     * @param converterRegistry registry of the {@link CSVFieldConverter}s to use
+     *                          to build the related {@link CSVFieldProcessor}s. 
      */
-    private void registerDefaults()
+    private void registerDefaults( CSVFieldConverterRegistry converterRegistry )
     {
 
-        setEntry( "default", new EmptyCSVFieldProcessor<String>(String.class) );
+    	/* The empty processor to use in case of missing configuration. */
+        setFactory( "default", new CSVRegistryEntryFactory<CSVFieldProcessor<?,?>>()
+        {
+        	/** Singleton instance of the empty converter. */
+        	private final CSVFieldProcessor<?,?> emptyProcessor = new EmptyCSVFieldProcessor<String>( String.class );
+        	
+        	/**
+        	 * {@inheritDoc}
+        	 */
+			@Override
+			public CSVFieldProcessor<?,?> create()
+			{
+				return emptyProcessor;
+			}
+        });
         
         /* Simple Boolean Processors. */
-        setEntry( "parseBoolean",        new ParseBoolean() );
-        setEntry( "formatBoolean",       new FormatBoolean() );
+        setFactory( "parseBoolean",        converterRegistry );
+        setFactory( "formatBoolean",       converterRegistry );
         
         /* Simple String to Number Processors. */
-        setEntry( "parseByte",           new ParseNumber<Byte>( Byte.class ) );
-        setEntry( "parseShort",          new ParseNumber<Short>( Short.class ) );
-        setEntry( "parseInteger",        new ParseNumber<Integer>( Integer.class ) );
-        setEntry( "parseLong",           new ParseNumber<Long>( Long.class ) );
+        setFactory( "parseByte",           converterRegistry );
+        setFactory( "parseShort",          converterRegistry );
+        setFactory( "parseInteger",        converterRegistry );
+        setFactory( "parseLong",           converterRegistry );
         
-        setEntry( "parseFloat",          new ParseNumber<Float>( Float.class ) );
-        setEntry( "parseDouble",         new ParseNumber<Double>( Double.class ) );
+        setFactory( "parseFloat",          converterRegistry );
+        setFactory( "parseDouble",         converterRegistry );
         
-        setEntry( "parseBigInteger",     new ParseNumber<BigInteger>( BigInteger.class ) );
-        setEntry( "parseBigDecimal",     new ParseNumber<BigDecimal>( BigDecimal.class ) );
-        setEntry( "parseAtomicInteger",  new ParseNumber<AtomicInteger>( AtomicInteger.class ) );
-        setEntry( "parseAtomicLong",     new ParseNumber<AtomicLong>( AtomicLong.class ) );
+        setFactory( "parseBigInteger",     converterRegistry );
+        setFactory( "parseBigDecimal",     converterRegistry );
+        setFactory( "parseAtomicInteger",  converterRegistry );
+        setFactory( "parseAtomicLong",     converterRegistry );
         
         /* Simple Number to String Processors. */
-        setEntry( "formatByte",          new FormatNumber<Byte>(Byte.class) );
-        setEntry( "formatShort",         new FormatNumber<Short>(Short.class) );
-        setEntry( "formatInteger",       new FormatNumber<Integer>(Integer.class) );
-        setEntry( "formatLong",          new FormatNumber<Long>(Long.class) );
+        setFactory( "formatByte",          converterRegistry );
+        setFactory( "formatShort",         converterRegistry );
+        setFactory( "formatInteger",       converterRegistry );
+        setFactory( "formatLong",          converterRegistry );
         
-        setEntry( "formatFloat",         new FormatNumber<Float>(Float.class) );
-        setEntry( "formatDouble",        new FormatNumber<Double>(Double.class) );
+        setFactory( "formatFloat",         converterRegistry );
+        setFactory( "formatDouble",        converterRegistry );
         
-        setEntry( "formatBigInteger",    new FormatNumber<BigInteger>(BigInteger.class) );
-        setEntry( "formatBigDecimal",    new FormatNumber<BigDecimal>(BigDecimal.class) );
-        setEntry( "formatAtomicInteger", new FormatNumber<AtomicInteger>(AtomicInteger.class) );
-        setEntry( "formatAtomicLong",    new FormatNumber<AtomicLong>(AtomicLong.class) );
+        setFactory( "formatBigInteger",    converterRegistry );
+        setFactory( "formatBigDecimal",    converterRegistry );
+        setFactory( "formatAtomicInteger", converterRegistry );
+        setFactory( "formatAtomicLong",    converterRegistry );
         
     }
+    
+    
+    /**
+     * Uses the given {@link CSVFieldConverterRegistry} to get the related converter factory
+     * and sets a {@link CSVFieldProcessorFactory} with the given name with no precondition
+     * and postcondition.
+     * 
+     * @param name              the name related to the {@link CSVFieldProcessorFactory}.
+     * @param converterRegistry the converter registry to use to get the related converter.
+     */
+    private <S,T> void setFactory( String name, CSVFieldConverterRegistry converterRegistry )
+    {
+    	
+    	@SuppressWarnings("unchecked")
+    	final CSVRegistryEntryFactory<CSVFieldConverter<S,T>> converterFactory =
+			(CSVRegistryEntryFactory<CSVFieldConverter<S,T>>) (CSVRegistryEntryFactory<?>)
+			converterRegistry.provideFactory( name, null );
+    	
+    	final CSVFieldProcessorFactory<S,T> processorFactory = new CSVFieldProcessorFactory<S,T>( null, converterFactory, null );
+    	
+    	setFactory( name, processorFactory );
+    	
+    }
+    
 }

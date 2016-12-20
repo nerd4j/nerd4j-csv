@@ -21,6 +21,7 @@
  */
 package org.nerd4j.csv.field;
 
+import org.nerd4j.csv.registry.CSVRegistryEntry;
 
 /**
  * This class performs the process needed to manipulate
@@ -32,7 +33,7 @@ package org.nerd4j.csv.field;
  * 
  * @author Nerd4j Team
  */
-public class CSVFieldProcessor<S,T>
+public class CSVFieldProcessor<S,T> implements CSVRegistryEntry
 {
     
     /** Represents the condition that the field must satisfy before to be converted. */

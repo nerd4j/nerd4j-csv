@@ -37,7 +37,7 @@ import org.nerd4j.csv.writer.CSVWriterSpeedTest;
 import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
 import com.carrotsearch.junitbenchmarks.BenchmarkRule;
 
-@Ignore
+//@Ignore
 public class CSVReaderSpeedTest
 {
     
@@ -75,7 +75,7 @@ public class CSVReaderSpeedTest
         
         final long end = System.currentTimeMillis();
                 
-        System.out.println( "NERD4J-CSV Readeded " + --count + " fields in " + (end - start) + "ms." );
+        System.out.println( "NERD4J-CSV Read " + --count + " fields in " + (end - start) + "ms." );
         
         
     }
@@ -120,7 +120,7 @@ public class CSVReaderSpeedTest
         
         final long end = System.currentTimeMillis();
                 
-        System.out.println( "NERD4J-CSV Readeded " + --success + " recornds, failed " + failure + " in " + (end - start) + "ms." );
+        System.out.println( "NERD4J-CSV Read " + --success + " recornds, failed " + failure + " in " + (end - start) + "ms." );
         
     }
     

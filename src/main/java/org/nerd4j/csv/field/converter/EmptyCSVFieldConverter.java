@@ -63,18 +63,18 @@ public final class EmptyCSVFieldConverter<V> implements CSVFieldConverter<V,V>
     /*  INTERFACE METHODS  */
     /* ******************* */
     
-    
+	
     /**
-	 * {@inheritDoc}
-	 */
+     * {@inheritDoc}
+     */
     @Override
-	public Class<V> getSourceType()
-	{
+    public Class<V> getSourceType()
+    {
     	
     	return type;
     	
-	}
-	
+    }
+    
 	/**
 	 * {@inheritDoc}
 	 */
@@ -85,7 +85,6 @@ public final class EmptyCSVFieldConverter<V> implements CSVFieldConverter<V,V>
     	return type;
     	
 	}
-
     
     /**
      * {@inheritDoc}

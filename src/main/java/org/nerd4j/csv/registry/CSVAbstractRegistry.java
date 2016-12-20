@@ -37,6 +37,7 @@ import org.nerd4j.csv.exception.CSVConfigurationException;
  *  <ul>
  *    <li>{@link CSVFieldValidatorRegistry}</li>
  *    <li>{@link CSVFieldConverterRegistry}</li>
+ *    <li>{@link CSVFieldProcessorRegistry}</li>
  *    <li>{@link CSVToModelBinderFactoryRegistry}</li>
  *    <li>{@link ModelToCSVBinderFactoryRegistry}</li>
  *  </ul>
@@ -46,12 +47,14 @@ import org.nerd4j.csv.exception.CSVConfigurationException;
  * 
  * @author Nerd4j Team
  */
-public abstract class CSVAbstractRegistry<Entry>
+public abstract class CSVAbstractRegistry<Entry extends CSVRegistryEntry>
 {
 
-    /** The internal map used to register the entries. */
-    private final Map<String,Entry> entryRegistry;
-    
+	/**
+	 * The internal map used to register the factories
+	 * able to build register entries. */
+	private final Map<String,CSVRegistryEntryFactory<Entry>> factoryRegistry;
+	
     /** The internal map used to register the entry providers. */
     private final Map<String,CSVRegistryEntryProvider<Entry>> providerRegistry;
     
@@ -65,8 +68,8 @@ public abstract class CSVAbstractRegistry<Entry>
         
         super();
         
-        this.entryRegistry = new HashMap<String,Entry>();
-        this.providerRegistry = new HashMap<String,CSVRegistryEntryProvider<Entry>>();
+        this.factoryRegistry = new HashMap<>();
+        this.providerRegistry = new HashMap<>();
         
     }
     
@@ -77,49 +80,50 @@ public abstract class CSVAbstractRegistry<Entry>
 
     
     /**
-     * Returns the entry associated to the given key
-     * if any, otherwise returns <code>null</code>.
+     * Returns the factory associated to the given key
+     * if any, otherwise returns {@code null}.
      * 
-     * @param name name to use to reference the entry.
+     * @param name name to use to reference the factory.
+     * @return the related register entry factory.
      */
-    public Entry getEntry( String name )
+    public CSVRegistryEntryFactory<Entry> getFactory( String name )
     {
         
-        final Entry entry = entryRegistry.get( name );
-        if( entry == null )
-            throw new CSVConfigurationException( "There is no entry registred with name " + name );
+        final CSVRegistryEntryFactory<Entry> factory = factoryRegistry.get( name );
+        if( factory == null )
+            throw new CSVConfigurationException( "There is no entry factory registred with name " + name );
         
-        return entry;
+        return factory;
         
     }
-
+    
     /**
-     * Sets the given entry in relation to the given name.
-     * If the name already exists the related entry will be
+     * Sets the given factory in relation to the given name.
+     * If the name already exists the related factory will be
      * overwritten.
      * 
-     * @param name  name to use to reference the entry.
-     * @param entry the actual entry.
+     * @param name     name to use to reference the factory.
+     * @param metadata the actual factory.
      */
-    public void setEntry( String name, Entry entry )
+    public void setFactory( String name, CSVRegistryEntryFactory<Entry> factory )
     {
-        
-        entryRegistry.put( name, entry );
-        
+    	
+    	factoryRegistry.put( name, factory );
+    	
     }
-
+    
     /**
      * Merges the internal registry with the given map.
-     * If some keys already exist the related entries
+     * If some keys already exist the related factories
      * will be overwritten.
      * 
-     * @param entries the entries to set.
+     * @param factories the factories to set.
      */
-    public void setEntries( Map<String,Entry> entries )
+    public void setFactories( Map<String, CSVRegistryEntryFactory<Entry>> factories )
     {
-        
-        entryRegistry.putAll( entries );
-        
+    	
+    	factoryRegistry.putAll( factories );
+    	
     }
     
     /**
@@ -170,20 +174,21 @@ public abstract class CSVAbstractRegistry<Entry>
     
     /**
      * Searches in the registry the provider with the given name and
-     * gives the parameters to the provider to provide a new entry.
+     * returns a new {@link CSVRegistryEntryFactory} configured with
+     * the given provider and parameters.
      * 
      * @param name   name of the provider.
      * @param params requested parameters.
-     * @return the related entry.
+     * @return the related {@link CSVRegistryEntryFactory} .
      * @throws CSVConfigurationException if no provider are registered
      *                                   with the given name.
      */
-    public Entry provideEntry( String name, Map<String,String> params )
+    public CSVRegistryEntryFactory<Entry> provideFactory( String name, Map<String,String> params )
     throws CSVConfigurationException
     {
-        
-        return getProvider( name ).get( params );
-        
+    	
+    	return new CSVRegistryEntryProviderBasedFactory<Entry>( getProvider(name), params );
+    	
     }
     
 }

@@ -33,9 +33,18 @@ import org.nerd4j.csv.exception.ModelToCSVBindingException;
  * Represents a CSV destination writer.
  * 
  * <p>
- *  Reads an object of type <e>M</e> that represents the
+ *  Reads an object of type {@code M} that represents the
  *  data model and writes the corresponding CSV record
  *  to the given destination. 
+ * </p>
+ * 
+ * <h3>Synchronization</h3>
+ *
+ * <p>
+ *  CSV writers are not synchronized.
+ *  It is recommended to create separate CSV writer instances for each thread.
+ *  If multiple threads access a CSV writer concurrently, it must be synchronized
+ *  externally.
  * </p>
  * 
  * @param <M> type of the data model representing the CSV record.

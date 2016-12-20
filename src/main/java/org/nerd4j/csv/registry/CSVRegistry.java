@@ -40,6 +40,7 @@ import org.nerd4j.csv.writer.binding.ModelToCSVBinderFactory;
  *  <ul>
  *    <li>{@link CSVFieldValidatorRegistry}</li>
  *    <li>{@link CSVFieldConverterRegistry}</li>
+ *    <li>{@link CSVFieldProcessorRegistry}</li>
  *    <li>{@link CSVToModelBinderFactoryRegistry}</li>
  *    <li>{@link ModelToCSVBinderFactoryRegistry}</li>
  *  </ul>
@@ -77,7 +78,7 @@ public final class CSVRegistry
         
         this.validatorRegistry = new CSVFieldValidatorRegistry();
         this.converterRegistry = new CSVFieldConverterRegistry();
-        this.processorRegistry = new CSVFieldProcessorRegistry();
+        this.processorRegistry = new CSVFieldProcessorRegistry( converterRegistry );
         
         this.csvToModelBinderFactoryRegistry = new CSVToModelBinderFactoryRegistry();
         this.modelToCSVBinderFactoryRegistry = new ModelToCSVBinderFactoryRegistry();
