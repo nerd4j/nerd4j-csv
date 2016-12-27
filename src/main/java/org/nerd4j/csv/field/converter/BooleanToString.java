@@ -21,21 +21,17 @@
  */
 package org.nerd4j.csv.field.converter;
 
-import org.nerd4j.csv.field.CSVFieldConverter;
-
 /**
- * Implementation of the {@link CSVFieldConverter} interface
- * that converts {@link Boolean}s into {@link String}s.
+ * Implementation of the {@link org.nerd4j.csv.field.CSVFieldConverter CSVFieldConverter}
+ * interface that converts {@link Boolean}s into {@link String}s.
  * 
  * <p>
- *  This converter accepts custom {@link String}s to use
- *  to represent the boolean values.
- * </p>
+ * This converter accepts custom {@link String}s to use
+ * to represent the boolean values.
  * 
  * <p>
- *  By default the boolean values are converted into
- *  the {@link String}s "true" and "false".
- * </p>
+ * By default the boolean values are converted into
+ * the {@link String}s "true" and "false".
  * 
  * @author Nerd4j Team
  */

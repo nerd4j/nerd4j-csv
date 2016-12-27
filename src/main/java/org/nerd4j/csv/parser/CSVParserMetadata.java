@@ -22,7 +22,6 @@
 package org.nerd4j.csv.parser;
 
 import org.nerd4j.csv.RemarkableASCII;
-import org.nerd4j.csv.parser.CSVParserFactory.CharacterClass;
 
 
 /**
@@ -31,9 +30,8 @@ import org.nerd4j.csv.parser.CSVParserFactory.CharacterClass;
  * intended to be used with the {@link CSVParserFactory}.
  * 
  * <p>
- *  Unicode characters outside ASCII space won't be considered
- *  special at all and cannot have special functions.
- * </p>
+ * Unicode characters outside ASCII space won't be considered
+ * special at all and cannot have special functions.
  * 
  * @author Nerd4j Team
  */
@@ -65,7 +63,7 @@ public final class CSVParserMetadata
      * provided in the {@link CSVParserMetadata#recordSeparator}
      * field. By default it will match a record separator as
      * soon as it finds any record separator character (this is
-     * the behaviour implemented by Mucrosoft Excel and OpenOffice
+     * the behavior implemented by Microsoft Excel and OpenOffice
      * Calc).
      */
     private boolean matchRecordSeparatorExactSequence;
@@ -113,47 +111,91 @@ public final class CSVParserMetadata
     /* ******************* */
     
     
-    
+    /**
+     * Returns the flag {@code lazy-quotes}.
+     * 
+     * @return the flag {@code lazy-quotes}.
+     */
     public boolean isLazyQuotes()
     {
     	return lazyQuotes;
     }
     
+    /**
+     * Sets the flag {@code lazy-quotes}.
+     * 
+     * @param lazyQuotes value to set.
+     */
     public void setLazyQuotes( boolean lazyQuotes )
     {
     	this.lazyQuotes = lazyQuotes;
     }
     
+    /**
+     * Returns the character used as field separator in the CSV.
+     * 
+     * @return the character used as field separator in the CSV.
+     */
     public Character getFieldSeparator()
     {
         return fieldSeparator;
     }
 
+    /**
+     * Sets the character used as field separator in the CSV.
+     * 
+     * @param fieldSeparator value to set.
+     */
 	public void setFieldSeparator( Character fieldSeparator )
     {
         this.fieldSeparator = fieldSeparator;
     }
 
+	/**
+     * Returns the character used to escape control characters in the CSV.
+     * 
+     * @return the character used to escape control characters in the CSV.
+     */
     public Character getEscapeChar()
     {
         return escapeChar;
     }
     
+    /**
+     * Sets the character used to escape control characters in the CSV.
+     * 
+     * @param escapeChar value to set.
+     */
     public void setEscapeChar( Character escapeChar )
     {
         this.escapeChar = escapeChar;
     }
     
+    /**
+     * Returns the character used to quote fields in the CSV.
+     * 
+     * @return the character used to quote fields in the CSV.
+     */
     public Character getQuoteChar()
     {
         return quoteChar;
     }
     
+    /**
+     * Sets the character used to quote fields in the CSV.
+     * 
+     * @param quoteChar value to set.
+     */
     public void setQuoteChar( Character quoteChar )
     {
         this.quoteChar = quoteChar;
     }
     
+    /**
+     * Returns the characters to ignore during parsing.
+     * 
+     * @return the characters to ignore during parsing.
+     */
     public char[] getCharsToIgnore()
     {
         if( charsToIgnore == null )
@@ -162,11 +204,21 @@ public final class CSVParserMetadata
             return charsToIgnore;
     }
     
+    /**
+     * Sets the characters to ignore during parsing.
+     * 
+     * @param charsToIgnore value to set.
+     */
     public void setCharsToIgnore( char[] charsToIgnore )
     {
         this.charsToIgnore = charsToIgnore;
     }
     
+    /**
+     * Returns the characters to ignore if not inside a field.
+     * 
+     * @return the characters to ignore if not inside a field.
+     */
     public char[] getCharsToIgnoreAroundFields()
     {
         if( charsToIgnoreAroundFields == null )
@@ -175,11 +227,21 @@ public final class CSVParserMetadata
             return charsToIgnoreAroundFields; 
     }
     
+    /**
+     * Sets the characters to ignore if not inside a field.
+     * 
+     * @param charsToIgnoreAroundFields value to set.
+     */
     public void setCharsToIgnoreAroundFields( char[] charsToIgnoreAroundFields )
     {
         this.charsToIgnoreAroundFields = charsToIgnoreAroundFields; 
     }
 
+    /**
+     * Returns the character sequence used as record separator in the CSV.
+     * 
+     * @return the character sequence used as record separator in the CSV.
+     */
     public char[] getRecordSeparator()
     {
     	if( recordSeparator == null )
@@ -188,16 +250,31 @@ public final class CSVParserMetadata
     		return recordSeparator; 
     }
     
+    /**
+     * Sets the character sequence used as record separator in the CSV.
+     * 
+     * @param recordSeparator value to set.
+     */
     public void setRecordSeparator( char[] recordSeparator )
     {
     	this.recordSeparator = recordSeparator; 
     }
 
+    /**
+     * Returns the flag {@code match-record-separator-exact-sequence}.
+     * 
+     * @return the flag {@code match-record-separator-exact-sequence}.
+     */
 	public boolean isMatchRecordSeparatorExactSequence()
 	{
 		return matchRecordSeparatorExactSequence;
 	}
 
+	/**
+     * Sets the flag {@code match-record-separator-exact-sequence}.
+     * 
+     * @param matchRecordSeparatorExactSequence value to set.
+     */
 	public void setMatchRecordSeparatorExactSequence( boolean matchRecordSeparatorExactSequence )
 	{
 		this.matchRecordSeparatorExactSequence = matchRecordSeparatorExactSequence;

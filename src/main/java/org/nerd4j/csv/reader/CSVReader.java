@@ -32,18 +32,15 @@ import org.nerd4j.csv.exception.CSVToModelBindingException;
  * Represents a CSV data source reader.
  * 
  * <p>
- *  Reads a record in the CSV source and creates an object of
- *  type {@code M} that represents such record. 
- * </p>
+ * Reads a record in the CSV source and creates an object of
+ * type {@code M} that represents such record. 
  * 
  * <h3>Synchronization</h3>
- *
  * <p>
- *  CSV readers are not synchronized.
- *  It is recommended to create separate CSV reader instances for each thread.
- *  If multiple threads access a CSV reader concurrently, it must be synchronized
- *  externally.
- * </p>
+ * CSV readers are not synchronized.
+ * It is recommended to create separate CSV reader instances for each thread.
+ * If multiple threads access a CSV reader concurrently, it must be synchronized
+ * externally.
  * 
  * @param <M> type of the data model representing the CSV record.
  * 
@@ -53,16 +50,16 @@ public interface CSVReader<M> extends Closeable
 {
 
 	/**
-	 * Returns the CSV header if any, otherwise returns <code>null</code>.
+	 * Returns the CSV header if any, otherwise returns {@code null}.
 	 * 
-	 * @return the CSV header if any, otherwise returns <code>null</code>.
+	 * @return the CSV header if any, otherwise returns {@code null}.
 	 */
 	public String[] getHeader();
 	
     /**
      * Tells if the end of the CSV source has been reached.
      * 
-     * @return <code>true</code> if the end of the CSV source has been reached.
+     * @return {@code true} if the end of the CSV source has been reached.
      */
     public boolean isEndOfData();
     
@@ -70,11 +67,10 @@ public interface CSVReader<M> extends Closeable
      * Reads a record in the CSV source and returns
      * the corresponding data model.
      * <p>
-     *  This method has a cleaner interface but handles
-     *  processing errors by throwing {@link CSVProcessException}
-     *  therefore it may be slow. If performance matters
-     *  use {@link CSVReader#read()} instead.
-     * </p>
+     * This method has a cleaner interface but handles
+     * processing errors by throwing {@link CSVProcessException}
+     * therefore it may be slow. If performance matters
+     * use {@link CSVReader#read()} instead.
      * 
      * @return the outcome of the reading process.
      * @throws IOException if an error occurs reading the CSV source.
@@ -88,11 +84,10 @@ public interface CSVReader<M> extends Closeable
 	 * a {@link CSVReadOutcome} containing the read
 	 * data and the read execution context.
 	 * <p>
-     *  <b>IMPORTANT</b> for performance reasons there is only one
-     *                   instance of the read outcome.
-     *                   So the internal values of this object may
-     *                   vary during execution.
-     * </p>
+     * <b>IMPORTANT</b> for performance reasons there is only one
+     *                  instance of the read outcome.
+     *                  So the internal values of this object may
+     *                  vary during execution.
 	 * 
 	 * @return the outcome of the reading process.
 	 * @throws IOException if an error occurs reading the CSV source.

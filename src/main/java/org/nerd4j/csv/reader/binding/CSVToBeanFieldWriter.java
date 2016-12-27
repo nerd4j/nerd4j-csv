@@ -34,15 +34,22 @@ import org.nerd4j.util.DataConsistency;
  * related {@code setter} or writing directly into the
  * field using reflection.
  * 
- * <p>
- *  This class is intended to be used by the {@link CSVToBeanBinder}
- *  to populate the fields of a data model.
- * </p>
- * 
  * @author Nerd4j Team
  */
 public abstract class CSVToBeanFieldWriter
 {
+	
+	
+	/**
+	 * Default constructor.
+	 */
+	public CSVToBeanFieldWriter()
+	{
+		
+		super();
+		
+	}
+	
 	
 	/* **************** */
 	/*  PUBLIC METHODS  */
@@ -63,9 +70,12 @@ public abstract class CSVToBeanFieldWriter
 	 * 
 	 * @param value the value to write.
 	 * @param bean  the bean to alter.
+	 * @throws IllegalAccessException if the setter is not accessible.
+	 * @throws IllegalArgumentException if the bean has not the expected class.
+	 * @throws InvocationTargetException if the setter does not exist. 
 	 */
 	public abstract void write( Object value, Object bean )
-			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException;
+	throws IllegalAccessException, IllegalArgumentException, InvocationTargetException;
 	
 	
 	/* **************** */

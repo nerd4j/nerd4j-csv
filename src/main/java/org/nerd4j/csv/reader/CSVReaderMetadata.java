@@ -25,7 +25,6 @@ import org.nerd4j.csv.exception.CSVConfigurationException;
 import org.nerd4j.csv.field.CSVFieldMetadata;
 import org.nerd4j.csv.parser.CSVParserFactory;
 import org.nerd4j.csv.parser.CSVParserMetadata;
-import org.nerd4j.csv.reader.binding.CSVToModelBinder;
 import org.nerd4j.csv.reader.binding.CSVToModelBinderFactory;
 
 
@@ -44,8 +43,7 @@ public final class CSVReaderMetadata<Model>
      * Tells the {@link CSVReader} to read the
      * first row of the CSV source as a header.
      * <p>
-     *  The default value for this flag is <code>true</code>.
-     * </p>
+     * The default value for this flag is {@code true}.
      */
     private final boolean readHeader;
     
@@ -53,18 +51,15 @@ public final class CSVReaderMetadata<Model>
      * This value tells the factory to use the header values
      * to identify the columns by name.
      * <p>
-     *  If this flag is <code>true</code>, the first row of
-     *  the CSV source is read as the header and the related
-     *  strings are matched in the configuration to identify
-     *  the corresponding columns.
-     * </p>
+     * If this flag is {@code true}, the first row of
+     * the CSV source is read as the header and the related
+     * strings are matched in the configuration to identify
+     * the corresponding columns.
      * <p>
-     *  This option can be used only if the flag "readHeader"
-     *  is <code>true</code>.
-     * </p>
+     * This option can be used only if the flag "readHeader"
+     * is {@code true}.
      * <p>
-     *  The default value for this flag is <code>true</code>.
-     * </p>
+     * The default value for this flag is {@code true}.
      */
     private final boolean useColumnNames;
     
@@ -73,9 +68,8 @@ public final class CSVReaderMetadata<Model>
      * But it is possible to face non standard CSV files where records
      * have different lengths.
      * <p>
-     *  This flag tells the reader to accept such non standard files.
-     *  In this case the reader may return incomplete data models.
-     * </p>
+     * This flag tells the reader to accept such non standard files.
+     * In this case the reader may return incomplete data models.
      */
     private final boolean acceptIncompleteRecords;
     
@@ -85,8 +79,7 @@ public final class CSVReaderMetadata<Model>
      * in the CSV and provides configurations about
      * how to handle the related fields.
      * <p>
-     *  This array cannot contain <code>null</code> values.
-     * </p>
+     * This array cannot contain {@code null} values.
      */
     private final CSVFieldMetadata<String,?>[] fieldConfigurations;
     
@@ -101,7 +94,7 @@ public final class CSVReaderMetadata<Model>
      * Constructor with parameters.
      * 
      * @param parserMetadata      the parser meta-data to use.
-     * @param modelBinderFactory  the factory able to create {@link CSVToModelBinder}s.
+     * @param modelBinderFactory  the factory able to create {@link org.nerd4j.csv.reader.binding.CSVToModelBinder CSVToModelBinder}s.
      * @param fieldConfigurations the configurations related to the single fields.
      * @param readHeader          tells if the header should be read.
      * @param useColumnNames      tells to use the column names in the header to perform column mapping.

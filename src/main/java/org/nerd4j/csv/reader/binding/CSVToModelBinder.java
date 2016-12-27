@@ -41,9 +41,8 @@ public interface CSVToModelBinder<M>
      * with the given data by the method
      * {@link CSVToModelBinder#fill(int,Object)}.
      * <p>
-     *  If a model already exists will be overridden
-     *  with a new empty instance.
-     * </p>
+     * If a model already exists will be overridden
+     * with a new empty instance.
      * 
      * @throws CSVToModelBindingException if the initialization of the model fails.
      */
@@ -62,9 +61,8 @@ public interface CSVToModelBinder<M>
     /**
      * Returns the internal model instance.
      * <p>
-     *  If the model has never been initializad
-     *  returns <code>null</code>.
-     * </p>
+     * If the model has never been initialized
+     * returns {@code null}.
      * 
      * @return the internal model instance.
      */

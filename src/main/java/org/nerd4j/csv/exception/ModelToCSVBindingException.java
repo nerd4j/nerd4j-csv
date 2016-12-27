@@ -37,7 +37,7 @@ public class ModelToCSVBindingException extends Exception
     
 	/**
 	 * Constructs a new {@link ModelToCSVBindingException} with
-	 * <code>null</code> as its detail message. The cause is not initialized,
+	 * {@code null} as its detail message. The cause is not initialized,
 	 * and may subsequently be initialized by a call to {@link #initCause}.
 	 */
     public ModelToCSVBindingException()
@@ -89,7 +89,7 @@ public class ModelToCSVBindingException extends Exception
 	 * Constructs a new {@link ModelToCSVBindingException} with the specified
 	 * detail message and cause.
 	 * <p>
-	 * Note that the detail message associated with <code>cause</code> is
+	 * Note that the detail message associated with {@code cause} is
 	 * <i>not</i> automatically incorporated in this exception's detail message.
 	 * 
 	 * @param message

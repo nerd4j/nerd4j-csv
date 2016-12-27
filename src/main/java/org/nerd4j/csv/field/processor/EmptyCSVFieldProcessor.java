@@ -39,7 +39,7 @@ public final class EmptyCSVFieldProcessor<V> extends CSVFieldProcessor<V,V>
 	/**
      * Constructor with parameters.
      * 
-     * @param the data type handled by this empty converter.
+     * @param type the data type handled by this empty converter.
      */
     public EmptyCSVFieldProcessor( final Class<V> type )
     {

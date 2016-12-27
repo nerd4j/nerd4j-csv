@@ -21,12 +21,9 @@
  */
 package org.nerd4j.csv.conf.mapping;
 
-import org.nerd4j.csv.parser.CSVParser;
-import org.nerd4j.csv.parser.CSVParserMetadata;
-
-
 /**
- * Represents the configuration of the {@link CSVParser}.
+ * Represents the configuration of the
+ * {@link org.nerd4j.csv.parser.CSVParser CSVParser}.
  * 
  * @author Nerd4j Team
  */
@@ -60,7 +57,7 @@ public class CSVParserConf extends CSVCharSetConf implements Cloneable
      * provided in the {@link CSVParserMetadata#recordSeparator}
      * field. By default it will match a record separator as
      * soon as it finds any record separator character (this is
-     * the behaviour implemented by Mucrosoft Excel and OpenOffice
+     * the behavior implemented by Microsoft Excel and OpenOffice
      * Calc).
      */
     private Boolean matchRecordSeparatorExactSequence;
@@ -88,41 +85,81 @@ public class CSVParserConf extends CSVCharSetConf implements Cloneable
     /* ******************* */
     
     
+    /**
+     * Returns the characters to ignore during parsing.
+     * 
+     * @return the characters to ignore during parsing.
+     */
     public char[] getCharsToIgnore()
     {
         return charsToIgnore;
     }
     
+    /**
+     * Sets the characters to ignore during parsing.
+     * 
+     * @param charsToIgnore value to set.
+     */
     public void setCharsToIgnore( char[] charsToIgnore )
     {
         this.charsToIgnore = charsToIgnore;
     }
     
+    /**
+     * Returns the characters to ignore if not inside a field.
+     * 
+     * @return the characters to ignore if not inside a field.
+     */
     public char[] getCharsToIgnoreAroundFields()
     {
         return charsToIgnoreAroundFields;
     }
 
+    /**
+     * Sets the characters to ignore if not inside a field.
+     * 
+     * @param charsToIgnoreAroundFields value to set.
+     */
     public void setCharsToIgnoreAroundFields( char[] charsToIgnoreAroundFields )
     {
         this.charsToIgnoreAroundFields = charsToIgnoreAroundFields;
     }
     
+    /**
+     * Returns the flag {@code lazy-quotes}.
+     * 
+     * @return the flag {@code lazy-quotes}.
+     */
     public Boolean isLazyQuotes()
     {
     	return lazyQuotes;
     }
     
+    /**
+     * Sets the flag {@code lazy-quotes}.
+     * 
+     * @param lazyQuotes value to set.
+     */
     public void setLazyQuotes( Boolean lazyQuotes )
     {
     	this.lazyQuotes = lazyQuotes;
     }
 
+    /**
+     * Returns the flag {@code match-record-separator-exact-sequence}.
+     * 
+     * @return the flag {@code match-record-separator-exact-sequence}.
+     */
     public Boolean isMatchRecordSeparatorExactSequence()
     {
     	return matchRecordSeparatorExactSequence;
     }
     
+    /**
+     * Sets the flag {@code match-record-separator-exact-sequence}.
+     * 
+     * @param matchRecordSeparatorExactSequence value to set.
+     */
     public void setMatchRecordSeparatorExactSequence( Boolean matchRecordSeparatorExactSequence )
     {
     	this.matchRecordSeparatorExactSequence = matchRecordSeparatorExactSequence;

@@ -31,24 +31,21 @@ import java.lang.annotation.Target;
  * Performs validation over the values of a CSV column
  * or the related data model field.
  * 
- * <p> <b>Usage</b> </p>
+ * <h3>Usage</h3>
  * <p>
- *  The {@link CSVFieldValidator} annotation is intended
- *  to be used inside a {@link CSVFieldProcessor} annotation.
- * </p>
+ * The {@link CSVFieldValidator} annotation is intended
+ * to be used inside a {@link CSVFieldProcessor} annotation.
  * 
  * <p>
- *   This annotation is equivalent to the XML configuration <tt>csv:validator</tt>.
- * </p>
+ * This annotation is equivalent to the XML configuration <tt>csv:validator</tt>.
  * 
  * <p>
- *  The built in validations types are:
- *  <ul>
- *    <li>checkStringLength  : length   = the actual length of the string (mandatory)</li>
- *    <li>checkStringLength  : min, max = the minimum and maximum length of the string (mandatory)</li>
- *    <li>checkRegEx         : pattern  = the regular expression pattern to match (mandatory)</li>
- *  </ul>
- * </p>
+ * The built in validations types are:
+ * <ul>
+ *  <li>checkStringLength  : length   = the actual length of the string (mandatory)</li>
+ *  <li>checkStringLength  : min, max = the minimum and maximum length of the string (mandatory)</li>
+ *  <li>checkRegEx         : pattern  = the regular expression pattern to match (mandatory)</li>
+ * </ul>
  * 
  * @author Nerd4j Team
  */

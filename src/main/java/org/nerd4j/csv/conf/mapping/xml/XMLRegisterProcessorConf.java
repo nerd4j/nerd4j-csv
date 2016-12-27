@@ -24,12 +24,12 @@ package org.nerd4j.csv.conf.mapping.xml;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
-import org.nerd4j.csv.field.CSVFieldProcessor;
 import org.nerd4j.format.Formatted;
 
 
 /**
- * Backing bean that represents the XML configuration of the {@link CSVFieldProcessor}.
+ * Backing bean that represents the XML configuration of the
+ * {@link org.nerd4j.csv.field.CSVFieldProcessor CSVFieldProcessor}.
  * 
  * @author Nerd4j Team
  */
@@ -61,12 +61,22 @@ public class XMLRegisterProcessorConf extends XMLFieldProcessorConf
     /* ******************* */
     
     
+    /**
+     * Returns the registry name.
+     * 
+     * @return the registry name.
+     */
     @XmlAttribute(name="name",required=true)
     public String getName()
     {
         return name;
     }
 
+    /**
+     * Sets  the registry name.
+     * 
+     * @param name value to set.
+     */
     public void setName( String name )
     {
         this.name = name;

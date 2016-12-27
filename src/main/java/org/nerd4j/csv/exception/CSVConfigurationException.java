@@ -34,7 +34,7 @@ public class CSVConfigurationException extends CSVException
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Constructs a new exception with <code>null</code> as its detail message.
+	 * Constructs a new exception with {@code null} as its detail message.
 	 * The cause is not initialized, and may subsequently be initialized by a
 	 * call to {@link #initCause}.
 	 */
@@ -63,7 +63,7 @@ public class CSVConfigurationException extends CSVException
 	
 	/**
 	 * Constructs a new exception with the specified cause and a detail message
-	 * of <code>(cause==null ? null : cause.toString())</code>.
+	 * of {@code (cause==null ? null : cause.toString())}.
 	 * 
 	 * @param cause
 	 *            the cause (which is saved for later retrieval by the
@@ -81,7 +81,7 @@ public class CSVConfigurationException extends CSVException
 	/**
 	 * Constructs a new exception with the specified detail message and cause.
 	 * <p>
-	 * Note that the detail message associated with <code>cause</code> is
+	 * Note that the detail message associated with {@code cause} is
 	 * <i>not</i> automatically incorporated in this exception's detail message.
 	 * 
 	 * @param message

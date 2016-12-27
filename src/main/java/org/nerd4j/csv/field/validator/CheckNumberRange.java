@@ -21,20 +21,14 @@
  */
 package org.nerd4j.csv.field.validator;
 
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
-
-import org.nerd4j.csv.field.CSVFieldValidator;
-
-
 /**
- * Implementation of the {@link CSVFieldValidator} interface that checks the
- * given {@link Number} value to be within the requested interval.
+ * Implementation of the {@link org.nerd4j.csv.field.CSVFieldValidator CSVFieldValidator}
+ * interface that checks the given {@link Number} value to be within the requested interval.
  * <p>
  * Due to {@link Comparable} needing not every {@link Number} can be handled (
- * {@link AtomicInteger} and {@link AtomicLong} don't implement
+ * {@link java.util.concurrent.atomic.AtomicInteger AtomicInteger} and
+ * {@link java.util.concurrent.atomic.AtomicLong AtomicLong} don't implement
  * {@link Comparable}).
- * </p>
  * 
  * @param <N> type of the {@link Number} to be validated.
  * 
@@ -59,7 +53,6 @@ public final class CheckNumberRange<N extends Number & Comparable<N>> extends Ab
      * Constructor with parameters.
      * <p>
      * Null values can be uses as substitute of +-infinite (no check).
-     * </p>
      * 
      * @param min the minimum value that the number must have.
      * @param max the maximum value that the number must have.

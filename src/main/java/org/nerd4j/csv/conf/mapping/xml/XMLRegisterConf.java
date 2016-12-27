@@ -73,17 +73,32 @@ public class XMLRegisterConf
     /* ******************* */
     
     
+    /**
+     * Returns the custom types configurations.
+     *  
+     * @return the custom types configurations.
+     */
     @XmlElement(name="types")
     public XMLRegisterTypesConf getTypes()
     {
         return types;
     }
     
+    /**
+     * Sets the custom types configurations.
+     * 
+     * @param types value to set.
+     */
     public void setTypes( XMLRegisterTypesConf types )
     {
         this.types = types;
     }
     
+    /**
+     * Returns the validators configurations.
+     * 
+     * @return the validators configurations.
+     */
     @XmlElement(name="validator")
     @XmlElementWrapper(name="validators")
     public List<XMLRegisterValidatorConf> getValidators()
@@ -91,11 +106,21 @@ public class XMLRegisterConf
         return validators;
     }
 
+    /**
+     * Sets the validators configurations.
+     * 
+     * @param validators value to set.
+     */
     public void setValidators( List<XMLRegisterValidatorConf> validators )
     {
         this.validators = validators;
     }
 
+    /**
+     * Returns the converters configurations.
+     * 
+     * @return the converters configurations.
+     */
     @XmlElement(name="converter")
     @XmlElementWrapper(name="converters")
     public List<XMLRegisterConverterConf> getConverters()
@@ -103,11 +128,21 @@ public class XMLRegisterConf
         return converters;
     }
     
+    /**
+     * Sets the converters configurations.
+     * 
+     * @param converters value to set.
+     */
     public void setConverters( List<XMLRegisterConverterConf> converters )
     {
         this.converters = converters;
     }
 
+    /**
+     * Returns the processors configurations.
+     * 
+     * @return the processors configurations.
+     */
     @XmlElement(name="processor")
     @XmlElementWrapper(name="processors")
     public List<XMLRegisterProcessorConf> getProcessors()
@@ -115,6 +150,11 @@ public class XMLRegisterConf
         return processors;
     }
     
+    /**
+     * Sets the processors configurations.
+     * 
+     * @param processors value to set.
+     */
     public void setProcessors( List<XMLRegisterProcessorConf> processors )
     {
         this.processors = processors;

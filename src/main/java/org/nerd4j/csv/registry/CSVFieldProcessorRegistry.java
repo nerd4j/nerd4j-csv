@@ -31,39 +31,37 @@ import org.nerd4j.csv.field.processor.EmptyCSVFieldProcessor;
  * Represents a registry of {@link CSVFieldProcessor}s.
  * 
  * <p>
- *  This registry is internally used to refer {@link CSVFieldProcessor}s by name.
- *  It is possible to register custom processors.
- * </p>
+ * This registry is internally used to refer {@link CSVFieldProcessor}s by name.
+ * It is possible to register custom processors.
  * 
  * <p>
- *  The following processors are registered by default:
- *  <ul>
- *    <li>parseByte</li>
- *    <li>parseShort</li>
- *    <li>parseInteger</li>
- *    <li>parseLong</li>
- *    <li>parseFloat</li>
- *    <li>parseDouble</li>
- *    <li>parseBigInteger</li>
- *    <li>parseBigDecimal</li>
- *    <li>parseAtomicInteger</li>
- *    <li>parseAtomicLong</li>
- *    <br />
- *    <li>formatByte</li>
- *    <li>formatShort</li>
- *    <li>formatInteger</li>
- *    <li>formatLong</li>
- *    <li>formatFloat</li>
- *    <li>formatDouble</li>
- *    <li>formatBigInteger</li>
- *    <li>formatBigDecimal</li>
- *    <li>formatAtomicInteger</li>
- *    <li>formatAtomicLong</li>
- *    <br />
- *    <li>parseBoolean</li>
- *    <li>formatBoolean</li>
- *  </ul>
- * </p>
+ * The following processors are registered by default:
+ * <ul>
+ *  <li>parseByte</li>
+ *  <li>parseShort</li>
+ *  <li>parseInteger</li>
+ *  <li>parseLong</li>
+ *  <li>parseFloat</li>
+ *  <li>parseDouble</li>
+ *  <li>parseBigInteger</li>
+ *  <li>parseBigDecimal</li>
+ *  <li>parseAtomicInteger</li>
+ *  <li>parseAtomicLong</li>
+ *  <br>
+ *  <li>formatByte</li>
+ *  <li>formatShort</li>
+ *  <li>formatInteger</li>
+ *  <li>formatLong</li>
+ *  <li>formatFloat</li>
+ *  <li>formatDouble</li>
+ *  <li>formatBigInteger</li>
+ *  <li>formatBigDecimal</li>
+ *  <li>formatAtomicInteger</li>
+ *  <li>formatAtomicLong</li>
+ *  <br>
+ *  <li>parseBoolean</li>
+ *  <li>formatBoolean</li>
+ * </ul>
  * 
  * @author Nerd4j Team
  */

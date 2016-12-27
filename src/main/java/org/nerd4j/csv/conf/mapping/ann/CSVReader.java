@@ -31,18 +31,16 @@ import java.lang.annotation.Target;
  * Creates a {@link org.nerd4j.csv.reader.CSVReader CSVReader} using the
  * annotated JavaBean to retrieve the required configurations.
  * 
- * <p> <b>Usage</b> </p>
+ * <h3>Usage</h3>
  * <p>
- *  The {@link CSVReader} annotation can be used with the
- *  following program elements: 
+ * The {@link CSVReader} annotation can be used with the
+ * following program elements: 
  * <ul> 
- *   <li> JavaBean class.</li>
+ *  <li> JavaBean class.</li>
  * </ul>
- * </p>
  * 
  * <p>
- *   This annotation is equivalent to the XML configuration <tt>csv:reader</tt>.
- * </p>
+ *  This annotation is equivalent to the XML configuration <tt>csv:reader</tt>.
  * 
  * @author Nerd4j Team
  */
@@ -56,7 +54,7 @@ public @interface CSVReader
 	 * the first row of the CSV source
 	 * and use it as a CSV header.
 	 * 
-	 * @return <code>true</code> if the CSV header has to be read.
+	 * @return {@code true} if the CSV header has to be read.
 	 */
 	public boolean readHeader() default true;
 	
@@ -65,13 +63,12 @@ public @interface CSVReader
 	 * the read CSV header to link each
 	 * column to the configured name.
 	 * <p>
-	 *  This parameter can be <code>true</code>
-	 *  only if the 'readHeader' is also <code>true</code>,
+	 *  This parameter can be {@code true}
+	 *  only if the 'readHeader' is also {@code true},
 	 *  otherwise the configuration is inconsistent.
-	 * </p>
 	 * 
-	 * @return <code>true</code> if the column names
-	 *          has to be used instead of the column indexes.
+	 * @return {@code true} if the column names
+	 *         has to be used instead of the column indexes.
 	 */
 	public boolean useColumnNames() default true;
 	
@@ -80,10 +77,11 @@ public @interface CSVReader
      * But it is possible to face non standard CSV files where records
      * have different lengths.
      * <p>
-     *  This flag tells the {@link org.nerd4j.csv.reader.CSVReader CSVReader}
-     *  to accept such non standard files. In this case the reader may return
-     *  incomplete data models.
-     * </p>
+     * This flag tells the {@link org.nerd4j.csv.reader.CSVReader CSVReader}
+     * to accept such non standard files. In this case the reader may return
+     * incomplete data models.
+     * 
+     * @return {@code true} if the reader accepts incomplete records.
      */
 	public boolean acceptIncompleteRecords() default false;
 

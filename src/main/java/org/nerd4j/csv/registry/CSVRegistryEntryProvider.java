@@ -31,11 +31,10 @@ import org.nerd4j.csv.exception.CSVConfigurationException;
  * of a CSV component registry entry.
  * 
  * <p>
- *  This class is intended to be used during configuration parsing.
- *  Configuration are expressed by string values, so the provider
- *  has the aim to properly convert the string parameters into the
- *  requested values.
- * </p>
+ * This class is intended to be used during configuration parsing.
+ * Configuration are expressed by string values, so the provider
+ * has the aim to properly convert the string parameters into the
+ * requested values.
  * 
  * @param <Entry> type of the entry to provide.
  * 

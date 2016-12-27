@@ -87,28 +87,53 @@ public class XMLHandlerConf implements DependentBean
     /* ******************* */
     
     
+    /**
+     * Returns the name related to the configuration.
+     * 
+     * @return the name related to the configuration.
+     */
     @XmlAttribute(name="name",required=true)
     public String getName()
     {
         return name;
     }
 
+    /**
+     * Sets  the name related to the configuration.
+     * 
+     * @param name value to set.
+     */
     public void setName( String name )
     {
         this.name = name;
     }
     
+    /**
+     * Returns the key of the parent configuration inherited by the current one.
+     * 
+     * @return the key of the parent configuration inherited by the current one.
+     */
     @XmlAttribute(name="inherit",required=false)
     public String getInherit()
     {
         return inherit;
     }
     
+    /**
+     * Sets the key of the parent configuration inherited by the current one.
+     * 
+     * @param inherit value to set.
+     */
     public void setInherit( String inherit )
     {
         this.inherit = inherit;
     }
     
+    /**
+     * Returns the configurations related to the CSV columns.
+     * 
+     * @return the configurations related to the CSV columns.
+     */
     @XmlElement(name="column",required=true)
     @XmlElementWrapper(name="columns",required=true)
     public List<XMLColumnConf> getColumns()
@@ -116,17 +141,32 @@ public class XMLHandlerConf implements DependentBean
         return columns;
     }
     
+    /**
+     * Sets the configurations related to the CSV columns.
+     * 
+     * @param columns value to set.
+     */
     public void setColumns( List<XMLColumnConf> columns )
     {
         this.columns = columns;
     }
 
+    /**
+     * Returns the configuration related to the model binder.
+     * 
+     * @return the configuration related to the model binder.
+     */
     @XmlElement(name="model-binder",required=false)
     public XMLModelBinderConf getModelBinder()
     {
         return modelBinder;
     }
     
+    /**
+     * Sets the configuration related to the model binder.
+     * 
+     * @param modelBinder value to set.
+     */
     public void setModelBinder( XMLModelBinderConf modelBinder )
     {
         this.modelBinder = modelBinder;
@@ -150,6 +190,11 @@ public class XMLHandlerConf implements DependentBean
             return Collections.emptySet();
     }
 
+    /**
+	 * Sets the current dependency set.
+	 * 
+	 * @param dependency value to set.
+	 */
     public void setDependency( XMLHandlerConf dependency )
     {
         this.dependency = dependency;

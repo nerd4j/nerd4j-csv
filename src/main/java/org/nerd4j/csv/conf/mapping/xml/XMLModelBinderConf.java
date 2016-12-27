@@ -29,13 +29,11 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
 
-import org.nerd4j.csv.reader.binding.CSVToModelBinder;
-import org.nerd4j.csv.writer.binding.ModelToCSVBinder;
-
 
 /**
  * Backing bean that represents the XML configuration of the
- * {@link CSVToModelBinder} or {@link ModelToCSVBinder}.
+ * {@link org.nerd4j.csv.reader.binding.CSVToModelBinder CSVToModelBinder}
+ * or {@link org.nerd4j.csv.writer.binding.ModelToCSVBinder ModelToCSVBinder}.
  * 
  * @author Nerd4j Team
  */
@@ -70,24 +68,43 @@ public class XMLModelBinderConf
     /* ******************* */
     
     
+    /**
+     * Returns the model binder type.
+     * 
+     * @return the model binder type.
+     */
     @XmlAttribute(name="type",required=true)
     public String getType()
     {
         return type;
     }
 
+    /**
+     * Sets the model binder type.
+     * 
+     * @param type value to set.
+     */
     public void setType( String type )
     {
         this.type = type;
     }
 
-
+    /**
+     * Returns the configuration parameters.
+     * 
+     * @return the configuration parameters.
+     */
     @XmlAnyAttribute
     public Map<QName,String> getParams()
     {
         return params;
     }
     
+    /**
+     * Sets the configuration parameters.
+     * 
+     * @param params value to set.
+     */
     public void setParams( Map<QName,String> params )
     {
         this.params = params;

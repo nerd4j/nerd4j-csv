@@ -57,9 +57,8 @@ public interface CSVFieldConverter<S,T> extends CSVProcessOperation, CSVRegistry
      * Applies the conversion of the field in source
      * format and returns the field in target format.
      * <p>
-     *  If the conversion fails it modifies the context
-     *  accordingly with the framework policies.
-     * </p>
+     * If the conversion fails it modifies the context
+     * accordingly with the framework policies.
      * 
      * @param source the CSV field to convert.
      * @param context the field process execution context.

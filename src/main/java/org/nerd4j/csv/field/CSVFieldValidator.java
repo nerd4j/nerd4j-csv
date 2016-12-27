@@ -25,7 +25,6 @@ import org.nerd4j.csv.CSVProcessOperation;
 import org.nerd4j.csv.registry.CSVRegistryEntry;
 
 
-
 /**
  * Represents a class able to check a condition
  * over the given CSV field.

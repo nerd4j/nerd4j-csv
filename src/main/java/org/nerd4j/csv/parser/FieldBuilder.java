@@ -22,12 +22,12 @@
 package org.nerd4j.csv.parser;
 
 import java.io.IOException;
-import java.io.Reader;
 import java.io.Writer;
+
 
 /**
  * Mimic {@link StringBuilder} functionality adding mark and reset capabilities
- * similar to {@link Reader} ones. See {@link #mark()} javadoc for more details.
+ * similar to {@link Reader} ones. See {@link #mark()} javaDoc for more details.
  * 
  * @author Nerd4j Team
  */
@@ -82,34 +82,28 @@ interface FieldBuilder
 	 * Appending ({@link #append(char)}) more than a character implicitly
 	 * clear the marker an no return will be possible anymore
 	 * regardless the method {@link FieldBuilder#extendMark()} is called.
-	 * </p>
 	 * <p>
 	 * Consecutive {@link #mark()} calls will reset the marker position.
 	 * To extend the marker space {@link FieldBuilder#extendMark()} needs
 	 * to be called before appending a character.
 	 * For example the next {@link FieldBuilder} will
 	 * contain the "A" string at procedure end:
-	 * 
 	 * <pre>
-	 * builder.append('A');
-	 * builder.mark();
-	 * builder.append('B');
-	 * builder.extendMark();
-	 * builder.append('C');
-	 * builder.rollbackToMark();
+	 *  builder.append('A');
+	 *  builder.mark();
+	 *  builder.append('B');
+	 *  builder.extendMark();
+	 *  builder.append('C');
+	 *  builder.rollbackToMark();
 	 * </pre>
-	 * 
 	 * Differently next one will contain "ABC":
-	 * 
 	 * <pre>
-	 * builder.append('A');
-	 * builder.mark();
-	 * builder.append('B');
-	 * builder.append('C');
-	 * builder.rollbackToMark();
+ 	 *  builder.append('A');
+	 *  builder.mark();
+	 *  builder.append('B');
+	 *  builder.append('C');
+	 *  builder.rollbackToMark();
 	 * </pre>
-	 * 
-	 * </p>
 	 */
 	public void mark();
 	
@@ -123,7 +117,7 @@ interface FieldBuilder
 	
 	/**
 	 * Reset content state to last mark if possible;
-	 * see {@link #mark()} javadoc for details.
+	 * see {@link #mark()} javaDoc for details.
 	 */
 	public void rollbackToMark();
 	

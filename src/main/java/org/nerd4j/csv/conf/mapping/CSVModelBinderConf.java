@@ -24,13 +24,11 @@ package org.nerd4j.csv.conf.mapping;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.nerd4j.csv.reader.binding.CSVToModelBinder;
-import org.nerd4j.csv.writer.binding.ModelToCSVBinder;
-
 
 /**
  * Represents the configuration of the
- * {@link CSVToModelBinder} or {@link ModelToCSVBinder}.
+ * {@link org.nerd4j.csv.reader.binding.CSVToModelBinder CSVToModelBinder}
+ * or {@link org.nerd4j.csv.writer.binding.ModelToCSVBinder ModelToCSVBinder}.
  * 
  * @author Nerd4j Team
  */
@@ -64,16 +62,31 @@ public class CSVModelBinderConf implements Cloneable
     /* ******************* */
     
     
+    /**
+     * Returns the model binder type.
+     * 
+     * @return the model binder type.
+     */
     public String getType()
     {
         return type;
     }
 
+    /**
+     * Sets the model binder type.
+     * 
+     * @param type value to set.
+     */
     public void setType( String type )
     {
         this.type = type;
     }
 
+    /**
+     * Returns the configuration parameters.
+     * 
+     * @return the configuration parameters.
+     */
     public Map<String,String> getParams()
     {
         return params;

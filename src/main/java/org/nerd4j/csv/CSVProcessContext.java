@@ -26,18 +26,16 @@ package org.nerd4j.csv;
  * Represents the CSV processing execution context.
  * 
  * <p>
- *  This context is used both during reading of a
- *  CSV source and during writing to a CSV target.
- * </p>
+ * This context is used both during reading of a
+ * CSV source and during writing to a CSV target.
  * 
  * <p>
- *  This context keeps some information like:
- *  <ul>
- *   <li>The index of the row currently processed.</li>
- *   <li>The index of the column currently processed.</li>
- *   <li>If an error has occurred processing the current position.</li>
- *  </ul>
- * </p>
+ * This context keeps some information like:
+ * <ul>
+ *  <li>The index of the row currently processed.</li>
+ *  <li>The index of the column currently processed.</li>
+ *  <li>If an error has occurred processing the current position.</li>
+ * </ul>
  * 
  * @author Nerd4j Team
  */
@@ -61,15 +59,14 @@ public interface CSVProcessContext
     /**
      * Tells if an error has occurred during execution.
      *  
-     * @return <code>true</code> if an error has occurred.
+     * @return {@code true} if an error has occurred.
      */
     public boolean isError();
     
     /**
      * Returns the related error if the method {@link #isError()}
-     * returns <code>true</code>.
      *  
-     * @return the error if occurred, <code>null</code> otherwise.
+     * @return the error if occurred, {@code null} otherwise.
      */
     public CSVProcessError getError();
     

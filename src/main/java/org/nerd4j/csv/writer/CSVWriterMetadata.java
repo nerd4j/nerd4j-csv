@@ -23,10 +23,8 @@ package org.nerd4j.csv.writer;
 
 import org.nerd4j.csv.exception.CSVConfigurationException;
 import org.nerd4j.csv.field.CSVFieldMetadata;
-import org.nerd4j.csv.formatter.CSVFormatter;
 import org.nerd4j.csv.formatter.CSVFormatterFactory;
 import org.nerd4j.csv.formatter.CSVFormatterMetadata;
-import org.nerd4j.csv.writer.binding.ModelToCSVBinder;
 import org.nerd4j.csv.writer.binding.ModelToCSVBinderFactory;
 
 
@@ -45,8 +43,7 @@ public final class CSVWriterMetadata<Model>
      * Tells the {@link CSVWriter} to write the
      * given header into the first row of the CSV destination.
      * <p>
-     *  The default value for this flag is <code>true</code>.
-     * </p>
+     * The default value for this flag is {@code true}.
      */
     private final boolean writeHeader;
     
@@ -55,8 +52,7 @@ public final class CSVWriterMetadata<Model>
      * in the CSV and provides configurations about
      * how to handle the related fields.
      * <p>
-     *  This array cannot contain <code>null</code> values.
-     * </p>
+     * This array cannot contain {@code null} values.
      */
     private final CSVFieldMetadata<?,String>[] fieldConfigurations;
     
@@ -71,7 +67,7 @@ public final class CSVWriterMetadata<Model>
      * Constructor with parameters.
      * 
      * @param formatterMetadata    the configuration of the formatter to use.
-     * @param modelBinderFactory   the factory able to create {@link ModelToCSVBinder}s.
+     * @param modelBinderFactory   the factory able to create {@link org.nerd4j.csv.writer.binding.ModelToCSVBinder ModelToCSVBinder}s.
      * @param fieldConfigurations  the configurations related to the single fields.
      * @param writeHeader          tells if the header should be written.
      */
@@ -101,21 +97,41 @@ public final class CSVWriterMetadata<Model>
     /* ******************* */
     
     
+    /**
+     * Returns the {@code write-header} flag. 
+     * 
+     * @return the {@code write-header} flag.
+     */
     public boolean isWriteHeader()
     {
         return writeHeader;
     }
     
+    /**
+     * Returns the configurations related to the fields.
+     * 
+     * @return the configurations related to the fields.
+     */
     public CSVFieldMetadata<?,String>[] getFieldConfigurations()
     {
         return fieldConfigurations;
     }
     
+    /**
+     * Returns the model binder factory.
+     * 
+     * @return the model binder factory.
+     */
     public ModelToCSVBinderFactory<Model> getModelBinderFactory()
     {
         return modelBinderFactory;
     }
     
+    /**
+     * Returns the formatter factory.
+     * 
+     * @return the formatter factory.
+     */
     public CSVFormatterFactory getFormatterFactory()
     {
         return formatterFactory;

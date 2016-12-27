@@ -24,12 +24,11 @@ package org.nerd4j.csv.conf.mapping.xml;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
-import org.nerd4j.csv.field.CSVFieldValidator;
-
 
 
 /**
- * Backing bean that represents the XML configuration of the {@link CSVFieldValidator}.
+ * Backing bean that represents the XML configuration of the
+ * {@link org.nerd4j.csv.field.CSVFieldValidator CSVFieldValidator}.
  * 
  * @author Nerd4j Team
  */
@@ -60,12 +59,22 @@ public class XMLRegisterValidatorConf extends XMLFieldValidatorConf
     /* ******************* */
     
     
+    /**
+     * Returns the registry name.
+     * 
+     * @return the registry name.
+     */
     @XmlAttribute(name="name",required=true)
     public String getName()
     {
         return name;
     }
 
+    /**
+     * Sets  the registry name.
+     * 
+     * @param name value to set.
+     */
     public void setName( String name )
     {
         this.name = name;

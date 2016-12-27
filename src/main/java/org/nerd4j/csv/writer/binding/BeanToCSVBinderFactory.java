@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- * Represents a <code>Factory</code> able to build and configure
+ * Represents a {@code Factory} able to build and configure
  * {@link ModelToCSVBinder}s which reads data models and provides
  * CSV record fields in the right order.
  * 
@@ -55,6 +55,7 @@ public final class BeanToCSVBinderFactory<B> extends AbstractModelToCSVBinderFac
      * Constructor with parameters.
      * 
      * @param beanClass the type of the data bean.
+     * @throws ModelToCSVBindingException if the creation fails.
      */
     public BeanToCSVBinderFactory( final Class<B> beanClass )
     throws ModelToCSVBindingException

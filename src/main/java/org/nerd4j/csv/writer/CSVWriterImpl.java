@@ -38,19 +38,16 @@ import org.slf4j.LoggerFactory;
  * Reference implementation if the {@link CSVWriter} interface.
  * 
  * <p>
- *  Reads an object of type <e>M</e> that represents the
- *  data model and writes the corresponding CSV record
- *  to the given destination. 
- * </p>
+ * Reads an object of type <e>M</e> that represents the
+ * data model and writes the corresponding CSV record
+ * to the given destination. 
  * 
  * <h3>Synchronization</h3>
- *
  * <p>
- *  CSV writers are not synchronized.
- *  It is recommended to create separate CSV writer instances for each thread.
- *  If multiple threads access a CSV writer concurrently, it must be synchronized
- *  externally.
- * </p>
+ * CSV writers are not synchronized.
+ * It is recommended to create separate CSV writer instances for each thread.
+ * If multiple threads access a CSV writer concurrently, it must be synchronized
+ * externally.
  * 
  * @param <M> type of the data model representing the CSV record.
  * 

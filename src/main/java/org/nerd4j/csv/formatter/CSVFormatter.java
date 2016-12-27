@@ -24,25 +24,21 @@ package org.nerd4j.csv.formatter;
 import java.io.Closeable;
 import java.io.Flushable;
 import java.io.IOException;
-import java.io.Writer;
 
 
 /**
- * <tt>CSVFormatter</tt> writes character data from a {@link String}, parsing and
- * quoting if needed and writing into a {@link Writer}.
+ * Writes character data from a {@link String}, parsing and
+ * quoting if needed and writing into a {@link java.io.Writer Writer}.
  * 
  * <p>
- *  After use it should be closed to permit resource release.
- * </p>
+ * After use it should be closed to permit resource release.
  * 
  * <h3>Synchronization</h3>
- *
  * <p>
- *  CSV formatters are not synchronized.
- *  It is recommended to create separate CSV formatter instances for each thread.
- *  If multiple threads access a CSV formatter concurrently, it must be synchronized
- *  externally.
- * </p>
+ * CSV formatters are not synchronized.
+ * It is recommended to create separate CSV formatter instances for each thread.
+ * If multiple threads access a CSV formatter concurrently, it must be synchronized
+ * externally.
  * 
  * @author Nerd4j Team
  */

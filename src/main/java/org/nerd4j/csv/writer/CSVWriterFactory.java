@@ -31,7 +31,7 @@ import org.nerd4j.csv.exception.ModelToCSVBindingException;
 
 
 /**
- * Represents a <code>Factory</code> able to build and configure {@link CSVWriter}s.
+ * Represents a {@code Factory} able to build and configure {@link CSVWriter}s.
  * 
  * @param <Model> type of the data model accepted by the writer.
  * 
@@ -67,7 +67,7 @@ public interface CSVWriterFactory<Model>
     
     /**
      * Creates the {@link CSVWriter} able to write the given
-     * data model of type <code>M</code> into the provided
+     * data model of type {@code M} into the provided
      * CSV destination.
      * 
      * @param writer the CSV destination writer.

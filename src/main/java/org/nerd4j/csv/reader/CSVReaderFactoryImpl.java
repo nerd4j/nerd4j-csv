@@ -59,16 +59,6 @@ public final class CSVReaderFactoryImpl<Model> implements CSVReaderFactory<Model
     private final CSVReaderMetadataFactory<Model> metadataFactory;
     
     
-//    /** The configuration to use for creating and configuring the {@link CSVReader}s. */
-//    private final CSVReaderMetadata<Model> configuration;
-    
-//    /** Factory used to build CSV source parsers. */
-//    private CSVParserFactory parserFactory;
-//    
-//    /** Factory used to create builders which know how to populate the returned data model. */
-//    private CSVToModelBinderFactory<Model> binderFactory;
-
-    
     /**
      * Constructor with parameters.
      * 
@@ -83,8 +73,6 @@ public final class CSVReaderFactoryImpl<Model> implements CSVReaderFactory<Model
             throw new CSVConfigurationException( "The CSV reader configuration is mandatory" );
         
         this.metadataFactory = metadataFactory;
-//        this.binderFactory = configuration.getModelBinderFactory();
-//        this.parserFactory = new CSVParserFactory( configuration.getParserConfiguration() );
         
     }
     
@@ -163,13 +151,13 @@ public final class CSVReaderFactoryImpl<Model> implements CSVReaderFactory<Model
     
     
     /**
-     * If the flag "readHeader" in the configuration is <code>true</code>
+     * If the flag "readHeader" in the configuration is {@code true}
      * reads the first row and returns an array of {@link String}s
      * representing the CSV source header.
      * 
      * @param csvParser the CSV source parser.
      * @param metadata  the meta-data model to read configuration from.
-     * @return the CSV source header or <code>null</code>.
+     * @return the CSV source header or {@code null}.
      * @throws IOException if the CSV parser fails to read the source.
      */
     private String[] readHeaderIfNeeded( CSVParser csvParser, CSVReaderMetadata<Model> metadata )
@@ -226,22 +214,16 @@ public final class CSVReaderFactoryImpl<Model> implements CSVReaderFactory<Model
     /**
      * Returns an array that associates each column of the source
      * CSV with the corresponding index in the configuration.
-     * 
      * <p>
-     *  This process is performed by reading the CSV source header.
-     *  If the header is <code>null</code> all the information
-     *  will be taken from the configuration.  
-     * </p>
-     * 
+     * This process is performed by reading the CSV source header.
+     * If the header is {@code null} all the information
+     * will be taken from the configuration.  
      * <p>
      *  If the configuration is smaller than the source CSV some
-     *  entries in the array may be <code>null</code>.
-     * </p>
-     * 
+     *  entries in the array may be {@code null}.
      * <p>
      *  If the configuration is greater than the source CSV the
      *  inconsistent configurations will be ignored.
-     * </p>
      * 
      * @param header the CSV source header if any.
      * @param metadata  the meta-data model to read configuration from.

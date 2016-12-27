@@ -33,19 +33,16 @@ import org.nerd4j.csv.exception.ModelToCSVBindingException;
  * Represents a CSV destination writer.
  * 
  * <p>
- *  Reads an object of type {@code M} that represents the
- *  data model and writes the corresponding CSV record
- *  to the given destination. 
- * </p>
+ * Reads an object of type {@code M} that represents the
+ * data model and writes the corresponding CSV record
+ * to the given destination. 
  * 
  * <h3>Synchronization</h3>
- *
  * <p>
- *  CSV writers are not synchronized.
- *  It is recommended to create separate CSV writer instances for each thread.
- *  If multiple threads access a CSV writer concurrently, it must be synchronized
- *  externally.
- * </p>
+ * CSV writers are not synchronized.
+ * It is recommended to create separate CSV writer instances for each thread.
+ * If multiple threads access a CSV writer concurrently, it must be synchronized
+ * externally.
  * 
  * @param <M> type of the data model representing the CSV record.
  * 
@@ -58,28 +55,29 @@ public interface CSVWriter<M> extends Closeable, Flushable
 	 * Writes the given data model, formatted like
 	 * a CSV record into the configured CSV destination.
 	 * <p>
-     *  This method has a cleaner interface but handles
-     *  processing errors by throwing {@link CSVProcessException}
-     *  therefore it may be slow. If performance matters
-     *  use {@link CSVWriter#write(Object)} instead.
-     * </p>
+     * This method has a cleaner interface but handles
+     * processing errors by throwing
+     * {@link org.nerd4j.csv.exception.CSVProcessException CSVProcessException}
+     * therefore it may be slow. If performance matters
+     * use {@link CSVWriter#write(Object)} instead.
 	 * 
+	 * @param model the data model to write.
 	 * @throws IOException if an error occurs reading the CSV source.
 	 * @throws ModelToCSVBindingException if an error occurs during model binding.
 	 * @throws CSVProcessException if an error occurs during data processing.
 	 */
-	public void writeModel( M model ) throws IOException, ModelToCSVBindingException;
+	public void writeModel( M model ) throws IOException, ModelToCSVBindingException, CSVProcessException;
 	
 	/**
 	 * Writes the given data model, formatted like
 	 * a CSV record into the configured CSV destination.
 	 * <p>
-	 *  <b>IMPORTANT</b> for performance reasons there is only one
-	 *                   instance of the read outcome.
-	 *                   So the internal values of this object may
-	 *                   vary during execution.
-	 * </p>
+	 * <b>IMPORTANT</b> for performance reasons there is only one
+	 *                  instance of the read outcome.
+	 *                  So the internal values of this object may
+	 *                  vary during execution.
 	 * 
+	 * @param model the data model to write.
 	 * @return the outcome of the writing process.
 	 * @throws IOException if an error occurs reading the CSV source.
 	 * @throws ModelToCSVBindingException if an error occurs during model binding.

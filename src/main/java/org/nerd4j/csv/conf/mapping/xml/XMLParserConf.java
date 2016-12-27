@@ -25,8 +25,6 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
-import org.nerd4j.csv.parser.CSVParserMetadata;
-
 
 
 /**
@@ -112,6 +110,11 @@ public class XMLParserConf extends XMLCharSetConf
     /* ******************* */
     
     
+    /**
+     * Returns the characters to ignore during parsing.
+     * 
+     * @return the characters to ignore during parsing.
+     */
     @XmlTransient
     public char[] getCharsToIgnore()
     {
@@ -123,12 +126,22 @@ public class XMLParserConf extends XMLCharSetConf
         
     }
     
+    /**
+     * Sets the characters to ignore during parsing.
+     * 
+     * @param charsToIgnore value to set.
+     */
     public void setCharsToIgnore( char[] charsToIgnore )
     {
         this.charsToIgnore = charsToIgnore;
         this.charsToIgnoreString = formatCharSet( charsToIgnore );
     }
     
+    /**
+     * Returns the characters to ignore if not inside a field.
+     * 
+     * @return the characters to ignore if not inside a field.
+     */
     @XmlTransient
     public  char[] getCharsToIgnoreAroundFields()
     {
@@ -140,29 +153,54 @@ public class XMLParserConf extends XMLCharSetConf
         
     }
     
+    /**
+     * Sets the characters to ignore if not inside a field.
+     * 
+     * @param charsToIgnoreAroundFields value to set.
+     */
     public void setCharsToIgnoreAroundFields(  char[] charsToIgnoreAroundFields )
     {
         this.charsToIgnoreAroundFields = charsToIgnoreAroundFields;
         this.charsToIgnoreAroundFieldsString = formatCharSet( charsToIgnoreAroundFields );
     }
     
+    /**
+     * Returns the flag {@code match-record-separator-exact-sequence}.
+     * 
+     * @return the flag {@code match-record-separator-exact-sequence}.
+     */
     @XmlAttribute(name=MATCH_RECORD_SEP_EXACT_SEQUENCE,required=false)
 	public Boolean isMatchRecordSeparatorExactSequence()
 	{
 		return matchRecordSeparatorExactSequence;
 	}
     
+    /**
+     * Sets the flag {@code match-record-separator-exact-sequence}.
+     * 
+     * @param matchRecordSeparatorExactSequence value to set.
+     */
 	public void setMatchRecordSeparatorExactSequence( Boolean matchRecordSeparatorExactSequence )
 	{
 		this.matchRecordSeparatorExactSequence = matchRecordSeparatorExactSequence;
 	}
     
+	/**
+     * Returns the flag {@code lazy-quotes}.
+     * 
+     * @return the flag {@code lazy-quotes}.
+     */
 	@XmlAttribute(name=LAZY_QUOTES,required=false)
 	public Boolean isLazyQuotes()
 	{
 		return lazyQuotes;
 	}
 	
+	/**
+     * Sets the flag {@code lazy-quotes}.
+     * 
+     * @param lazyQuotes value to set.
+     */
 	public void setLazyQuotes( Boolean lazyQuotes )
 	{
 		this.lazyQuotes = lazyQuotes;

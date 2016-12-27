@@ -58,21 +58,41 @@ public class CSVRegisterProviderConf implements Cloneable
     /* ******************* */
 
     
+    /**
+     * Returns the registry name.
+     * 
+     * @return the registry name.
+     */
     public String getTypeName()
     {
         return typeName;
     }
     
+    /**
+     * Sets the registry name.
+     * 
+     * @param typeName value to set.
+     */
     public void setTypeName( String typeName )
     {
         this.typeName = typeName;
     }
 
+    /**
+     * Returns the name of the class that implements the provider.
+     * 
+     * @return full qualified name.
+     */
     public String getProviderClass()
     {
         return providerClass;
     }
     
+    /**
+     * Sets the name of the class that implements the provider.
+     * 
+     * @param providerClass value to set.
+     */
     public void setProviderClass( String providerClass )
     {
         this.providerClass = providerClass;

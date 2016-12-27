@@ -34,10 +34,9 @@ import org.nerd4j.csv.parser.CSVToken;
  * aim to read the CSV header.
  * 
  * <p>
- *  This class is intended for internal use only.
- *  The aim of this class is to read the CSV header
- *  if needed.
- * </p>
+ * This class is intended for internal use only.
+ * The aim of this class is to read the CSV header
+ * if needed.
  * 
  * @author Nerd4J Team
  */

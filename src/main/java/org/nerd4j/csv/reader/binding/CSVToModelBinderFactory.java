@@ -26,10 +26,8 @@ import org.nerd4j.csv.reader.CSVReaderMetadata;
 import org.nerd4j.csv.registry.CSVRegistryEntry;
 
 
-
-
 /**
- * Represents a <code>Factory</code> able to build and configure
+ * Represents a {@code Factory} able to build and configure
  * {@link CSVToModelBinder}s which populates data models of the given type.
  * 
  * @param <Model> type of the model returned by the builder.

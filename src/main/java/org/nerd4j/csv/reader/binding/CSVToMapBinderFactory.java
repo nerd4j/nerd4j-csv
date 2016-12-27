@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- * Represents a <code>Factory</code> able to build and configure
+ * Represents a {@code Factory} able to build and configure
  * {@link CSVToModelBinder}s which populates {@link Map}s that
  * associates to column names the related values.
  * 
@@ -48,6 +48,7 @@ public final class CSVToMapBinderFactory extends AbstractCSVToModelBinderFactory
     /**
      * Default constructor.
      * 
+     * @throws CSVToModelBindingException if the creation fails.
      */
     public CSVToMapBinderFactory() throws CSVToModelBindingException
     {

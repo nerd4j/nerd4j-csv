@@ -27,17 +27,14 @@ import org.nerd4j.csv.RemarkableASCII;
 import org.nerd4j.csv.exception.CSVConfigurationException;
 
 
-
 /**
  * Factory of {@link CSVParser}.
  * 
  * <p>
- *  Handles correct parsers configuration and creation.
- * </p>
+ * Handles correct parsers configuration and creation.
  * 
  * <p>
- *  Many useful notable characters are provided as public constants.
- * </p>
+ * Many useful notable characters are provided as public constants.
  * 
  * @author Nerd4j Team
  */
@@ -120,7 +117,8 @@ public final class CSVParserFactory
 	/**
 	 * Create a new {@link CSVParser} to read data from given {@link Reader}.
 	 * 
-	 * @param reader csv data source.
+	 * @param reader CSV data source.
+	 * @return the new created CSV parser.
 	 */
 	public CSVParser create( final Reader reader )
 	{

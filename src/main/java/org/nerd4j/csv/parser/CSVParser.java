@@ -23,24 +23,21 @@ package org.nerd4j.csv.parser;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.io.Reader;
+
 
 /**
- * <tt>CSVParser</tt> reads character data from a {@link Reader}, parsing and
- * tokenizing them into {@link CSVToken}.
+ * Reads character data from a {@link java.io.Reader Reader},
+ * parsing and tokenizing them into {@link CSVToken}.
  * 
  * <p>
- *  After usage it should be closed to permit resource release.
- * </p>
+ * After usage it should be closed to permit resource release.
  * 
  * <h3>Synchronization</h3>
- *
  * <p>
- *  CSV parsers are not synchronized.
- *  It is recommended to create separate CSV parser instances for each thread.
- *  If multiple threads access a CSV parser concurrently, it must be synchronized
- *  externally.
- * </p>
+ * CSV parsers are not synchronized.
+ * It is recommended to create separate CSV parser instances for each thread.
+ * If multiple threads access a CSV parser concurrently, it must be synchronized
+ * externally.
  * 
  * @author Nerd4j Team
  */
@@ -79,7 +76,6 @@ public interface CSVParser extends Closeable
 	 * {@link CSVToken} will be returned from {@link #getCurrentToken()} too.
 	 * <p>
 	 * The method {@link #getCurrentValue()} won't return any value.
-	 * </p>
 	 * 
 	 * @return next read {@link CSVToken}.
 	 * @throws IOException if an error occurs while parsing data.

@@ -28,13 +28,11 @@ import java.io.Writer;
 import org.nerd4j.csv.RemarkableASCII;
 
 
-
 /**
  * Factory of {@link CSVFormatter}.
  * 
  * <p>
- *  Handles correct formatters configuration and creation.
- * </p>
+ * Handles correct formatters configuration and creation.
  * 
  * @author Nerd4j Team
  */
@@ -98,9 +96,11 @@ public final class CSVFormatterFactory
 	
 	
 	/**
-	 * Create a new {@link CSVFormatter} to write data to the given {@link Writer}.
+	 * Create a new {@link CSVFormatter} to write data
+	 * to the given {@link java.io.Writer Writer}.
 	 * 
 	 * @param writer CSV data destination.
+	 * @return the new created CSV formatter.
 	 */
 	public CSVFormatter create( final Writer writer )
 	{
@@ -110,10 +110,12 @@ public final class CSVFormatterFactory
 	}
 	
 	/**
-	 * Create a new {@link CSVFormatter} to write data to the given {@link Writer}.
+	 * Create a new {@link CSVFormatter} to write data
+	 * to the given {@link java.io.Writer Writer}.
 	 * 
 	 * @param writer   CSV data destination.
 	 * @param quoteAll tells if all the field should be quoted or not.
+	 * @return the new created CSV formatter.
 	 */
 	public CSVFormatter create( final Writer writer, final boolean quoteAll )
 	{
@@ -275,17 +277,14 @@ public final class CSVFormatterFactory
      * quoting if needed and writing into a {@link Writer}.
      * 
      * <p>
-     *  After use it should be closed to permit resource release.
-     * </p>
+     * After use it should be closed to permit resource release.
      * 
      * <h3>Synchronization</h3>
-     *
      * <p>
-     *  CSV formatters are not synchronized.
-     *  It is recommended to create separate CSV formatter instances for each thread.
-     *  If multiple threads access a CSV formatter concurrently, it must be synchronized
-     *  externally.
-     * </p>
+     * CSV formatters are not synchronized.
+     * It is recommended to create separate CSV formatter instances for each thread.
+     * If multiple threads access a CSV formatter concurrently, it must be synchronized
+     * externally.
      * 
      * @author Nerd4j Team
      */

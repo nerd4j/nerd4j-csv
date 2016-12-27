@@ -29,11 +29,10 @@ import org.nerd4j.csv.CSVProcessContext;
  * by the {@link CSVWriter#write(Object)} method.
  * 
  * <p>
- *  This object contains the following elements:
- *  <ol>
- *   <li>The execution context of the writing operation.</li>
- *  </ol>
- * </p>
+ * This object contains the following elements:
+ * <ol>
+ *  <li>The execution context of the writing operation.</li>
+ * </ol>
  * 
  * @author Nerd4j Team
  */
@@ -43,15 +42,14 @@ public interface CSVWriteOutcome
     /**
      * Returns the writing execution context.
      * <p>
-     *  This object contains some information about the progress
-     *  of the writing.
-     * </p>
+     * This object contains some information about the progress
+     * of the writing.
      * <p>
-     *  <b>IMPORTANT</b> for performance reasons there is only one
-     *                   instance of the execution context. So the
-     *                   internal values of this object may vary
-     *                   during execution.
-     * </p>
+     * <b>IMPORTANT</b> for performance reasons there is only one
+     *                  instance of the execution context. So the
+     *                  internal values of this object may vary
+     *                  during execution.
+     *                  
      * @return the writing execution context.
      */
     public CSVProcessContext getCSVWritingContext();

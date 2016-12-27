@@ -40,18 +40,15 @@ import org.slf4j.LoggerFactory;
  * Reference implementation of the {@link CSVReader} interface.
  * 
  * <p>
- *  Reads a record in the CSV source and creates an object of
- *  type {@code M} that represents such record. 
- * </p>
+ * Reads a record in the CSV source and creates an object of
+ * type {@code M} that represents such record. 
  * 
  * <h3>Synchronization</h3>
- *
  * <p>
- *  CSV readers are not synchronized.
- *  It is recommended to create separate CSV reader instances for each thread.
- *  If multiple threads access a CSV reader concurrently, it must be synchronized
- *  externally.
- * </p>
+ * CSV readers are not synchronized.
+ * It is recommended to create separate CSV reader instances for each thread.
+ * If multiple threads access a CSV reader concurrently, it must be synchronized
+ * externally.
  * 
  * @param <M> type of the data model representing the CSV record.
  * 
@@ -69,7 +66,7 @@ final class CSVReaderImpl<M> implements CSVReader<M>
     /** Object able to build and fill the data model related to the CSV record. */
     private final CSVToModelBinder<M> modelBinder;
 
-    /** Represents the CSV header, can be <code>null</code> if the CSV has no header. */
+    /** Represents the CSV header, can be {@code null} if the CSV has no header. */
     private final String[] header;
     
     /** Contains the processors used to manipulate data. */
@@ -375,18 +372,16 @@ final class CSVReaderImpl<M> implements CSVReader<M>
      * related to the given column index and bind it 
      * to the data model.
      * <p>
-     *  This method returns <code>true</code> if the
-     *  field has been processed successfully and
-     *  <code>false</code> if an error occurred during
-     *  processing.
-     * </p>
+     * This method returns {@code true} if the
+     * field has been processed successfully and
+     * {@code false} if an error occurred during
+     * processing.
      * <p>
-     *  In an error occurs the context is accordingly updated.
-     * </p>
+     * In an error occurs the context is accordingly updated.
      * 
      * @param index index of the column to process.
      * @param field the field to process.
-     * @return <code>true</code> if the fiend has been processed successfully.
+     * @return {@code true} if the fiend has been processed successfully.
      * @throws CSVModelBuilderException if an error occurs during model binding.
      */
     private boolean processColumn( final int index, final CSVField<String,?> field )
@@ -428,12 +423,10 @@ final class CSVReaderImpl<M> implements CSVReader<M>
      * in case an error occurs during the process
      * of a field.
      * <p>
-     *  This method execution may depend on the
-     *  strategy requested by the user.
-     * </p>
+     * This method execution may depend on the
+     * strategy requested by the user.
      * <p>
-     *  The default strategy defines the 
-     * </p>
+     * The default strategy defines the 
      * 
      * @throws IOException if an error occurs during the CSV source parsing.
      */

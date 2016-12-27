@@ -69,21 +69,41 @@ public class CSVRegisterConf implements Cloneable
     /* ******************* */
     
     
+    /**
+     * Returns the custom types configurations.
+     *  
+     * @return the custom types configurations.
+     */
     public CSVRegisterTypesConf getTypes()
     {
         return types;
     }
     
+    /**
+     * Returns the validators configurations.
+     * 
+     * @return the validators configurations.
+     */
     public Map<String,CSVRegisterValidatorConf> getValidators()
     {
         return validators;
     }
 
+    /**
+     * Returns the converters configurations.
+     * 
+     * @return the converters configurations.
+     */
     public Map<String,CSVRegisterConverterConf> getConverters()
     {
         return converters;
     }
 
+    /**
+     * Returns the processors configurations.
+     * 
+     * @return the processors configurations.
+     */
     public Map<String,CSVRegisterProcessorConf> getProcessors()
     {
         return processors;

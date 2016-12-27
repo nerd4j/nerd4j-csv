@@ -31,21 +31,18 @@ import org.nerd4j.csv.exception.MalformedCSVException;
 import org.nerd4j.csv.parser.CSVParserFactory.CharacterClass;
 
 /**
- * <tt>CSVParser</tt> reads character data from a {@link Reader}, parsing and
+ * Reads character data from a {@link Reader}, parsing and
  * tokenizing them into {@link CSVToken}.
  * 
  * <p>
- *  After usage it should be closed to permit resource release.
- * </p>
+ * After usage it should be closed to permit resource release.
  * 
  * <h3>Synchronization</h3>
- *
  * <p>
- *  CSV parsers are not synchronized.
- *  It is recommended to create separate CSV parser instances for each thread.
- *  If multiple threads access a CSV parser concurrently, it must be synchronized
- *  externally.
- * </p>
+ * CSV parsers are not synchronized.
+ * It is recommended to create separate CSV parser instances for each thread.
+ * If multiple threads access a CSV parser concurrently, it must be synchronized
+ * externally.
  * 
  * @author Nerd4j Team
  */
@@ -116,7 +113,7 @@ final class CSVParserImpl implements CSVParser
 	/**
 	 * Create a new {@link CSVParserImpl} with the given character configuration.
 	 * 
-	 * @param reader csv data source.
+	 * @param reader CSV data source.
 	 * @param types  character classes configuration.
 	 * @param recordSeparator the record separator sequence.
 	 * @param lazyQuotes tells if quotes inside text are admitted.
@@ -286,7 +283,6 @@ final class CSVParserImpl implements CSVParser
 	 * <p>
 	 * Given {@link FieldBuilder} will be used as support while reading
 	 * data and cleaned ({@link FieldBuilder#clear()}) before returning.
-	 * </p>
 	 * 
 	 * @param read tells if to actually read the field or to skip it.
 	 * @return next read {@link CSVToken}.

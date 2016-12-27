@@ -444,8 +444,6 @@ public class XMLConfigurationFactory
         if( xmlConf.getEscapeChar() != null ) csvConf.setEscapeChar( xmlConf.getEscapeChar() );
         if( xmlConf.getFieldSeparator() != null ) csvConf.setFieldSeparator( xmlConf.getFieldSeparator() );
         if( xmlConf.getRecordSeparator() != null ) csvConf.setRecordSeparator( xmlConf.getRecordSeparator() );
-//        if( xmlConf.getRecordSeparator1() != null ) csvConf.setRecordSeparator1( xmlConf.getRecordSeparator1() );
-//        if( xmlConf.getRecordSeparator2() != null ) csvConf.setRecordSeparator2( xmlConf.getRecordSeparator2() );
         
     }
     
@@ -832,15 +830,15 @@ public class XMLConfigurationFactory
     
     
     /**
-     * Returns <code>true</code> if the xmlConf is <code>null</code>.
-     * Otherwise checks if the csvConf, if it is <code>null</code>
+     * Returns {@code true} if the xmlConf is {@code null}.
+     * Otherwise checks if the csvConf, if it is {@code null}
      * throws a NullPointerException.
      * 
      * @param xmlConf the XML configuration to check.
      * @param csvConf the CSV configuration to check.
      * @param confType the configuration type.
-     * @return <code>true</code> if the xmlConf is <code>null</code>.
-     * @throws NullPointerException if csvConf is <code>null</code>.
+     * @return {@code true} if the xmlConf is {@code null}.
+     * @throws NullPointerException if csvConf is {@code null}.
      */
     private static boolean checkNullConsistence( final Object xmlConf, final Object csvConf, final String confType )
     {
@@ -855,15 +853,15 @@ public class XMLConfigurationFactory
     }
 
     /**
-     * Returns <code>true</code> if the xmlConfList is <code>null</code> or empty.
-     * Otherwise checks if the csvConfMap, if it is <code>null</code>
+     * Returns {@code true} if the xmlConfList is {@code null} or empty.
+     * Otherwise checks if the csvConfMap, if it is {@code null}
      * throws a NullPointerException.
      * 
      * @param xmlConfList the XML configuration to check.
      * @param csvConfMap the CSV configuration to check.
      * @param confType the configuration type.
-     * @return <code>true</code> if the xmlConfList is <code>null</code> or empty.
-     * @throws NullPointerException if csvConfMap is <code>null</code>.
+     * @return {@code true} if the xmlConfList is {@code null} or empty.
+     * @throws NullPointerException if csvConfMap is {@code null}.
      */
     private static boolean checkNullConsistence( final List<?> xmlConfList, final Map<String,?> csvConfMap, final String confType )
     {

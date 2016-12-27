@@ -50,69 +50,67 @@ import org.nerd4j.i18n.LocaleUtil;
  * Represents a registry of {@link CSVFieldConverter}s.
  * 
  * <p>
- *  This registry is internally used to refer {@link CSVFieldConverter}s by name.
- *  It is possible to register custom providers able to provide custom converters.
- * </p>
+ * This registry is internally used to refer {@link CSVFieldConverter}s by name.
+ * It is possible to register custom providers able to provide custom converters.
  * 
  * <p>
- *  The following converters are registered by default:
- *  <ul>
- *    <li>parseByte          : pattern = the number parse pattern (optional)
- *                             locale  = the pattern locale for symbols (optional)</li>
- *    <li>parseShort         : pattern = the number parse pattern (optional)
- *                             locale  = the pattern locale for symbols (optional)</li>
- *    <li>parseInteger       : pattern = the number parse pattern (optional)
- *                             locale  = the pattern locale for symbols (optional)</li>
- *    <li>parseLong          : pattern = the number parse pattern (optional)
- *                             locale  = the pattern locale for symbols (optional)</li>
- *    <li>parseFloat         : pattern = the number parse pattern (optional)
- *                             locale  = the pattern locale for symbols (optional)</li>
- *    <li>parseDouble        : pattern = the number parse pattern (optional)
- *                             locale  = the pattern locale for symbols (optional)</li>
- *    <li>parseBigInteger    : pattern = the number parse pattern (optional)
- *                             locale  = the pattern locale for symbols (optional)</li>
- *    <li>parseBigDecimal    : pattern = the number parse pattern (optional)
- *                             locale  = the pattern locale for symbols (optional)</li>
- *    <li>parseAtomicInteger : pattern = the number parse pattern (optional)
- *                             locale  = the pattern locale for symbols (optional)</li>
- *    <li>parseAtomicLong    : pattern = the number parse pattern (optional)
- *                             locale  = the pattern locale for symbols (optional)</li>
- *    <br />
- *    <li>formatByte         : pattern = the number format pattern (optional)
- *                             locale  = the pattern locale for symbols (optional)</li>
- *    <li>formatShort        : pattern = the number format pattern (optional)
- *                             locale  = the pattern locale for symbols (optional)</li>
- *    <li>formatInteger      : pattern = the number format pattern (optional)
- *                             locale  = the pattern locale for symbols (optional)</li>
- *    <li>formatLong         : pattern = the number format pattern (optional)
- *                             locale  = the pattern locale for symbols (optional)</li>
- *    <li>formatFloat        : pattern = the number format pattern (optional)
- *                             locale  = the pattern locale for symbols (optional)</li>
- *    <li>formatDouble       : pattern = the number format pattern (optional)
- *                             locale  = the pattern locale for symbols (optional)</li>
- *    <li>formatBigInteger   : pattern = the number format pattern (optional)
- *                             locale  = the pattern locale for symbols (optional)</li>
- *    <li>formatBigDecimal   : pattern = the number format pattern (optional)
- *                             locale  = the pattern locale for symbols (optional)</li>
- *    <li>formatAtomicInteger: pattern = the number format pattern (optional)
- *                             locale  = the pattern locale for symbols (optional)</li>
- *    <li>formatAtomicLong   : pattern = the number format pattern (optional)
- *                             locale  = the pattern locale for symbols (optional)</li>
- *    <br />
- *    <li>parseBoolean       : no parameters</li>
- *    <li>formatBoolean      : no parameters</li>
- *    <br />
- *    <li>parseDate          : pattern   = the date format pattern (mandatory)
- *                             time-zone = input date timezone (optional)
- *                             locale  = the pattern locale for symbols (optional)</li>
- *    <li>formatDate         : pattern = the date format pattern (mandatory)
- *                             time-zone = output date timezone (optional)
- *                             locale  = the pattern locale for symbols (optional)</li>
- *    <br />
- *    <li>parseEnum          : enum-type = the fully qualified enum class name (mandatory)</li>
- *    <li>formatEnum         : enum-type = the fully qualified enum class name (mandatory)</li>
- *  </ul>
- * </p>
+ * The following converters are registered by default:
+ * <ul>
+ *  <li>parseByte          : pattern = the number parse pattern (optional)
+ *                           locale  = the pattern locale for symbols (optional)</li>
+ *  <li>parseShort         : pattern = the number parse pattern (optional)
+ *                           locale  = the pattern locale for symbols (optional)</li>
+ *  <li>parseInteger       : pattern = the number parse pattern (optional)
+ *                           locale  = the pattern locale for symbols (optional)</li>
+ *  <li>parseLong          : pattern = the number parse pattern (optional)
+ *                           locale  = the pattern locale for symbols (optional)</li>
+ *  <li>parseFloat         : pattern = the number parse pattern (optional)
+ *                           locale  = the pattern locale for symbols (optional)</li>
+ *  <li>parseDouble        : pattern = the number parse pattern (optional)
+ *                           locale  = the pattern locale for symbols (optional)</li>
+ *  <li>parseBigInteger    : pattern = the number parse pattern (optional)
+ *                           locale  = the pattern locale for symbols (optional)</li>
+ *  <li>parseBigDecimal    : pattern = the number parse pattern (optional)
+ *                           locale  = the pattern locale for symbols (optional)</li>
+ *  <li>parseAtomicInteger : pattern = the number parse pattern (optional)
+ *                           locale  = the pattern locale for symbols (optional)</li>
+ *  <li>parseAtomicLong    : pattern = the number parse pattern (optional)
+ *                           locale  = the pattern locale for symbols (optional)</li>
+ *  <br>
+ *  <li>formatByte         : pattern = the number format pattern (optional)
+ *                           locale  = the pattern locale for symbols (optional)</li>
+ *  <li>formatShort        : pattern = the number format pattern (optional)
+ *                           locale  = the pattern locale for symbols (optional)</li>
+ *  <li>formatInteger      : pattern = the number format pattern (optional)
+ *                           locale  = the pattern locale for symbols (optional)</li>
+ *  <li>formatLong         : pattern = the number format pattern (optional)
+ *                           locale  = the pattern locale for symbols (optional)</li>
+ *  <li>formatFloat        : pattern = the number format pattern (optional)
+ *                           locale  = the pattern locale for symbols (optional)</li>
+ *  <li>formatDouble       : pattern = the number format pattern (optional)
+ *                           locale  = the pattern locale for symbols (optional)</li>
+ *  <li>formatBigInteger   : pattern = the number format pattern (optional)
+ *                           locale  = the pattern locale for symbols (optional)</li>
+ *  <li>formatBigDecimal   : pattern = the number format pattern (optional)
+ *                           locale  = the pattern locale for symbols (optional)</li>
+ *  <li>formatAtomicInteger: pattern = the number format pattern (optional)
+ *                           locale  = the pattern locale for symbols (optional)</li>
+ *  <li>formatAtomicLong   : pattern = the number format pattern (optional)
+ *                           locale  = the pattern locale for symbols (optional)</li>
+ *  <br>
+ *  <li>parseBoolean       : no parameters</li>
+ *  <li>formatBoolean      : no parameters</li>
+ *  <br>
+ *  <li>parseDate          : pattern   = the date format pattern (mandatory)
+ *                           time-zone = input date timezone (optional)
+ *                           locale  = the pattern locale for symbols (optional)</li>
+ *  <li>formatDate         : pattern = the date format pattern (mandatory)
+ *                           time-zone = output date timezone (optional)
+ *                           locale  = the pattern locale for symbols (optional)</li>
+ *  <br>
+ *  <li>parseEnum          : enum-type = the fully qualified enum class name (mandatory)</li>
+ *  <li>formatEnum         : enum-type = the fully qualified enum class name (mandatory)</li>
+ * </ul>
  * 
  * @author Nerd4j Team
  */

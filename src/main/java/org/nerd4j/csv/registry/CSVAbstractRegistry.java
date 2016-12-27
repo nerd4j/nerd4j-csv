@@ -33,15 +33,14 @@ import org.nerd4j.csv.exception.CSVConfigurationException;
  * values and provide the related objects.
  * 
  * <p>
- *  Currently the available implementations are:
- *  <ul>
- *    <li>{@link CSVFieldValidatorRegistry}</li>
- *    <li>{@link CSVFieldConverterRegistry}</li>
- *    <li>{@link CSVFieldProcessorRegistry}</li>
- *    <li>{@link CSVToModelBinderFactoryRegistry}</li>
- *    <li>{@link ModelToCSVBinderFactoryRegistry}</li>
- *  </ul>
- * </p>
+ * Currently the available implementations are:
+ * <ul>
+ *  <li>{@link CSVFieldValidatorRegistry}</li>
+ *  <li>{@link CSVFieldConverterRegistry}</li>
+ *  <li>{@link CSVFieldProcessorRegistry}</li>
+ *  <li>{@link CSVToModelBinderFactoryRegistry}</li>
+ *  <li>{@link ModelToCSVBinderFactoryRegistry}</li>
+ * </ul>
  * 
  * @param <Entry> type of the entry to build.
  * 
@@ -103,7 +102,7 @@ public abstract class CSVAbstractRegistry<Entry extends CSVRegistryEntry>
      * overwritten.
      * 
      * @param name     name to use to reference the factory.
-     * @param metadata the actual factory.
+     * @param factory  the actual factory.
      */
     public void setFactory( String name, CSVRegistryEntryFactory<Entry> factory )
     {
@@ -128,9 +127,10 @@ public abstract class CSVAbstractRegistry<Entry extends CSVRegistryEntry>
     
     /**
      * Returns the provider associated to the given key
-     * if any, otherwise returns <code>null</code>.
+     * if any, otherwise returns {@code null}.
      * 
      * @param name    name to use to reference the provider.
+     * @return the provider associated to the given key.
      */
     public CSVRegistryEntryProvider<Entry> getProvider( String name )
     {

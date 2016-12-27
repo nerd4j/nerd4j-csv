@@ -29,12 +29,10 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
 
-import org.nerd4j.csv.field.CSVFieldValidator;
-
-
 
 /**
- * Backing bean that represents the XML configuration of the {@link CSVFieldValidator}.
+ * Backing bean that represents the XML configuration of the
+ * {@link org.nerd4j.csv.field.CSVFieldValidator CSVFieldValidator}.
  * 
  * @author Nerd4j Team
  */
@@ -69,24 +67,43 @@ public class XMLFieldValidatorConf
     /* ******************* */
     
     
+    /**
+     * Returns the registry key.
+     * 
+     * @return the registry key.
+     */
     @XmlAttribute(name="type",required=true)
     public String getType()
     {
         return type;
     }
 
+    /**
+     * Sets the registry key.
+     * 
+     * @param type value to set.
+     */
     public void setType( String type )
     {
         this.type = type;
     }
 
-
+    /**
+     * Returns the configuration parameters.
+     * 
+     * @return the configuration parameters.
+     */
     @XmlAnyAttribute
     public Map<QName,String> getParams()
     {
         return params;
     }
     
+    /**
+     * Sets the configuration parameters.
+     * 
+     * @param params value to set.
+     */
     public void setParams( Map<QName,String> params )
     {
         this.params = params;

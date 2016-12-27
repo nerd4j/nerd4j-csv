@@ -28,7 +28,6 @@ import org.nerd4j.csv.exception.CSVToModelBindingException;
 import org.nerd4j.csv.reader.binding.CSVToArrayBinderFactory;
 import org.nerd4j.csv.reader.binding.CSVToBeanBinderFactory;
 import org.nerd4j.csv.reader.binding.CSVToMapBinderFactory;
-import org.nerd4j.csv.reader.binding.CSVToModelBinder;
 import org.nerd4j.csv.reader.binding.CSVToModelBinderFactory;
 
 
@@ -36,18 +35,16 @@ import org.nerd4j.csv.reader.binding.CSVToModelBinderFactory;
  * Represents a registry of {@link CSVToModelBinderFactory} instances.
  * 
  * <p>
- *  This registry is internally used to refer {@link CSVToModelBinderFactory}
- *  by type name. It is possible to register custom binder factories.
- * </p>
+ * This registry is internally used to refer {@link CSVToModelBinderFactory}
+ * by type name. It is possible to register custom binder factories.
  * 
  * <p>
- *  The following {@link CSVToModelBinder} factories are registered by default:
- *  <ul>
- *    <li>array : binds a CSV record to an {@link Object[]}</li>
- *    <li>bean  : binds a CSV record to a Java Bean</li>
- *    <li>map   : binds a CSV record to a {@link Map<String,Object>}</li>
- *  </ul>
- * </p>
+ * The following {@link CSVToModelBinder} factories are registered by default:
+ * <ul>
+ *  <li>array : binds a CSV record to an {@link Object[]}</li>
+ *  <li>bean  : binds a CSV record to a Java Bean</li>
+ *  <li>map   : binds a CSV record to a {@link Map<String,Object>}</li>
+ * </ul>
  * 
  * @author Nerd4j Team
  */

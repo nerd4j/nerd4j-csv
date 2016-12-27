@@ -22,23 +22,20 @@
 package org.nerd4j.csv;
 
 
-
 /**
  * Represents an error occurred during the execution
  * of a CSV processing.
  * 
  * <p>
- *  This error is used both during reading of a
- *  CSV source and during writing to a CSV target.
- * </p>
+ * This error is used both during reading of a
+ * CSV source and during writing to a CSV target.
  * 
  * <p>
- *  This error keeps some information like:
- *  <ul>
- *   <li>The error message.</li>
- *   <li>The operation that caused the error.</li>
- *  </ul>
- * </p>
+ * This error keeps some information like:
+ * <ul>
+ *  <li>The error message.</li>
+ *  <li>The operation that caused the error.</li>
+ * </ul>
  * 
  * @author Nerd4j Team
  */

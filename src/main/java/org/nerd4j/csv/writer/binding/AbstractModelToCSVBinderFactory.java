@@ -25,7 +25,6 @@ import java.lang.reflect.Array;
 
 import org.nerd4j.csv.exception.ModelToCSVBindingException;
 import org.nerd4j.csv.field.CSVFieldMetadata;
-import org.nerd4j.csv.reader.binding.CSVToModelBinder;
 import org.nerd4j.csv.writer.CSVWriterMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +53,7 @@ public abstract class AbstractModelToCSVBinderFactory<Model,Mapping> implements 
      * Constructor with parameters.
      * 
      * @param mappingType type of the object used to map the columns to the model.
+     * @throws ModelToCSVBindingException if the creation fails.
      */
     public AbstractModelToCSVBinderFactory(Class<Mapping> mappingType )
     throws ModelToCSVBindingException
@@ -99,6 +99,7 @@ public abstract class AbstractModelToCSVBinderFactory<Model,Mapping> implements 
      * Creates a new model binder using the provided configuration.
      * 
      * @param configuration used to configure the column mapping for binding.
+     * @throws ModelToCSVBindingException if the creation fails.
      */
     @SuppressWarnings("unchecked")
     private ModelToCSVBinder<Model> createBinder( final CSVWriterMetadata<Model> configuration )
@@ -151,11 +152,11 @@ public abstract class AbstractModelToCSVBinderFactory<Model,Mapping> implements 
     
     /**
      * Given the original field configurations and the computed column mapping
-     * returns an instance of {@link CSVToModelBinder}.
+     * returns an instance of {@link org.nerd4j.csv.reader.binding.CSVToModelBinder CSVToModelBinder}.
      * 
      * @param fieldConfs   original fields configurations.
      * @param fieldMapping computed column mapping.
-     * @return the actual {@link CSVToModelBinder}.
+     * @return the actual {@link org.nerd4j.csv.reader.binding.CSVToModelBinder CSVToModelBinder}.
      */
     protected abstract ModelToCSVBinder<Model> getBinder( final CSVFieldMetadata<?,?>[] fieldConfs, final Mapping[] fieldMapping );
     

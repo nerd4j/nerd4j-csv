@@ -79,56 +79,106 @@ public class XMLConfiguration
     /* ******************* */
     
     
+    /**
+     * Returns the register configuration.
+     * 
+     * @return the register configuration.
+     */
     @XmlElement(name="register",required=false)
     public XMLRegisterConf getRegister()
     {
         return register;
     }
 
+    /**
+     * Sets the register configuration.
+     * 
+     * @param register value to set.
+     */
     public void setRegister( XMLRegisterConf register )
     {
         this.register = register;
     }
 
+    /**
+     * Returns the configurations related to the readers.
+     * 
+     * @return the configurations related to the readers.
+     */
     @XmlElement(name="reader",required=false)
     public List<XMLReaderConf> getReaders()
     {
         return readers;
     }
     
+    /**
+     * Sets the configurations related to the readers.
+     * 
+     * @param readers value to set.
+     */
     public void setReaders( List<XMLReaderConf> readers )
     {
         this.readers = readers;
     }
    
+    /**
+     * Returns the configurations related to the writers.
+     * 
+     * @return the configurations related to the writers.
+     */
     @XmlElement(name="writer",required=false)
     public List<XMLWriterConf> getWriters()
     {
         return writers;
     }
     
+    /**
+     * Sets the configurations related to the writers.
+     * 
+     * @param writers value to set.
+     */
     public void setWriters( List<XMLWriterConf> writers )
     {
         this.writers = writers;
     }
     
+    /**
+     * Returns the configurations related to the parsers.
+     * 
+     * @return the configurations related to the parsers.
+     */
     @XmlElement(name="parser",required=false)
     public List<XMLParserConf> getParsers()
     {
         return parsers;
     }
     
+    /**
+     * Sets the configurations related to the parsers.
+     * 
+     * @param parsers value to set.
+     */
     public void setParsers( List<XMLParserConf> parsers )
     {
         this.parsers = parsers;
     }
     
+    /**
+     * Returns the configurations related to the formatters.
+     * 
+     * @return the configurations related to the formatters.
+     */
     @XmlElement(name="formatter",required=false)
     public List<XMLFormatterConf> getFormatters()
     {
         return formatters;
     }
     
+    /**
+     * Sets the configurations related to the formatters.
+     * 
+     * @param formatters value to set.
+     */
     public void setFormatters( List<XMLFormatterConf> formatters )
     {
         this.formatters = formatters;

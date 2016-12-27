@@ -66,21 +66,41 @@ public class CSVHandlerConf implements Cloneable
     /* ******************* */
     
     
+    /**
+     * Returns the name related to the configuration.
+     * 
+     * @return the name related to the configuration.
+     */
     public String getName()
     {
         return name;
     }
 
+    /**
+     * Sets  the name related to the configuration.
+     * 
+     * @param name value to set.
+     */
     public void setName( String name )
     {
         this.name = name;
     }
     
+    /**
+     * Returns the configurations related to the CSV columns.
+     * 
+     * @return the configurations related to the CSV columns.
+     */
     public Map<String,CSVColumnConf> getColumns()
     {
         return columns;
     }
     
+    /**
+     * Returns the configuration related to the model binder.
+     * 
+     * @return the configuration related to the model binder.
+     */
     public CSVModelBinderConf getModelBinder()
     {
         return modelBinder;

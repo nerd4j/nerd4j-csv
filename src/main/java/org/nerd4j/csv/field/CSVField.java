@@ -43,7 +43,7 @@ public final class CSVField<S,T>
     /** Performs the operations needed to process the field. */
     private final CSVFieldProcessor<S,T> processor;
     
-    /** Tells if the value of this field can be <code>null</code>. */
+    /** Tells if the value of this field can be {@code null}. */
     private final boolean optional;
     
     
@@ -51,7 +51,7 @@ public final class CSVField<S,T>
      * Constructor with parameters.
      * 
      * @param processor     processor that changes the field type. 
-     * @param optional      tells if the value of this field can be <code>null</code>. 
+     * @param optional      tells if the value of this field can be {@code null}. 
      */
     public CSVField( final CSVFieldProcessor<S,T> processor, final boolean optional )
     {
