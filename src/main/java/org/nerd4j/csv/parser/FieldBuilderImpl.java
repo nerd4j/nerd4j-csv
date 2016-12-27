@@ -211,7 +211,6 @@ final class FieldBuilderImpl implements FieldBuilder
 	 * <p>
 	 * Handles mark clearings, implementations should handle their resource
 	 * clearing too.
-	 * </p>
 	 */
 	@Override
 	public void clear()
@@ -234,6 +233,9 @@ final class FieldBuilderImpl implements FieldBuilder
 		
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
     public String toString( int offset, int length )
     {

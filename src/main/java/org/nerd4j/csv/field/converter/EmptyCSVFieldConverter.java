@@ -44,7 +44,7 @@ public final class EmptyCSVFieldConverter<V> implements CSVFieldConverter<V,V>
     /**
      * Constructor with parameters.
      * 
-     * @param the data type handled by this empty converter.
+     * @param type the data type handled by this empty converter.
      */
     public EmptyCSVFieldConverter( final Class<V> type )
     {

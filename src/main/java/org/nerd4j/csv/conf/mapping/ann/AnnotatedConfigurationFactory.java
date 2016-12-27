@@ -50,9 +50,8 @@ import org.slf4j.LoggerFactory;
  * CSV annotation from a given bean.
  * 
  * <p>
- *  All the configurations produced by this factory
- *  are implicitly related to a model binder of type 'bean'.
- * </p>
+ * All the configurations produced by this factory
+ * are implicitly related to a model binder of type 'bean'.
  * 
  * @author Nerd4j Team
  */
@@ -582,15 +581,15 @@ public class AnnotatedConfigurationFactory
     
     
     /**
-     * Returns <code>true</code> if the annotation is not valued.
-     * Otherwise checks the csvConf, if it is <code>null</code>
+     * Returns {@code true} if the annotation is not valued.
+     * Otherwise checks the csvConf, if it is {@code null}
      * throws a NullPointerException.
      * 
      * @param annConf the annotation to check.
      * @param csvConf the CSV configuration to check.
      * @param confType the configuration type.
-     * @return <code>true</code> if the annConf is <code>null</code>.
-     * @throws NullPointerException if csvConf is <code>null</code>.
+     * @return {@code true} if the annConf is {@code null}.
+     * @throws NullPointerException if csvConf is {@code null}.
      */
     private static boolean checkNullConsistence( final boolean isValuedAnnConf, final Object csvConf, final String confType )
     {

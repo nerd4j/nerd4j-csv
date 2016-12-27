@@ -27,25 +27,22 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.nerd4j.csv.RemarkableASCII;
-import org.nerd4j.csv.writer.CSVWriter;
 
 
 /**
  * Creates a {@link CSVFormatter} using the annotated
  * JavaBean to retrieve the required configurations.
  * 
- * <p> <b>Usage</b> </p>
+ * <h3>Usage</h3>
  * <p>
- *  The {@link CSVFormatter} annotation is intended
- *  to be used inside the following annotations:
- *  <ul>
- *   <li>{@link CSVWriter}.</ul>
- *  </ul>
- * </p>
+ * The {@link CSVFormatter} annotation is intended
+ * to be used inside the following annotations:
+ * <ul>
+ *  <li>{@link CSVWriter}.</li>
+ * </ul>
  * 
  * <p>
- *   This annotation is equivalent to the XML configuration <tt>csv:formatter</tt>.
- * </p>
+ * This annotation is equivalent to the XML configuration <tt>csv:formatter</tt>.
  * 
  * @author Nerd4j Team
  */
@@ -57,8 +54,8 @@ public @interface CSVFormatter
 	/**
 	 * Character used to quote fields.
 	 * <p>
-	 *  The character used by default is the double quote ["].
-	 * </p>
+	 * The character used by default is the double quote ["].
+	 * 
 	 * @return character used to quote fields.
 	 */
 	public char quote();
@@ -66,8 +63,8 @@ public @interface CSVFormatter
 	/**
 	 * Character used to escape other characters.
 	 * <p>
-	 *  There is no default values for this feature.
-	 * </p>
+	 * There is no default values for this feature.
+	 * 
 	 * @return character used to escape other characters.
 	 */
 	public char escape() default RemarkableASCII.NOT_AN_ASCII;
@@ -75,8 +72,8 @@ public @interface CSVFormatter
 	/**
 	 * Character used to separate fields in the CSV source.
 	 * <p>
-	 *  The character used by default is the comma [,].
-	 * </p>
+	 * The character used by default is the comma [,].
+	 * 
 	 * @return character used to separate fields.
 	 */
 	public char fieldSep();
@@ -84,16 +81,17 @@ public @interface CSVFormatter
 	/**
      * Characters used to separate records in the CSV source.
      * <p>
-     *  By default the operating system line separator will be used.
-     * </p>
+     * By default the operating system line separator will be used.
+     * 
+     * @return the character used as record separator.
      */
     public char[] recordSep() default { RemarkableASCII.NOT_AN_ASCII };
     
 	/**
 	 * Set of characters to be escaped during formatting.
 	 * <p>
-	 *  There is no default values for this feature.
-	 * </p>
+	 * There is no default values for this feature.
+	 *  
 	 * @return set of characters to be escaped.
 	 */
 	public char[] charsToEscape() default { RemarkableASCII.NOT_AN_ASCII };
@@ -101,14 +99,14 @@ public @interface CSVFormatter
 	/**
 	 * Set of characters that forces the whole field to be quoted.
 	 * <p>
-	 *  The characters configured by default are:
-	 *  <ul>
-	 *   <li>space [ ];</li>
-	 *   <li>comma [,];</li>
-	 *   <li>horizontal tab [\t];</li>
-	 *   <li>new line feed [\n].</li>
-	 *  </ul>
-	 * </p>
+	 * The characters configured by default are:
+	 * <ul>
+	 *  <li>space [ ];</li>
+	 *  <li>comma [,];</li>
+	 *  <li>horizontal tab [\t];</li>
+	 *  <li>new line feed [\n].</li>
+	 * </ul>
+	 * 
 	 * @return set of characters to ignore around fields.
 	 */
 	public char[] charsThatForceQuoting() default { RemarkableASCII.NOT_AN_ASCII };

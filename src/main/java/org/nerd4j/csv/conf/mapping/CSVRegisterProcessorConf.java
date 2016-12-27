@@ -21,12 +21,12 @@
  */
 package org.nerd4j.csv.conf.mapping;
 
-import org.nerd4j.csv.field.CSVFieldProcessor;
 import org.nerd4j.format.Formatted;
 
 
 /**
- * Represents the configuration of the {@link CSVFieldProcessor}.
+ * Represents the configuration of the
+ * {@link org.nerd4j.csv.field.CSVFieldProcessor CSVFieldProcessor}.
  * 
  * @author Nerd4j Team
  */
@@ -57,11 +57,21 @@ public class CSVRegisterProcessorConf extends CSVFieldProcessorConf implements C
     /* ******************* */
     
     
+    /**
+     * Returns the registry name.
+     * 
+     * @return the registry name.
+     */
     public String getName()
     {
         return name;
     }
 
+    /**
+     * Sets  the registry name.
+     * 
+     * @param name value to set.
+     */
     public void setName( String name )
     {
         this.name = name;

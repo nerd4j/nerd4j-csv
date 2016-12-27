@@ -33,12 +33,10 @@ import org.nerd4j.csv.formatter.CSVFormatterFactory;
 import org.nerd4j.csv.formatter.CSVFormatterMetadata;
 import org.nerd4j.csv.parser.CSVParserFactory;
 import org.nerd4j.csv.parser.CSVParserMetadata;
-import org.nerd4j.csv.reader.CSVReader;
 import org.nerd4j.csv.reader.CSVReaderFactory;
 import org.nerd4j.csv.reader.CSVReaderFactoryImpl;
 import org.nerd4j.csv.reader.CSVReaderMetadataFactory;
 import org.nerd4j.csv.registry.CSVRegistry;
-import org.nerd4j.csv.writer.CSVWriter;
 import org.nerd4j.csv.writer.CSVWriterFactory;
 import org.nerd4j.csv.writer.CSVWriterFactoryImpl;
 import org.nerd4j.csv.writer.CSVWriterMetadataFactory;
@@ -49,8 +47,8 @@ import org.slf4j.LoggerFactory;
 /**
  * Represents the factory able to create the
  * {@link CSVReaderFactory}s and {@link CSVWriterFactory}s
- * needed to build the actual {@link CSVReader}s and
- * {@link CSVWriter}s.
+ * needed to build the actual {@link org.nerd4j.csv.reader.CSVReader CSVReader}s and
+ * {@link org.nerd4j.csv.writer.CSVWriter CSVWriter}s.
  * 
  * @author Nerd4j Team
  */
@@ -138,6 +136,7 @@ public final class CSVFactory
      * Returns the {@link CSVReaderFactory} related to the given name.
      * 
      * @param name the name of the requested bean.
+     * @param <M>  type of the model returned by the reader.
      * @return a new {@link CSVReaderFactory}.
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -161,6 +160,7 @@ public final class CSVFactory
      * Returns the {@link CSVWriterFactory} related to the given name.
      * 
      * @param name the name of the requested bean.
+     * @param <M>  type of the model accepted by the writer.
      * @return a new {@link CSVWriterFactory}.
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })

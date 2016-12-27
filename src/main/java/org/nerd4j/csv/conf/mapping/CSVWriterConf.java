@@ -21,11 +21,9 @@
  */
 package org.nerd4j.csv.conf.mapping;
 
-import org.nerd4j.csv.writer.CSVWriter;
-
-
 /**
- * Represents the configuration of the {@link CSVWriter}.
+ * Represents the configuration of the
+ * {@link org.nerd4j.csv.writer.CSVWriter CSVWriter}.
  * 
  * @author Nerd4j Team
  */
@@ -63,32 +61,62 @@ public class CSVWriterConf extends CSVHandlerConf implements Cloneable
     /*  GETTERS & SETTERS  */
     /* ******************* */
     
-
+    
+    /**
+     * Returns the {@code write-header} flag. 
+     * 
+     * @return the {@code write-header} flag.
+     */
     public Boolean getWriteHeader()
     {
         return writeHeader;
     }
     
+    /**
+     * Sets the {@code write-header} flag.
+     * 
+     * @param writeHeader value to set.
+     */
     public void setWriteHeader( Boolean writeHeader )
     {
         this.writeHeader = writeHeader;
     }
 
+    /**
+     * Returns the formatter reference.
+     * 
+     * @return the formatter reference.
+     */
     public String getFormatterRef()
     {
         return formatterRef;
     }
     
+    /**
+     * Sets the formatter reference.
+     * 
+     * @param formatterRef value to set.
+     */
     public void setFormatterRef( String formatterRef )
     {
         this.formatterRef = formatterRef;
     }
 
+    /**
+     * Returns the formatter configuration.
+     * 
+     * @return the formatter configuration.
+     */
     public CSVFormatterConf getFormatter()
     {
         return formatter;
     }
     
+    /**
+     * Sets the formatter configuration.
+     * 
+     * @param formatter value to set.
+     */
     public void setFormatter( CSVFormatterConf formatter )
     {
         this.formatter = formatter;

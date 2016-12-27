@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- * Represents a <code>Factory</code> able to build and configure
+ * Represents a {@code Factory} able to build and configure
  * {@link CSVToModelBinder}s which populates data objects (beans)
  * using the fields of a related CSV record.
  * 
@@ -56,6 +56,7 @@ public final class CSVToBeanBinderFactory<B> extends AbstractCSVToModelBinderFac
      * Constructor with parameters.
      * 
      * @param beanClass the type of the data bean.
+     * @throws CSVToModelBindingException if the creation fails.
      */
     public CSVToBeanBinderFactory( final Class<B> beanClass )
     throws CSVToModelBindingException

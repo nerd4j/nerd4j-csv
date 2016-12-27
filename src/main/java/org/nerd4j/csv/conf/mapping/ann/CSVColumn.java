@@ -31,19 +31,17 @@ import java.lang.annotation.Target;
 /**
  * Maps a JavaBean property to a CSV column.
  * 
- * <p> <b>Usage</b> </p>
+ * <h3>Usage</h3>
  * <p>
- *  The {@link CSVColumn} annotation can be used with the
- *   following program elements: 
+ * The {@link CSVColumn} annotation can be used with the
+ * following program elements: 
  * <ul> 
- *   <li> JavaBean property (getter);</li>
- *   <li> JavaBean field.</li>
+ *  <li> JavaBean property (getter);</li>
+ *  <li> JavaBean field.</li>
  * </ul>
- * </p>
  * 
  * <p>
- *   This annotation is equivalent to the XML configuration <tt>csv:column</tt>.
- * </p>
+ * This annotation is equivalent to the XML configuration <tt>csv:column</tt>.
  * 
  * @author Nerd4j Team
  */
@@ -66,13 +64,11 @@ public @interface CSVColumn
 	 * in the output data model.
 	 * <p>
 	 * An optional column means that the related data model
-	 * accepts <code>null</code> values.
-	 * </p>
+	 * accepts {@code null} values.
 	 * <p>
-	 *   The default value for this field is <code>false</code>.
-	 * </p> 
+	 * The default value for this field is {@code null}.
 	 * 
-	 * @return <code>true</code> if the column value  is optional.
+	 * @return {@code true} if the column value  is optional.
 	 */
 	public boolean optional() default false;
 	

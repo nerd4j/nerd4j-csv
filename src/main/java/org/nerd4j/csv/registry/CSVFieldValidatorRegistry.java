@@ -37,28 +37,26 @@ import org.nerd4j.csv.field.validator.CheckStringLength;
  * Represents a registry of {@link CSVFieldValidator}s.
  * 
  * <p>
- *  This registry is internally used to refer {@link CSVFieldValidator}s by name.
- *  It is possible to register custom providers able to provide custom validators.
- * </p>
+ * This registry is internally used to refer {@link CSVFieldValidator}s by name.
+ * It is possible to register custom providers able to provide custom validators.
  * 
  * <p>
- *  The following validators are registered by default:
- *  <ul>
- *    <li>checkStringLength    : length   = the actual length of the string (mandatory)</li>
- *    <li>checkStringLength    : min, max = the minimum and maximum length of the string (mandatory)</li>
- *    <br />
- *    <li>checkRegEx           : pattern  = the regular expression pattern to match (mandatory)</li>
- *    <br />
- *    <li>checkByteRange       : min, max = the minimum and maximum value (at least one mandatory)</li>
- *    <li>checkShortRange      : min, max = the minimum and maximum value (at least one mandatory)</li>
- *    <li>checkIntegerRange    : min, max = the minimum and maximum value (at least one mandatory)</li>
- *    <li>checkLongRange       : min, max = the minimum and maximum value (at least one mandatory)</li>
- *    <li>checkFloatRange      : min, max = the minimum and maximum value (at least one mandatory)</li>
- *    <li>checkDoubleRange     : min, max = the minimum and maximum value (at least one mandatory)</li>
- *    <li>checkBigIntegerRange : min, max = the minimum and maximum value (at least one mandatory)</li>
- *    <li>checkBigDecimalRange : min, max = the minimum and maximum value (at least one mandatory)</li>
- *  </ul>
- * </p>
+ * The following validators are registered by default:
+ * <ul>
+ *  <li>checkStringLength    : length   = the actual length of the string (mandatory)</li>
+ *  <li>checkStringLength    : min, max = the minimum and maximum length of the string (mandatory)</li>
+ *  <br>
+ *  <li>checkRegEx           : pattern  = the regular expression pattern to match (mandatory)</li>
+ *  <br>
+ *  <li>checkByteRange       : min, max = the minimum and maximum value (at least one mandatory)</li>
+ *  <li>checkShortRange      : min, max = the minimum and maximum value (at least one mandatory)</li>
+ *  <li>checkIntegerRange    : min, max = the minimum and maximum value (at least one mandatory)</li>
+ *  <li>checkLongRange       : min, max = the minimum and maximum value (at least one mandatory)</li>
+ *  <li>checkFloatRange      : min, max = the minimum and maximum value (at least one mandatory)</li>
+ *  <li>checkDoubleRange     : min, max = the minimum and maximum value (at least one mandatory)</li>
+ *  <li>checkBigIntegerRange : min, max = the minimum and maximum value (at least one mandatory)</li>
+ *  <li>checkBigDecimalRange : min, max = the minimum and maximum value (at least one mandatory)</li>
+ * </ul>
  * 
  * @author Nerd4j Team
  */
@@ -380,7 +378,6 @@ final class CSVFieldValidatorRegistry extends CSVAbstractRegistry<CSVFieldValida
          * Parse a number from its <tt>String</tt> representation.
          * <p>
          * Given number parameter is ensured not null and not empty.
-         * </p>
          * 
          * @param number string representation to be parsed.
          * @return parsed number

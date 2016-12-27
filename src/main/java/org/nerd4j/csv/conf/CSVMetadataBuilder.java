@@ -148,6 +148,7 @@ public final class CSVMetadataBuilder
      * @param readerConf    configuration to parse.
      * @param configuration the global configuration.
      * @param registry      the builder registry to use.
+     * @param <M>           the data model returned by the CSV reader.
      * @return related object to build.
      */
     @SuppressWarnings({"unchecked","rawtypes"})
@@ -196,6 +197,7 @@ public final class CSVMetadataBuilder
      * @param writerConf    configuration to parse.
      * @param configuration the global configuration.
      * @param registry      the builder registry to use.
+     * @param <M>           the data model returned by the CSV reader.
      * @return related object to build.
      */
     @SuppressWarnings({"unchecked","rawtypes"})

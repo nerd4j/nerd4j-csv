@@ -28,23 +28,21 @@ import org.nerd4j.csv.reader.binding.CSVToModelBinderFactory;
 import org.nerd4j.csv.writer.binding.ModelToCSVBinderFactory;
 
 
-
 /**
  * Represents a registry containing the provider able
  * to understand the configured values and provide the
  * related objects.
  * 
  * <p>
- *  This object represents a facade to access the
- *  following actual registry:
- *  <ul>
- *    <li>{@link CSVFieldValidatorRegistry}</li>
- *    <li>{@link CSVFieldConverterRegistry}</li>
- *    <li>{@link CSVFieldProcessorRegistry}</li>
- *    <li>{@link CSVToModelBinderFactoryRegistry}</li>
- *    <li>{@link ModelToCSVBinderFactoryRegistry}</li>
- *  </ul>
- * </p>
+ * This object represents a facade to access the
+ * following actual registry:
+ * <ul>
+ *  <li>{@link CSVFieldValidatorRegistry}</li>
+ *  <li>{@link CSVFieldConverterRegistry}</li>
+ *  <li>{@link CSVFieldProcessorRegistry}</li>
+ *  <li>{@link CSVToModelBinderFactoryRegistry}</li>
+ *  <li>{@link ModelToCSVBinderFactoryRegistry}</li>
+ * </ul>
  * 
  * @author Nerd4j Team
  */

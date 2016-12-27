@@ -71,51 +71,101 @@ public class CSVCharSetConf implements Cloneable
     /* ******************* */
     
     
+    /**
+     * Returns the registry key.
+     * 
+     * @return the registry key.
+     */
     public String getName()
     {
         return name;
     }
     
+    /**
+     * Sets the registry key.
+     * 
+     * @param name value to set.
+     */
     public void setName( String name )
     {
     	this.name = name;
     }
     
+    /**
+     * Returns the character used as field separator in the CSV.
+     * 
+     * @return the character used as field separator in the CSV.
+     */
     public Character getFieldSeparator()
     {
         return fieldSeparator;
     }
     
+    /**
+     * Sets the character used as field separator in the CSV.
+     * 
+     * @param fieldSeparator value to set.
+     */
     public void setFieldSeparator( Character fieldSeparator )
     {
         this.fieldSeparator = fieldSeparator;
     }
     
+    /**
+     * Returns the character sequence used as record separator in the CSV.
+     * 
+     * @return the character sequence used as record separator in the CSV.
+     */
     public char[] getRecordSeparator()
     {
         return recordSeparator;
     }
     
+    /**
+     * Sets the character sequence used as record separator in the CSV.
+     * 
+     * @param recordSeparator value to set.
+     */
     public void setRecordSeparator( char[] recordSeparator )
     {
         this.recordSeparator = recordSeparator;
     }
     
+    /**
+     * Returns the character used to escape control characters in the CSV.
+     * 
+     * @return the character used to escape control characters in the CSV.
+     */
     public Character getEscapeChar()
     {
         return escapeChar;
     }
     
+    /**
+     * Sets the character used to escape control characters in the CSV.
+     * 
+     * @param escapeChar value to set.
+     */
     public void setEscapeChar( Character escapeChar )
     {
         this.escapeChar = escapeChar;
     }
     
+    /**
+     * Returns the character used to quote fields in the CSV.
+     * 
+     * @return the character used to quote fields in the CSV.
+     */
     public Character getQuoteChar()
     {
         return quoteChar;
     }
     
+    /**
+     * Sets the character used to quote fields in the CSV.
+     * 
+     * @param quoteChar value to set.
+     */
     public void setQuoteChar( Character quoteChar )
     {
         this.quoteChar = quoteChar;

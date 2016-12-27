@@ -21,23 +21,18 @@
  */
 package org.nerd4j.csv;
 
-import org.nerd4j.csv.field.CSVFieldProcessContext;
-
-
 /**
  * Represents an object able to perform an atomic
  * operation over a CSV field.
  * 
  * <p>
- *  This interface is intended to be of help
- *  for the {@link CSVProcessError}.
- * </p>
+ * This interface is intended to be of help
+ * for the {@link CSVProcessError}.
  * 
  * <p>
- *  The error pattern returned by this interface
- *  method must be according with the use made
- *  by the {@link CSVProcessError}.
- * </p>
+ * The error pattern returned by this interface
+ * method must be according with the use made
+ * by the {@link CSVProcessError}.
  * 
  * @author Nerd4j Team
  */
@@ -48,15 +43,14 @@ public interface CSVProcessOperation
      * Returns a message pattern as described in
      * the {@link java.text.MessageFormat} class.
      * <p>
-     *  The placeholders in this pattern coincide
-     *  with fields of the {@link CSVFieldProcessContext}
-     *  as follows:
-     *  <ul>
-     *   <li>{0} = columnName;</li>
-     *   <li>{1} = originalValue;</li>
-     *   <li>{2} = convertedValue.</li>
-     *  </ul> 
-     * </p>
+     * The placeholders in this pattern coincide
+     * with fields of the {@link org.nerd4j.csv.field.CSVFieldProcessContext CSVFieldProcessContext}
+     * as follows:
+     * <ul>
+     *  <li>{0} = columnName;</li>
+     *  <li>{1} = originalValue;</li>
+     *  <li>{2} = convertedValue.</li>
+     * </ul> 
      * 
      * @return the pattern to use to build the error message.
      */

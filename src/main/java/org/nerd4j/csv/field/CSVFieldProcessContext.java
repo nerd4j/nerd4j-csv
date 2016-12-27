@@ -31,18 +31,16 @@ import org.nerd4j.csv.CSVProcessOperation;
  * the process of validating and converting fields.
  * 
  * <p>
- *  This context is used both during reading of a
- *  CSV source and during writing to a CSV target.
- * </p>
+ * This context is used both during reading of a
+ * CSV source and during writing to a CSV target.
  * 
  * <p>
- *  This context keeps some information like:
- *  <ul>
- *   <li>The current row and column handled.</li>
- *   <li>The original value of the field.</li>
- *   <li>The value of the field after conversion.</li>
- *  </ul>
- * </p>
+ * This context keeps some information like:
+ * <ul>
+ *  <li>The current row and column handled.</li>
+ *  <li>The original value of the field.</li>
+ *  <li>The value of the field after conversion.</li>
+ * </ul>
  * 
  * @author Nerd4j Team
  */
@@ -148,21 +146,41 @@ public final class CSVFieldProcessContext implements CSVProcessContext
     /* ******************* */
     
     
+    /**
+     * Returns the original value before processing.
+     * 
+     * @return the original value before processing.
+     */
     public Object getOriginalValue()
     {
         return originalValue;
     }
     
+    /**
+     * Sets the original value before processing.
+     * 
+     * @param originalValue value to set.
+     */
     public void setOriginalValue( final Object originalValue )
     {
         this.originalValue = originalValue;
     }
     
+    /**
+     * Returns the value after processing.
+     * 
+     * @return the value after processing.
+     */
     public Object getProcessedValue()
     {
         return processedValue;
     }
     
+    /**
+     * Sets the value after processing.
+     * 
+     * @param processedValue value to set.
+     */
     public void setProcessedValue( final Object processedValue )
     {
         this.processedValue = processedValue;
@@ -228,7 +246,7 @@ public final class CSVFieldProcessContext implements CSVProcessContext
     /**
      * Tells the context that the given operation
      * has failed. This causes the {@link #isError()}
-     * method to return <code>true</code>.
+     * method to return {@code true}.
      * 
      * @param failedOperation the operation that has failed.
      */

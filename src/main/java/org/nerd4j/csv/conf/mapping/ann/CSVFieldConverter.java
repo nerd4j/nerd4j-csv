@@ -32,51 +32,48 @@ import java.lang.annotation.Target;
  * of a CSV column and the related data model
  * field and vice versa.
  * 
- * <p> <b>Usage</b> </p>
+ * <h3>Usage</h3>
  * <p>
- *  The {@link CSVFieldConverter} annotation is intended
- *  to be used inside a {@link CSVFieldProcessor} annotation.
- * </p>
+ * The {@link CSVFieldConverter} annotation is intended
+ * to be used inside a {@link CSVFieldProcessor} annotation.
  * 
  * <p>
- *   This annotation is equivalent to the XML configuration <tt>csv:converter</tt>.
- * </p>
+ * This annotation is equivalent to the XML configuration <tt>csv:converter</tt>.
  * 
  * <p>
- *  The built in validations types are:
- *  <ul>
- *    <li>parseByte          : no parameters</li>
- *    <li>parseShort         : no parameters</li>
- *    <li>parseInteger       : no parameters</li>
- *    <li>parseLong          : no parameters</li>
- *    <li>parseFloat         : no parameters</li>
- *    <li>parseDouble        : no parameters</li>
- *    <li>parseBigInteger    : no parameters</li>
- *    <li>parseBigDecimal    : no parameters</li>
- *    <li>parseAtomicInteger : no parameters</li>
- *    <li>parseAtomicLong    : no parameters</li>
- *    <br />
- *    <li>formatByte         : patter = the number format pattern (optional)</li>
- *    <li>formatShort        : patter = the number format pattern (optional)</li>
- *    <li>formatInteger      : patter = the number format pattern (optional)</li>
- *    <li>formatLong         : patter = the number format pattern (optional)</li>
- *    <li>formatFloat        : patter = the number format pattern (optional)</li>
- *    <li>formatDouble       : patter = the number format pattern (optional)</li>
- *    <li>formatBigInteger   : patter = the number format pattern (optional)</li>
- *    <li>formatBigDecimal   : patter = the number format pattern (optional)</li>
- *    <li>formatAtomicInteger: patter = the number format pattern (optional)</li>
- *    <li>formatAtomicLong   : patter = the number format pattern (optional)</li>
- *    <br />
- *    <li>parseBoolean       : no parameters</li>
- *    <li>formatBoolean      : no parameters</li>
- *    <br />
- *    <li>parseDate          : patter = the date format pattern (mandatory)</li>
- *    <li>formatDate         : patter = the date format pattern (mandatory)</li>
- *    <br />
- *    <li>parseEnum          : enum-type = the full qualified enum class name (mandatory)</li>
- *    <li>formatEnum         : enum-type = the full qualified enum class name (mandatory)</li>
- *  </ul>
- * </p>
+ * The built in validations types are:
+ * <ul>
+ *  <li>parseByte          : no parameters</li>
+ *  <li>parseShort         : no parameters</li>
+ *  <li>parseInteger       : no parameters</li>
+ *  <li>parseLong          : no parameters</li>
+ *  <li>parseFloat         : no parameters</li>
+ *  <li>parseDouble        : no parameters</li>
+ *  <li>parseBigInteger    : no parameters</li>
+ *  <li>parseBigDecimal    : no parameters</li>
+ *  <li>parseAtomicInteger : no parameters</li>
+ *  <li>parseAtomicLong    : no parameters</li>
+ *  
+ *  <li>formatByte         : patter = the number format pattern (optional)</li>
+ *  <li>formatShort        : patter = the number format pattern (optional)</li>
+ *  <li>formatInteger      : patter = the number format pattern (optional)</li>
+ *  <li>formatLong         : patter = the number format pattern (optional)</li>
+ *  <li>formatFloat        : patter = the number format pattern (optional)</li>
+ *  <li>formatDouble       : patter = the number format pattern (optional)</li>
+ *  <li>formatBigInteger   : patter = the number format pattern (optional)</li>
+ *  <li>formatBigDecimal   : patter = the number format pattern (optional)</li>
+ *  <li>formatAtomicInteger: patter = the number format pattern (optional)</li>
+ *  <li>formatAtomicLong   : patter = the number format pattern (optional)</li>
+ *  
+ *  <li>parseBoolean       : no parameters</li>
+ *  <li>formatBoolean      : no parameters</li>
+ *  
+ *  <li>parseDate          : patter = the date format pattern (mandatory)</li>
+ *  <li>formatDate         : patter = the date format pattern (mandatory)</li>
+ *  
+ *  <li>parseEnum          : enum-type = the full qualified enum class name (mandatory)</li>
+ *  <li>formatEnum         : enum-type = the full qualified enum class name (mandatory)</li>
+ * </ul>
  * 
  * @author Nerd4j Team
  */

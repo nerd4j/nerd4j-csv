@@ -26,32 +26,29 @@ import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-import org.nerd4j.csv.field.CSVFieldConverter;
-
 
 /**
- * Implementation of the {@link CSVFieldConverter} interface
- * that converts {@link Number}s into {@link String}s.
+ * Implementation of the {@link org.nerd4j.csv.field.CSVFieldConverter CSVFieldConverter}
+ * interface that converts {@link Number}s into {@link String}s.
  * 
  * <p>
- *  This converter accepts all the Java standard implementations
- *  of the {@link java.lang.Number} interface i.e.:
- *  <ul>
- *   <li>{@link java.lang.Byte}</li>
- *   <li>{@link java.lang.Short}</li>
- *   <li>{@link java.lang.Integer}</li>
- *   <li>{@link java.lang.Long}</li>
+ * This converter accepts all the Java standard implementations
+ * of the {@link java.lang.Number} interface i.e.:
+ * <ul>
+ *  <li>{@link java.lang.Byte}</li>
+ *  <li>{@link java.lang.Short}</li>
+ *  <li>{@link java.lang.Integer}</li>
+ *  <li>{@link java.lang.Long}</li>
  *   
- *   <li>{@link java.lang.Float}</li>
- *   <li>{@link java.lang.Double}</li>
+ *  <li>{@link java.lang.Float}</li>
+ *  <li>{@link java.lang.Double}</li>
  *   
- *   <li>{@link java.math.BigInteger}</li>
- *   <li>{@link java.math.BigDecimal}</li>
+ *  <li>{@link java.math.BigInteger}</li>
+ *  <li>{@link java.math.BigDecimal}</li>
  *   
- *   <li>{@link java.util.concurrent.atomic.AtomicInteger}</li>
- *   <li>{@link java.util.concurrent.atomic.AtomicLong}</li>
- *  </ul>
- * </p>
+ *  <li>{@link java.util.concurrent.atomic.AtomicInteger}</li>
+ *  <li>{@link java.util.concurrent.atomic.AtomicLong}</li>
+ * </ul>
  * 
  * @param <N> type of the {@link Number} to convert.
  * 

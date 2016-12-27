@@ -62,23 +62,43 @@ public class XMLRegisterProviderConf
     /* ******************* */
 
     
+    /**
+     * Returns the registry name.
+     * 
+     * @return the registry name.
+     */
     @XmlAttribute(name="type-name",required=true)
     public String getTypeName()
     {
         return typeName;
     }
     
+    /**
+     * Sets the registry name.
+     * 
+     * @param typeName value to set.
+     */
     public void setTypeName( String typeName )
     {
         this.typeName = typeName;
     }
 
+    /**
+     * Returns the name of the class that implements the provider.
+     * 
+     * @return full qualified name.
+     */
     @XmlAttribute(name="provider-class",required=true)
     public String getProviderClass()
     {
         return providerClass;
     }
     
+    /**
+     * Sets the name of the class that implements the provider.
+     * 
+     * @param providerClass value to set.
+     */
     public void setProviderClass( String providerClass )
     {
         this.providerClass = providerClass;

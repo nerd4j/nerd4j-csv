@@ -32,19 +32,17 @@ import org.nerd4j.csv.CSVProcessOperation;
  * of validating or converting fields.
  * 
  * <p>
- *  This object contains the {@link CSVFieldOperator}
- *  which caused the error and the related
- *  {@link CSVFieldProcessContext}.  
- * </p>
+ * This object contains the {@link CSVFieldOperator}
+ * which caused the error and the related
+ * {@link CSVFieldProcessContext}.  
  * 
  * <p>
- *  This context keeps some information like:
- *  <ul>
- *   <li>The current row and column handled.</li>
- *   <li>The original value of the field.</li>
- *   <li>The value of the field after conversion.</li>
- *  </ul>
- * </p>
+ * This context keeps some information like:
+ * <ul>
+ *  <li>The current row and column handled.</li>
+ *  <li>The original value of the field.</li>
+ *  <li>The value of the field after conversion.</li>
+ * </ul>
  * 
  * @author Nerd4j Team
  */

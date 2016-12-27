@@ -53,6 +53,7 @@ public abstract class AbstractCSVToModelBinderFactory<Model,Mapping> implements 
      * Constructor with parameters.
      * 
      * @param mappingType type of the object used to map the columns to the model.
+     * @throws CSVToModelBindingException if the creation fails.
      */
     public AbstractCSVToModelBinderFactory( Class<Mapping> mappingType )
     throws CSVToModelBindingException

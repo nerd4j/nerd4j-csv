@@ -25,11 +25,10 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.nerd4j.csv.field.CSVFieldProcessor;
-
 
 /**
- * Backing bean that represents the XML configuration of the {@link CSVFieldProcessor}.
+ * Backing bean that represents the XML configuration of the
+ * {@link org.nerd4j.csv.field.CSVFieldProcessor CSVFieldProcessor}.
  * 
  * @author Nerd4j Team
  */
@@ -81,67 +80,127 @@ public class XMLFieldProcessorConf
     /* ******************* */
     
     
+    /**
+     * Returns the precondition validator reference.
+     * 
+     * @return the precondition validator reference.
+     */
     @XmlAttribute(name="precondition-ref",required=false)
     public String getPreconditionRef()
     {
         return preconditionRef;
     }
-        
+    
+    /**
+     * Sets the precondition validator reference.
+     * 
+     * @param preconditionRef value to set.
+     */
     public void setPreconditionRef( String preconditionRef )
     {
         this.preconditionRef = preconditionRef;
     }
     
+    /**
+     * Returns the converter reference.
+     * 
+     * @return the converter reference.
+     */
     @XmlAttribute(name="converter-ref",required=false)
     public String getConverterRef()
     {
         return converterRef;
     }
     
+    /**
+     * Sets the converter reference.
+     * 
+     * @param converterRef value to set.
+     */
     public void setConverterRef( String converterRef )
     {
         this.converterRef = converterRef;
     }
     
+    /**
+     * Returns the postcondition validator reference.
+     * 
+     * @return the postcondition validator reference.
+     */
     @XmlAttribute(name="postcondition-ref",required=false)
     public String getPostconditionRef()
     {
         return postconditionRef;
     }
     
+    /**
+     * Sets the postcondition validator reference.
+     * 
+     * @param postconditionRef value to set.
+     */
     public void setPostconditionRef( String postconditionRef )
     {
         this.postconditionRef = postconditionRef;
     }
     
+    /**
+     * Returns the precondition validator configuration.
+     * 
+     * @return the precondition validator configuration.
+     */
     @XmlElement(name="precondition",required=false)
     public XMLFieldValidatorConf getPrecondition()
     {
         return precondition;
     }
     
+    /**
+     * Sets the precondition validator configuration.
+     * 
+     * @param precondition value to set.
+     */
     public void setPrecondition( XMLFieldValidatorConf precondition )
     {
         this.precondition = precondition;
     }
     
+    /**
+     * Returns the converter configuration.
+     * 
+     * @return the converter configuration.
+     */
     @XmlElement(name="converter",required=false)
     public XMLFieldConverterConf getConverter()
     {
         return converter;
     }
     
+    /**
+     * Sets the converter configuration.
+     * 
+     * @param converter value to set.
+     */
     public void setConverter( XMLFieldConverterConf converter )
     {
         this.converter = converter;
     }
     
+    /**
+     * Returns the postcondition validator configuration.
+     * 
+     * @return the postcondition validator configuration.
+     */
     @XmlElement(name="postcondition",required=false)
     public XMLFieldValidatorConf getPostcondition()
     {
         return postcondition;
     }
     
+    /**
+     * Sets the postcondition validator configuration.
+     * 
+     * @param postcondition value to set.
+     */
     public void setPostcondition( XMLFieldValidatorConf postcondition )
     {
         this.postcondition = postcondition;

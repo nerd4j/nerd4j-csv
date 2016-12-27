@@ -31,7 +31,7 @@ import org.nerd4j.csv.exception.CSVToModelBindingException;
 
 
 /**
- * Represents a <code>Factory</code> able to build and configure {@link CSVReader}s.
+ * Represents a {@code Factory} able to build and configure {@link CSVReader}s.
  * 
  * @param <Model> type of the data model returned by the reader.
  * 

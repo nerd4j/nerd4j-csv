@@ -21,12 +21,9 @@
  */
 package org.nerd4j.csv.conf.mapping;
 
-import org.nerd4j.csv.field.CSVFieldConverter;
-
-
-
 /**
- * Represents the configuration of the {@link CSVFieldConverter}.
+ * Represents the configuration of the
+ * {@link org.nerd4j.csv.field.CSVFieldConverter CSVFieldConverter}.
  * 
  * @author Nerd4j Team
  */
@@ -56,11 +53,21 @@ public class CSVRegisterConverterConf extends CSVFieldConverterConf implements C
     /* ******************* */
     
     
+    /**
+     * Returns the registry name.
+     * 
+     * @return the registry name.
+     */
     public String getName()
     {
         return name;
     }
 
+    /**
+     * Sets  the registry name.
+     * 
+     * @param name value to set.
+     */
     public void setName( String name )
     {
         this.name = name;

@@ -31,18 +31,16 @@ import java.lang.annotation.Target;
  * Creates a {@link org.nerd4j.csv.writer.CSVWriter CSVWriter} using the
  * annotated JavaBean to retrieve the required configurations.
  * 
- * <p> <b>Usage</b> </p>
+ * <h3>Usage</h3>
  * <p>
- *  The {@link CSVWriter} annotation can be used with the
- *  following program elements: 
+ * The {@link CSVWriter} annotation can be used with the
+ * following program elements: 
  * <ul> 
- *   <li> JavaBean class.</li>
+ *  <li> JavaBean class.</li>
  * </ul>
- * </p>
  * 
  * <p>
- *   This annotation is equivalent to the XML configuration <tt>csv:reader</tt>.
- * </p>
+ * This annotation is equivalent to the XML configuration {@code csv:reader}.
  * 
  * @author Nerd4j Team
  */
@@ -55,7 +53,7 @@ public @interface CSVWriter
 	 * Tells the {@link org.nerd4j.csv.writer.CSVWriter CSVWriter}
 	 * to write the first row of the CSV destination as a CSV header.
 	 * 
-	 * @return <code>true</code> if the CSV header has to be written.
+	 * @return {@code true} if the CSV header has to be written.
 	 */
 	public boolean writeHeader() default true;
 

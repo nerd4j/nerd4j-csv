@@ -89,16 +89,31 @@ public class CSVMappingDescriptor
 	/* ******************* */
 
 	
+	/**
+	 * Returns the name of the CSV column.
+	 * 
+	 * @return the name of the CSV column.
+	 */
 	public String getColumnKey()
 	{
 		return columnKey;
 	}
 
+	/**
+	 * Returns the key of the destination location in the data model.
+	 * 
+	 * @return the key of the destination location in the data model.
+	 */
 	public String getModelKey()
 	{
 		return modelKey;
 	}
 
+	/**
+	 * Returns the data type into which convert the column value.
+	 * 
+	 * @return the data type into which convert the column value.
+	 */
 	public Class<?> getModelType()
 	{
 		return modelType;

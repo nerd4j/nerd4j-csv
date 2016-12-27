@@ -27,20 +27,17 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import org.nerd4j.csv.field.CSVFieldConverter;
-
 
 /**
- * Implementation of the {@link CSVFieldConverter} interface
- * that converts {@link String}s into {@link Date}s.
+ * Implementation of the {@link org.nerd4j.csv.field.CSVFieldConverter CSVFieldConverter}
+ * interface that converts {@link String}s into {@link Date}s.
  * 
  * <p>
- *  This converter uses a {@link DateFormat} to perform the
- *  conversion. Therefore it requires the pattern to use
- *  during the parsing. All the informations on how to
- *  write the date pattern can be found in the javadoc of
- *  the {@link DateFormat} class.
- * </p>
+ * This converter uses a {@link DateFormat} to perform the
+ * conversion. Therefore it requires the pattern to use
+ * during the parsing. All the informations on how to
+ * write the date pattern can be found in the javaDoc of
+ * the {@link DateFormat} class.
  * 
  * @author Nerd4j Team
  */

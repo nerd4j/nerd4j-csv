@@ -26,22 +26,19 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.nerd4j.csv.field.CSVFieldConverter;
-
 
 /**
  * Represents a custom parameter in the configuration
  * of a CSV handling element.
  * 
- * <p> <b>Usage</b> </p>
+ * <h3>Usage</h3>
  * <p>
- *  The {@link CSVParam} annotation is intended
- *  to be used inside the following annotations:
- *  <ul>
- *   <li>{@link CSVFieldValidator};</ul>
- *   <li>{@link CSVFieldConverter};</ul>
- *  </ul>
- * </p>
+ * The {@link CSVParam} annotation is intended
+ * to be used inside the following annotations:
+ * <ul>
+ *  <li>{@link CSVFieldValidator};</li>
+ *  <li>{@link CSVFieldConverter};</li>
+ * </ul>
  * 
  * @author Nerd4j Team
  */

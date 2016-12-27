@@ -21,13 +21,9 @@
  */
 package org.nerd4j.csv.field.validator;
 
-import org.nerd4j.csv.field.CSVFieldValidator;
-
-
 /**
- * Implementation of the {@link CSVFieldValidator} interface
- * that checks the given {@link String} length to be within
- * the requested interval.
+ * Implementation of the {@link org.nerd4j.csv.field.CSVFieldValidator CSVFieldValidator}
+ * interface that checks the given {@link String} length to be within the requested interval.
  *
  * @author Nerd4j Team
  */

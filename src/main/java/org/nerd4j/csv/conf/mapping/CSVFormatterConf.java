@@ -21,11 +21,9 @@
  */
 package org.nerd4j.csv.conf.mapping;
 
-import org.nerd4j.csv.formatter.CSVFormatter;
-
-
 /**
- * Represents the configuration of the {@link CSVFormatter}.
+ * Represents the configuration of the
+ * {@link org.nerd4j.csv.formatter.CSVFormatter CSVFormatter}.
  * 
  * @author Nerd4j Team
  */
@@ -65,21 +63,41 @@ public class CSVFormatterConf extends CSVCharSetConf implements Cloneable
     /* ******************* */
     
     
+    /**
+     * Returns the characters to escape during formatting.
+     * 
+     * @return the characters to escape during formatting.
+     */
     public char[] getCharsToEscape()
     {
         return charsToEscape;
     }
     
+    /**
+     * Sets  the characters to escape during formatting.
+     * 
+     * @param charsToEscape value to set.
+     */
     public void setCharsToEscape( char[] charsToEscape )
     {
         this.charsToEscape = charsToEscape;
     }
     
+    /**
+     * Returns the characters that force the field to be quoted.
+     * 
+     * @return the characters that force the field to be quoted.
+     */
     public char[] getCharsThatForceQuoting()
     {
         return charsThatForceQuoting;
     }
     
+    /**
+     * Sets the characters that force the field to be quoted.
+     * 
+     * @param charsThatForceQuoting value to set.
+     */
     public void setCharsThatForceQuoting( char[] charsThatForceQuoting )
     {
         this.charsThatForceQuoting = charsThatForceQuoting;

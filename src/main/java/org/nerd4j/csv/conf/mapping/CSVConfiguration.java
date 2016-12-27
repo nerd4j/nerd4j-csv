@@ -75,26 +75,51 @@ public final class CSVConfiguration implements Cloneable
     /* ******************* */
 
 
+    /**
+     * Returns the register configuration.
+     * 
+     * @return the register configuration.
+     */
     public CSVRegisterConf getRegister()
     {
         return register;
     }
 
+    /**
+     * Returns the configurations related to the readers.
+     * 
+     * @return the configurations related to the readers.
+     */
     public Map<String,CSVReaderConf> getReaders()
     {
         return readers;
     }
 
+    /**
+     * Returns the configurations related to the writers.
+     * 
+     * @return the configurations related to the writers.
+     */
     public Map<String,CSVWriterConf> getWriters()
     {
         return writers;
     }
     
+    /**
+     * Returns the configurations related to the parsers.
+     * 
+     * @return the configurations related to the parsers.
+     */
     public Map<String,CSVParserConf> getParsers()
     {
         return parsers;
     }
 
+    /**
+     * Returns the configurations related to the formatters.
+     * 
+     * @return the configurations related to the formatters.
+     */
     public Map<String,CSVFormatterConf> getFormatters()
     {
         return formatters;

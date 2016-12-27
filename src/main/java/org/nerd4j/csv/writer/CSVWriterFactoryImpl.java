@@ -54,15 +54,6 @@ public final class CSVWriterFactoryImpl<Model> implements CSVWriterFactory<Model
     /** The {@code Factory} for the reader meta-data model. */
     private final CSVWriterMetadataFactory<Model> metadataFactory;
     
-//    /** The configuration to use for creating and configuring the {@link CSVWriter}s. */
-//    private CSVWriterMetadata<Model> configuration;
-//    
-//    /** Factory used to build CSV formatters. */
-//    private CSVFormatterFactory formatterFactory;
-//    
-//    /** Factory used to create builders which know how to populate the returned data model. */
-//    private ModelToCSVBinderFactory<Model> binderFactory;
-    
     
     /**
      * Constructor with parameters.
@@ -78,10 +69,6 @@ public final class CSVWriterFactoryImpl<Model> implements CSVWriterFactory<Model
             throw new NullPointerException( "The CSV writer configuration is mandatory" );
         
         this.metadataFactory = metadataFactory;
-        
-//        this.configuration = configuration;
-//        this.binderFactory = configuration.getModelBinderFactory();
-//        this.formatterFactory = new CSVFormatterFactory( configuration.getFormatterConfiguration() );
         
     }
     
@@ -156,7 +143,7 @@ public final class CSVWriterFactoryImpl<Model> implements CSVWriterFactory<Model
     
     
     /**
-     * If the flag "writeHeader" in the configuration is <code>true</code>
+     * If the flag "writeHeader" in the configuration is {@code true}
      * and the configured header is not empty, writes the given header as
      * the first row in the CSV destination.
      * 

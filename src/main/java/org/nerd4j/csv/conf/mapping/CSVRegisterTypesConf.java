@@ -69,21 +69,41 @@ public class CSVRegisterTypesConf implements Cloneable
     /* ******************* */
     
     
+    /**
+     * Returns the map of validator providers.
+     * 
+     * @return the map of validator providers.
+     */
     public Map<String,CSVRegisterProviderConf> getValidatorProviders()
     {
         return validatorProviders;
     }
 
+    /**
+     * Returns the map of converter providers.
+     * 
+     * @return the map of converter providers.
+     */
     public Map<String,CSVRegisterProviderConf> getConverterProviders()
     {
         return converterProviders;
     }
     
+    /**
+     * Returns the map of csv-to-model binder providers.
+     * 
+     * @return the map of csv-to-model binder providers.
+     */
     public Map<String,CSVRegisterProviderConf> getCsvToModelProviders()
     {
         return csvToModelProviders;
     }
 
+    /**
+     * Returns the map of model-to-csv binder providers.
+     * 
+     * @return the map of model-to-csv binder providers.
+     */
     public Map<String,CSVRegisterProviderConf> getModelToCSVProviders()
     {
         return modelToCSVProviders;
@@ -124,7 +144,7 @@ public class CSVRegisterTypesConf implements Cloneable
      * 
      * @param source the map to clone.
      * @return the cloned map.
-     * @throws CloneNotSupportedException
+     * @throws CloneNotSupportedException if some object in the map is not {@link Cloneable}
      */
     public HashMap<String,CSVRegisterProviderConf> deepClone( HashMap<String,CSVRegisterProviderConf> source )
     throws CloneNotSupportedException

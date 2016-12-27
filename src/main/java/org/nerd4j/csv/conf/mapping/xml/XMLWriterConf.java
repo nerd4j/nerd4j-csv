@@ -25,11 +25,10 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.nerd4j.csv.reader.CSVReader;
-
 
 /**
- * Backing bean that represents the XML configuration of the {@link CSVReader}.
+ * Backing bean that represents the XML configuration of the
+ * {@link org.nerd4j.csv.reader.CSVReader CSVReader}.
  * 
  * @author Nerd4j Team
  */
@@ -68,34 +67,64 @@ public class XMLWriterConf extends XMLHandlerConf
     /* ******************* */
     
 
+    /**
+     * Returns the {@code write-header} flag. 
+     * 
+     * @return the {@code write-header} flag.
+     */
     @XmlAttribute(name="write-header",required=false)
     public Boolean getWriteHeader()
     {
         return writeHeader;
     }
     
+    /**
+     * Sets the {@code write-header} flag.
+     * 
+     * @param writeHeader value to set.
+     */
     public void setWriteHeader( Boolean writeHeader )
     {
         this.writeHeader = writeHeader;
     }
 
+    /**
+     * Returns the formatter reference.
+     * 
+     * @return the formatter reference.
+     */
     @XmlAttribute(name="formatter-ref",required=false)
     public String getFormatterRef()
     {
         return formatterRef;
     }
     
+    /**
+     * Sets the formatter reference.
+     * 
+     * @param formatterRef value to set.
+     */
     public void setFormatterRef( String formatterRef )
     {
         this.formatterRef = formatterRef;
     }
 
+    /**
+     * Returns the formatter configuration.
+     * 
+     * @return the formatter configuration.
+     */
     @XmlElement(name="formatter",required=false)
     public XMLFormatterConf getFormatter()
     {
         return formatter;
     }
     
+    /**
+     * Sets the formatter configuration.
+     * 
+     * @param formatter value to set.
+     */
     public void setFormatter( XMLFormatterConf formatter )
     {
         this.formatter = formatter;

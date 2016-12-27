@@ -90,46 +90,91 @@ public final class CSVFormatterMetadata
 	/* ******************* */
 	
 	
+	/**
+     * Returns the character used as field separator in the CSV.
+     * 
+     * @return the character used as field separator in the CSV.
+     */
     public char getFieldSeparator()
     {
         return fieldSeparator;
     }
     
+    /**
+     * Sets the character used as field separator in the CSV.
+     * 
+     * @param fieldSeparator value to set.
+     */
     public void setFieldSeparator( char fieldSeparator )
     {
         this.fieldSeparator = fieldSeparator;
     }
 
+    /**
+     * Returns the character sequence used as record separator in the CSV.
+     * 
+     * @return the character sequence used as record separator in the CSV.
+     */
     public char[] getRecordSeparator()
     {
         return recordSeparator;
     }
     
+    /**
+     * Sets the character sequence used as record separator in the CSV.
+     * 
+     * @param recordSeparator value to set.
+     */
     public void setRecordSeparator( char[] recordSeparator )
     {
         this.recordSeparator = recordSeparator;
     }
     
+    /**
+     * Returns the character used to escape control characters in the CSV.
+     * 
+     * @return the character used to escape control characters in the CSV.
+     */
     public char getEscapeChar()
     {
         return escapeChar;
     }
     
+    /**
+     * Sets the character used to escape control characters in the CSV.
+     * 
+     * @param escapeChar value to set.
+     */
     public void setEscapeChar( char escapeChar )
     {
         this.escapeChar = escapeChar;
     }
     
+    /**
+     * Returns the character used to quote fields in the CSV.
+     * 
+     * @return the character used to quote fields in the CSV.
+     */
     public char getQuoteChar()
     {
         return quoteChar;
     }
     
+    /**
+     * Sets the character used to quote fields in the CSV.
+     * 
+     * @param quoteChar value to set.
+     */
     public void setQuoteChar( char quoteChar )
     {
         this.quoteChar = quoteChar;
     }
     
+    /**
+     * Returns the characters that force the field to be quoted.
+     * 
+     * @return the characters that force the field to be quoted.
+     */
     public char[] getCharsThatForceQuoting()
     {
         if( charsThatForceQuoting == null )
@@ -138,11 +183,21 @@ public final class CSVFormatterMetadata
             return charsThatForceQuoting;
     }
     
+    /**
+     * Sets the characters that force the field to be quoted.
+     * 
+     * @param charsThatForceQuoting value to set.
+     */
     public void setCharsThatForceQuoting( char[] charsThatForceQuoting )
     {
         this.charsThatForceQuoting = charsThatForceQuoting;
     }
     
+    /**
+     * Returns the characters to escape during formatting.
+     * 
+     * @return the characters to escape during formatting.
+     */
     public char[] getCharsToEscape()
     {
         if( charsToEscape == null )
@@ -151,6 +206,11 @@ public final class CSVFormatterMetadata
             return charsToEscape; 
     }
     
+    /**
+     * Sets  the characters to escape during formatting.
+     * 
+     * @param charsToEscape value to set.
+     */
     public void setCharsToEscape( char[] charsToEscape )
     {
         this.charsToEscape = charsToEscape; 

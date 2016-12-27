@@ -72,11 +72,21 @@ public final class CSVFieldMetadata<S,T>
     /* ******************* */
 
     
+    /**
+     * Returns the field mapping descriptor.
+     * 
+     * @return the field mapping descriptor.
+     */
     public CSVMappingDescriptor getMappingDescriptor()
     {
         return mappingDescriptor;
     }
     
+    /**
+     * Returns the field representation.
+     * 
+     * @return the field representation.
+     */
     public CSVField<S,T> getField()
     {
         return field;

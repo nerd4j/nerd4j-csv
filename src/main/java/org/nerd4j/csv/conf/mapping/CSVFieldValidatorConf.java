@@ -24,11 +24,10 @@ package org.nerd4j.csv.conf.mapping;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.nerd4j.csv.field.CSVFieldValidator;
-
 
 /**
- * Represents the configuration of the {@link CSVFieldValidator}.
+ * Represents the configuration of the
+ * {@link org.nerd4j.csv.field.CSVFieldValidator CSVFieldValidator}.
  * 
  * @author Nerd4j Team
  */
@@ -62,17 +61,31 @@ public class CSVFieldValidatorConf implements Cloneable
     /* ******************* */
     
     
+    /**
+     * Returns the registry key.
+     * 
+     * @return the registry key.
+     */
     public String getType()
     {
         return type;
     }
 
+    /**
+     * Sets the registry key.
+     * 
+     * @param type value to set.
+     */
     public void setType( String type )
     {
         this.type = type;
     }
 
-
+    /**
+     * Returns the configuration parameters.
+     * 
+     * @return the configuration parameters.
+     */
     public Map<String,String> getParams()
     {
         return params;

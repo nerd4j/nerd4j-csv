@@ -26,9 +26,8 @@ import org.nerd4j.csv.registry.CSVRegistryEntry;
 import org.nerd4j.csv.writer.CSVWriterMetadata;
 
 
-
 /**
- * Represents a <code>Factory</code> able to build and configure
+ * Represents a {@code Factory} able to build and configure
  * {@link ModelToCSVBinder}s which reads data models and provides
  * CSV record fields in the right order.
  * 

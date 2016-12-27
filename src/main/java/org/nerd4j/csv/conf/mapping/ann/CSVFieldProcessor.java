@@ -32,15 +32,13 @@ import java.lang.annotation.Target;
  * and conversions needed to translate a CSV column value
  * into the related data model field and vice versa.
  * 
- * <p> <b>Usage</b> </p>
+ * <h3>Usage</h3>
  * <p>
- *  The {@link CSVFieldProcessor} annotation is intended
- *  to be used inside a {@link CSVColumn} annotation.
- * </p>
+ * The {@link CSVFieldProcessor} annotation is intended
+ * to be used inside a {@link CSVColumn} annotation.
  * 
  * <p>
- *   This annotation is equivalent to the XML configuration <tt>csv:processor</tt>.
- * </p>
+ * This annotation is equivalent to the XML configuration <tt>csv:processor</tt>.
  * 
  * @author Nerd4j Team
  */

@@ -31,9 +31,8 @@ import org.nerd4j.csv.field.CSVFieldProcessContext;
  * accordingly with the framework execution policy.
  * 
  * <p>
- *  Any custom implementation of the {@link CSVFieldConverter} interface
- *  should extend this class. 
- * </p>
+ * Any custom implementation of the {@link CSVFieldConverter} interface
+ * should extend this class. 
  *
  * @param <S> type of the source field format.
  * @param <T> type of the target field format.
@@ -149,9 +148,8 @@ public abstract class AbstractCSVFieldConverter<S,T> implements CSVFieldConverte
     /**
      * Performs the conversion over the provided source value.
      * <p>
-     *  This method can assume to receive a not null and not
-     *  empty value.
-     * </p> 
+     * This method can assume to receive a not null and not
+     * empty value.
      * 
      * @param source the not null and not empty value to convert.
      * @return the converted value.

@@ -186,8 +186,6 @@ public final class CSVMetadataRegister
      * 
      * @param configuration configuration to parse.
      * @param registry      registry to compile.
-     * @throws IllegalAccessException 
-     * @throws InstantiationException 
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public static void register( final CSVRegisterProviderConf configuration, final CSVAbstractRegistry<?> registry )

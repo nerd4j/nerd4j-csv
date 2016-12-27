@@ -41,7 +41,7 @@ public class XMLColumnConf
     /** The element of the model related to the column. */
     private String mapping;
     
-    /** Tells if the column can have <code>null</code> values. */
+    /** Tells if the column can have {@code null} values. */
     private Boolean optional;
     
     /** The name to reference the processor to use to process the column data. */
@@ -74,56 +74,106 @@ public class XMLColumnConf
     /* ******************* */
     
     
+    /**
+     * Returns the column name.
+     * 
+     * @return the column name.
+     */
     @XmlAttribute(name="name",required=true)
     public String getName()
     {
         return name;
     }
 
+    /**
+     * Sets the column name.
+     * 
+     * @param name value to set.
+     */
     public void setName( String name )
     {
         this.name = name;
     }
 
+    /**
+     * Returns the related model mapping.
+     * 
+     * @return the related model mapping.
+     */
     @XmlAttribute(name="mapping",required=false)
     public String getMapping()
     {
         return mapping;
     }
     
+    /**
+     * Sets the related model mapping.
+     * 
+     * @param mapping value to set.
+     */
     public void setMapping( String mapping )
     {
         this.mapping = mapping;
     }
 
+    /**
+     * Returns the flag {@code optional}.
+     * 
+     * @return the flag {@code optional}.
+     */
     @XmlAttribute(name="optional",required=false)
     public Boolean getOptional()
     {
         return optional;
     }
     
+    /**
+     * Sets the flag {@code optional}.
+     * 
+     * @param optional value to set.
+     */
     public void setOptional( Boolean optional )
     {
         this.optional = optional;
     }
 
+    /**
+     * Returns the column processor reference.
+     * 
+     * @return the column processor reference.
+     */
     @XmlAttribute(name="processor-ref",required=false)
     public String getProcessorRef()
     {
         return processorRef;
     }
     
+    /**
+     * Sets the column processor reference.
+     * 
+     * @param processorRef value to set.
+     */
     public void setProcessorRef( String processorRef )
     {
         this.processorRef = processorRef;
     }
     
+    /**
+     * Returns the column processor configuration.
+     * 
+     * @return the column processor configuration.
+     */
     @XmlElement(name="processor",required=false)
     public XMLFieldProcessorConf getProcessor()
     {
         return processor;
     }
     
+    /**
+     * Sets the column processor configuration.
+     * 
+     * @param processor value to set.
+     */
     public void setProcessor( XMLFieldProcessorConf processor )
     {
         this.processor = processor;

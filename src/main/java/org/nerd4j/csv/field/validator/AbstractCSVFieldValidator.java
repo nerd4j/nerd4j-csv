@@ -31,9 +31,8 @@ import org.nerd4j.csv.field.CSVFieldValidator;
  * accordingly with the framework execution policy.
  * 
  * <p>
- *  Any custom implementation of the {@link CSVFieldValidator} interface
- *  should extend this class. 
- * </p>
+ * Any custom implementation of the {@link CSVFieldValidator} interface
+ * should extend this class. 
  *
  * @param <V> type of the value to check.
  * 
@@ -97,11 +96,11 @@ public abstract class AbstractCSVFieldValidator<V> implements CSVFieldValidator<
 
     
     /**
-     * Performs the validation, and returns <code>true</code>
-     * if the validation succeeds and <code>false</code> otherwise.
+     * Performs the validation, and returns {@code true}
+     * if the validation succeeds and {@code false} otherwise.
      * 
      * @param value value to check.
-     * @return <code>true</code> if the validation succeeds, <code>false</code> otherwise.
+     * @return {@code true} if the validation succeeds, {@code false} otherwise.
      */
     protected abstract boolean performValidation( final V value );
     

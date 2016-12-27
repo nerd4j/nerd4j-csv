@@ -21,12 +21,9 @@
  */
 package org.nerd4j.csv.field.converter;
 
-import org.nerd4j.csv.field.CSVFieldConverter;
-
 /**
- * Implementation of the {@link CSVFieldConverter} interface
- * that converts {@link Enum}s into {@link String}s.
- * 
+ * Implementation of the {@link org.nerd4j.csv.field.CSVFieldConverter CSVFieldConverter}
+ * interface that converts {@link Enum}s into {@link String}s.
  * 
  * @param <E> type of the {@link Enum} to be returned.
  * 

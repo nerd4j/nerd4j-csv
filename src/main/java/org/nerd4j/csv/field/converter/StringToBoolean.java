@@ -21,23 +21,20 @@
  */
 package org.nerd4j.csv.field.converter;
 
-import org.nerd4j.csv.field.CSVFieldConverter;
-
 /**
- * Implementation of the {@link CSVFieldConverter} interface
- * that converts {@link String}s into {@link Boolean}s.
+ * Implementation of the {@link org.nerd4j.csv.field.CSVFieldConverter CSVFieldConverter}
+ * interface that converts {@link String}s into {@link Boolean}s.
  * 
  * <p>
- *  This converter accepts the following representations
- *  of a boolean value (the parsing ignores the character case):
- *  <ul>
- *   <li>1, 0</li>
- *   <li>y, n; Y, N;</li>
- *   <li>t, f; T, F</li>
- *   <li>Yes, No; YES, NO; etc.</li>
- *   <li>true, false; True, False; TRUE, FALSE; etc.</li>   
- *  </ul>
- * </p>
+ * This converter accepts the following representations
+ * of a boolean value (the parsing ignores the character case):
+ * <ul>
+ *  <li>1, 0</li>
+ *  <li>y, n; Y, N;</li>
+ *  <li>t, f; T, F</li>
+ *  <li>Yes, No; YES, NO; etc.</li>
+ *  <li>true, false; True, False; TRUE, FALSE; etc.</li>   
+ * </ul>
  * 
  * @author Nerd4j Team
  */
@@ -93,7 +90,7 @@ public final class StringToBoolean extends AbstractCSVFieldConverter<String,Bool
      * returns the boolean value related to such character.
      * 
      * @param source the value to parse.
-     * @return the corresponding boolean or <code>null</code>.
+     * @return the corresponding boolean or {@code null}.
      */
     private Boolean parseCharacter( final char source )
     {

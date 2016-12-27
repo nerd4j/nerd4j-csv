@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- * Represents a <code>Factory</code> able to build and configure
+ * Represents a {@code Factory} able to build and configure
  * {@link CSVToModelBinder}s which populates an array of {@link Object}s
  * using the fields of a related CSV record.
  * 
@@ -45,6 +45,7 @@ public final class CSVToArrayBinderFactory extends AbstractCSVToModelBinderFacto
     /**
      * Default constructor.
      * 
+     * @throws CSVToModelBindingException if the creation fails.
      */
     public CSVToArrayBinderFactory() throws CSVToModelBindingException
     {

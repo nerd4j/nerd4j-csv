@@ -21,11 +21,9 @@
  */
 package org.nerd4j.csv.conf.mapping;
 
-import org.nerd4j.csv.reader.CSVReader;
-
-
 /**
- * Represents the configuration of the {@link CSVReader}.
+ * Represents the configuration of the
+ * {@link org.nerd4j.csv.reader.CSVReader CSVReader}.
  * 
  * @author Nerd4j Team
  */
@@ -43,9 +41,8 @@ public class CSVReaderConf extends CSVHandlerConf implements Cloneable
      * But it is possible to face non standard CSV files where records
      * have different lengths.
      * <p>
-     *  This flag tells the reader to accept such non standard files.
-     *  In this case the reader may return incomplete data models.
-     * </p>
+     * This flag tells the reader to accept such non standard files.
+     * In this case the reader may return incomplete data models.
      */
     private Boolean acceptIncompleteRecords;
     
@@ -79,51 +76,101 @@ public class CSVReaderConf extends CSVHandlerConf implements Cloneable
     /* ******************* */
     
 
+    /**
+     * Returns the flag {@code read-header}.
+     * 
+     * @return the flag {@code read-header}.
+     */
     public Boolean getReadHeader()
     {
         return readHeader;
     }
     
+    /**
+     * Sets the flag {@code read-header}.
+     * 
+     * @param readHeader value to set.
+     */
     public void setReadHeader( Boolean readHeader )
     {
         this.readHeader = readHeader;
     }
     
+    /**
+     * Returns the flag {@code use-column-names}.
+     * 
+     * @return the flag {@code use-column-names}.
+     */
     public Boolean getUseColumnNames()
     {
         return useColumnNames;
     }
     
+    /**
+     * Sets the flag {@code use-column-names}.
+     * 
+     * @param useColumnNames value to set.
+     */
     public void setUseColumnNames( Boolean useColumnNames )
     {
         this.useColumnNames = useColumnNames;
     }
 
+    /**
+     * Returns the flag {@code accept-incomplete-records}.
+     * 
+     * @return the flag {@code accept-incomplete-records}.
+     */
     public Boolean getAcceptIncompleteRecords()
     {
     	return acceptIncompleteRecords;
     }
     
+    /**
+     * Sets the flag {@code accept-incomplete-records}.
+     * 
+     * @param acceptIncompleteRecords value to set.
+     */
     public void setAcceptIncompleteRecords( Boolean acceptIncompleteRecords )
     {
     	this.acceptIncompleteRecords = acceptIncompleteRecords;
     }
 
+    /**
+     * Returns the parser reference.
+     * 
+     * @return the parser reference.
+     */
     public String getParserRef()
     {
         return parserRef;
     }
     
+    /**
+     * Sets the parser reference.
+     * 
+     * @param parserRef value to set.
+     */
     public void setParserRef( String parserRef )
     {
         this.parserRef = parserRef;
     }
 
+    /**
+     * Returns the parser configuration.
+     * 
+     * @return the parser configuration.
+     */
     public CSVParserConf getParser()
     {
         return parser;
     }
 
+    /**
+     * Sets the parser configuration.
+     * 
+     * @param parser value to set.
+     */
     public void setParser( CSVParserConf parser )
     {
         this.parser = parser;

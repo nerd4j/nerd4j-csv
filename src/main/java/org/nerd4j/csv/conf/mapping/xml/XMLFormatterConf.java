@@ -84,6 +84,11 @@ public class XMLFormatterConf extends XMLCharSetConf
     /* ******************* */
     
     
+    /**
+     * Returns the characters to escape during formatting.
+     * 
+     * @return the characters to escape during formatting.
+     */
     @XmlTransient
     public char[] getCharsToEscape()
     {
@@ -95,12 +100,22 @@ public class XMLFormatterConf extends XMLCharSetConf
         
     }
     
+    /**
+     * Sets  the characters to escape during formatting.
+     * 
+     * @param charsToEscape value to set.
+     */
     public void setCharsToEscape( char[] charsToEscape )
     {
         this.charsToEscape = charsToEscape;
         this.charsToEscapeString = formatCharSet( charsToEscape );
     }
     
+    /**
+     * Returns the characters that force the field to be quoted.
+     * 
+     * @return the characters that force the field to be quoted.
+     */
     @XmlTransient
     public char[] getCharsThatForceQuoting()
     {
@@ -112,6 +127,11 @@ public class XMLFormatterConf extends XMLCharSetConf
         
     }
     
+    /**
+     * Sets the characters that force the field to be quoted.
+     * 
+     * @param charsThatForceQuoting value to set.
+     */
     public void setCharsThatForceQuoting( char[] charsThatForceQuoting )
     {
         this.charsThatForceQuoting = charsThatForceQuoting;

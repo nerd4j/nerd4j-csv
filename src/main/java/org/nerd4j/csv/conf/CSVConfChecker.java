@@ -256,6 +256,7 @@ public final class CSVConfChecker
      * Checks the consistency of the information contained in the given configuration.
      * 
      * @param configuration the configuration to check.
+     * @param type the name of the configuration type to check.
      * @throws CSVConfigurationException if the configuration is inconsistent.
      */
     public static void check( CSVRegisterProviderConf configuration, String type )
@@ -357,10 +358,10 @@ public final class CSVConfChecker
     }
     
     /**
-     * Checks if the given {@link String} is <code>null</code> or empty.
+     * Checks if the given {@link String} is {@code null} or empty.
      * 
      * @param value string to check.
-     * @return <code>true</code> if the given {@link String} is <code>null</code> or empty.
+     * @return {@code true} if the given {@link String} is {@code null} or empty.
      */
     private static boolean isNullOrEmpty( String value )
     {

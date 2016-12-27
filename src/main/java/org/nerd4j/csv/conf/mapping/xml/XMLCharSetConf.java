@@ -43,8 +43,6 @@ public class XMLCharSetConf
     private static final String ESCAPE = "escape";
     private static final String FIELD_SEPARATOR = "field-sep";
     private static final String RECORD_SEPARATOR = "record-sep";
-//    private static final String RECORD_SEPARATOR_1 = "record-sep-1";
-//    private static final String RECORD_SEPARATOR_2 = "record-sep-2";
     
 
     /** Name used to identify the parser. */
@@ -71,22 +69,6 @@ public class XMLCharSetConf
     @XmlAttribute(name=RECORD_SEPARATOR,required=false)
     private String recordSeparatorString;
     
-//    /**
-//     * The first of at most two record separator characters.
-//     * This character is mandatory, the second one is optional.
-//     *(the [\n] character is used by default). 
-//     */
-//    @XmlAttribute(name=RECORD_SEPARATOR_1,required=true)
-//    private String recordSeparator1String;
-//    
-//    /**
-//     * The second of at most two record separator characters.
-//     * This character is optional, the first one is mandatory.
-//     *(by default this field is empty). 
-//     */
-//    @XmlAttribute(name=RECORD_SEPARATOR_2,required=false)
-//    private String recordSeparator2String;
-    
 
     /**
      * Default constructor.
@@ -100,9 +82,6 @@ public class XMLCharSetConf
         this.name = null;
         this.fieldSeparatorString   = null;
         this.recordSeparatorString = null;
-        
-//        this.recordSeparator1String = null;
-//        this.recordSeparator2String = null;
         
         this.escapeCharString = null;
         this.quoteCharString  = null;
@@ -122,7 +101,7 @@ public class XMLCharSetConf
      * 
      * @param value the value to parse.
      * @param field the related field.
-     * @return the represented character, or <code>null</code>.
+     * @return the represented character, or {@code null}.
      * @throws CSVConfigurationException if the given value is not a character.
      */
     private Character parseChar( String value, String field )
@@ -174,73 +153,96 @@ public class XMLCharSetConf
     /* ******************* */
     
     
+    /**
+     * Returns the registry key.
+     * 
+     * @return the registry key.
+     */
     @XmlTransient
     public String getName()
     {
         return name;
     }
     
+    /**
+     * Returns the character used as field separator in the CSV.
+     * 
+     * @return the character used as field separator in the CSV.
+     */
     @XmlTransient
     public Character getFieldSeparator()
     {
         return parseChar( fieldSeparatorString, FIELD_SEPARATOR );
     }
     
+    /**
+     * Sets the character used as field separator in the CSV.
+     * 
+     * @param fieldSeparator value to set.
+     */
     public void setFieldSeparator( Character fieldSeparator )
     {
         this.fieldSeparatorString = String.valueOf( fieldSeparator );
     }
     
+    /**
+     * Returns the character sequence used as record separator in the CSV.
+     * 
+     * @return the character sequence used as record separator in the CSV.
+     */
     @XmlTransient
     public char[] getRecordSeparator()
     {
         return parseCharSet( recordSeparatorString );
     }
     
-    public void setRecordSeparator1( char[] recordSeparator )
+    /**
+     * Sets the character sequence used as record separator in the CSV.
+     * 
+     * @param recordSeparator value to set.
+     */
+    public void setRecordSeparator( char[] recordSeparator )
     {
         this.recordSeparatorString = formatCharSet( recordSeparator );
     }
 
-//    @XmlTransient
-//    public Character getRecordSeparator1()
-//    {
-//    	return parseChar( recordSeparator1String, RECORD_SEPARATOR_1 );
-//    }
-//    
-//    public void setRecordSeparator1( Character recordSeparator1 )
-//    {
-//    	this.recordSeparator1String = String.valueOf( recordSeparator1 );
-//    }
-//    
-//    @XmlTransient
-//    public Character getRecordSeparator2()
-//    {
-//        return parseChar( recordSeparator2String, RECORD_SEPARATOR_2 );
-//    }
-//    
-//    public void setRecordSeparator2( Character recordSeparator2 )
-//    {
-//        this.recordSeparator2String = String.valueOf( recordSeparator2 );
-//    }
-    
+    /**
+     * Returns the character used to escape control characters in the CSV.
+     * 
+     * @return the character used to escape control characters in the CSV.
+     */
     @XmlTransient
     public Character getEscapeChar()
     {
         return parseChar( escapeCharString, ESCAPE );
     }
     
+    /**
+     * Sets the character used to escape control characters in the CSV.
+     * 
+     * @param escapeChar value to set.
+     */
     public void setEscapeChar( Character escapeChar )
     {
         this.escapeCharString = String.valueOf( escapeChar );
     }
     
+    /**
+     * Returns the character used to quote fields in the CSV.
+     * 
+     * @return the character used to quote fields in the CSV.
+     */
     @XmlTransient
     public Character getQuoteChar()
     {
         return parseChar( quoteCharString, QUOTE );
     }
     
+    /**
+     * Sets the character used to quote fields in the CSV.
+     * 
+     * @param quoteChar value to set.
+     */
     public void setQuoteChar( Character quoteChar )
     {
         this.quoteCharString = String.valueOf( quoteChar );

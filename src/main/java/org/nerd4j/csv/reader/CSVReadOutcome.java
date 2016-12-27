@@ -29,12 +29,11 @@ import org.nerd4j.csv.CSVProcessContext;
  * by the {@link CSVReader#read()} method.
  * 
  * <p>
- *  This object contains the following elements:
- *  <ol>
- *   <li>The data model corresponding to the CSV record read;</li>
- *   <li>The execution context of the reading operation.</li>
- *  </ol>
- * </p>
+ * This object contains the following elements:
+ * <ol>
+ *  <li>The data model corresponding to the CSV record read;</li>
+ *  <li>The execution context of the reading operation.</li>
+ * </ol>
  * 
  * @param <M> type of the data model representing the CSV record.
  * 
@@ -46,9 +45,8 @@ public interface CSVReadOutcome<M>
     /**
      * Returns the data model corresponding to the CSV record read.
      * <p>
-     *  If the CSV source is empty or an error occurred the model
-     *  is <code>null</code>.
-     * </p>
+     * If the CSV source is empty or an error occurred the model
+     * is {@code null}.
      * 
      * @return the data model corresponding to the CSV record read.
      */
@@ -57,15 +55,14 @@ public interface CSVReadOutcome<M>
     /**
      * Returns the reading execution context.
      * <p>
-     *  This object contains some information about the progress
-     *  of the reading.
-     * </p>
+     * This object contains some information about the progress
+     * of the reading.
      * <p>
-     *  <b>IMPORTANT</b> for performance reasons there is only one
-     *                   instance of the execution context. So the
-     *                   internal values of this object may vary
-     *                   during execution.
-     * </p>
+     * <b>IMPORTANT</b> for performance reasons there is only one
+     *                  instance of the execution context. So the
+     *                  internal values of this object may vary
+     *                  during execution.
+     *                  
      * @return the reading execution context.
      */
     public CSVProcessContext getCSVReadingContext();

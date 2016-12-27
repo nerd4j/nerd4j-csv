@@ -72,45 +72,85 @@ public class XMLRegisterTypesConf
     /* ******************* */
     
     
+    /**
+     * Returns the list of validator providers configurations.
+     * 
+     * @return the list of validator providers configurations.
+     */
     @XmlElement(name="validator")
     public List<XMLRegisterProviderConf> getValidatorProviders()
     {
         return validatorProviders;
     }
 
+    /**
+     * Sets the list of validator providers configurations.
+     * 
+     * @param validatorProviders value to set.
+     */
     public void setValidatorProviders( List<XMLRegisterProviderConf> validatorProviders )
     {
         this.validatorProviders = validatorProviders;
     }
 
+    /**
+     * Returns the list of converter providers configurations.
+     * 
+     * @return the list of converter providers configurations.
+     */
     @XmlElement(name="converter")
     public List<XMLRegisterProviderConf> getConverterProviders()
     {
         return converterProviders;
     }
     
+    /**
+     * Sets the list of converter providers configurations.
+     * 
+     * @param converterProviders value to set.
+     */
     public void setConverterProviders( List<XMLRegisterProviderConf> converterProviders )
     {
         this.converterProviders = converterProviders;
     }
 
+    /**
+     * Returns the list of csv-to-model binder providers configurations.
+     * 
+     * @return the list of csv-to-model binder providers configurations.
+     */
     @XmlElement(name="csv-to-model")
     public List<XMLRegisterProviderConf> getCsvToModelProviders()
     {
         return csvToModelProviders;
     }
 
+    /**
+     * Sets the list of csv-to-model binder providers configurations.
+     * 
+     * @param csvToModelProviders value to set.
+     */
     public void setCsvToModelProviders( List<XMLRegisterProviderConf> csvToModelProviders )
     {
         this.csvToModelProviders = csvToModelProviders;
     }
 
+    /**
+     * Returns the list of model-to-csv binder providers configurations.
+     * 
+     * @return the list of model-to-csv binder providers configurations.
+     */
     @XmlElement(name="model-to-csv")
     public List<XMLRegisterProviderConf> getModelToCSVProviders()
     {
         return modelToCSVProviders;
     }
 
+    /**
+     * Sets the list of model-to-csv binder providers configurations.
+     * 
+     * @param modelToCSVProviders value to set.
+     */
     public void setModelToCSVProviders( List<XMLRegisterProviderConf> modelToCSVProviders )
     {
         this.modelToCSVProviders = modelToCSVProviders;

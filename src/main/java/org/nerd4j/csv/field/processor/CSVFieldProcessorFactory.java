@@ -30,10 +30,8 @@ import org.nerd4j.csv.registry.CSVRegistryEntryFactory;
  * Factory able to build instances of {@link CSVFieldProcessor}.
  * 
  * <p>
- *  This class keeps an internal reference to the related
- *  instances of {@link CSVFieldValidatorFactory} and
- *  {@link CSVFieldConverterFactory}.
- * </p>
+ * This class keeps an internal reference to {@link CSVRegistryEntryFactory}
+ * related to {@link CSVFieldValidator} and {@link CSVFieldConverter}.
  * 
  * @param <S> type of the source field format.
  * @param <T> type of the target field format.
