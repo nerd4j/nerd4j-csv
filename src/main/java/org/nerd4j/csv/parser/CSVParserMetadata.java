@@ -39,11 +39,11 @@ public final class CSVParserMetadata
 {
 	
 	/**
-	 * Accept more lazy quotes: in unquoted fields are handled as
-	 * {@link CharacterClass#NORMAL} without beeing escaped.
+	 * Accept only strict quotes: quotes inside fields
+	 * MUST be escaped.
 	 * (by default this value is: {@code false}).
 	 */
-	private boolean lazyQuotes;
+	private boolean strictQuotes;
 	
     /** Character used to quote fields (the double quote ["] is used by default). */
     private Character quoteChar;
@@ -90,7 +90,7 @@ public final class CSVParserMetadata
 
         super();
     
-        this.lazyQuotes = false;
+        this.strictQuotes = false;
         
         this.fieldSeparator   = RemarkableASCII.COMMA;
         
@@ -112,23 +112,23 @@ public final class CSVParserMetadata
     
     
     /**
-     * Returns the flag {@code lazy-quotes}.
+     * Returns the flag {@code strict-quotes}.
      * 
-     * @return the flag {@code lazy-quotes}.
+     * @return the flag {@code strict-quotes}.
      */
-    public boolean isLazyQuotes()
+    public boolean isStrictQuotes()
     {
-    	return lazyQuotes;
+    	return strictQuotes;
     }
     
     /**
-     * Sets the flag {@code lazy-quotes}.
+     * Sets the flag {@code strict-quotes}.
      * 
-     * @param lazyQuotes value to set.
+     * @param strictQuotes value to set.
      */
-    public void setLazyQuotes( boolean lazyQuotes )
+    public void setStrictQuotes( boolean strictQuotes )
     {
-    	this.lazyQuotes = lazyQuotes;
+    	this.strictQuotes = strictQuotes;
     }
     
     /**

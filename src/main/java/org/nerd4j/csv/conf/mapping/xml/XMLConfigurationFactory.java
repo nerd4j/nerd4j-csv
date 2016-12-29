@@ -405,7 +405,7 @@ public class XMLConfigurationFactory
         
     	merge( (XMLCharSetConf) xmlConf, (CSVCharSetConf) csvConf, "parser" );
         
-    	if( xmlConf.isLazyQuotes() != null ) csvConf.setLazyQuotes( xmlConf.isLazyQuotes() );
+    	if( xmlConf.isStrictQuotes() != null ) csvConf.setStrictQuotes( xmlConf.isStrictQuotes() );
     	if( xmlConf.getCharsToIgnore() != null ) csvConf.setCharsToIgnore( xmlConf.getCharsToIgnore() );
     	if( xmlConf.getCharsToIgnoreAroundFields() != null ) csvConf.setCharsToIgnoreAroundFields( xmlConf.getCharsToIgnoreAroundFields() );
     	if( xmlConf.isMatchRecordSeparatorExactSequence() != null ) csvConf.setMatchRecordSeparatorExactSequence( xmlConf.isMatchRecordSeparatorExactSequence() );

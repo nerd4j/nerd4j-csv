@@ -51,8 +51,6 @@ public class CSVParserTest extends BaseTest
 				+ "abcdefgh,12345,,abcdefgh,*+\n"
 				;
 		
-//		String string = "";
-		
 		StringReader reader = new StringReader( string );
 		
 		CSVParser parser = factory.create( reader );
@@ -414,7 +412,38 @@ public class CSVParserTest extends BaseTest
 	}
 	
 	/**
-	 * Test a well formed quoted field.
+	 * Test a well formed quoted field in strict mode.
+	 */
+	@Test
+	public void strictQuotedSuccess() throws IOException
+	{
+		
+		final String string = "\"abc\",\"x\"\"yz\"";
+		final StringReader reader = new StringReader( string );
+		
+		final CSVParser parser = getStrictQuotedParser( reader );
+		
+		parser.read();
+		Assert.assertEquals( CSVToken.FIELD, parser.getCurrentToken() );
+		Assert.assertEquals( "abc" , parser.getCurrentValue() );
+		
+		parser.read();
+		Assert.assertEquals( CSVToken.FIELD, parser.getCurrentToken() );
+		Assert.assertEquals( "x\"yz" , parser.getCurrentValue() );
+		
+		parser.read();
+		Assert.assertEquals( CSVToken.END_OF_RECORD , parser.getCurrentToken() );
+		
+		parser.read();
+		Assert.assertEquals( CSVToken.END_OF_DATA , parser.getCurrentToken() );
+		
+		parser.read();
+		Assert.assertEquals( CSVToken.END_OF_DATA , parser.getCurrentToken() );
+		
+	}
+	
+	/**
+	 * Test a well formed quoted field in lazy mode.
 	 */
 	@Test
 	public void quotedSuccess() throws IOException
@@ -445,49 +474,18 @@ public class CSVParserTest extends BaseTest
 		
 	}
 	
-	/**
-	 * Test a well formed lazy-quoted field.
-	 */
-	@Test
-	public void lazyQuotedSuccess() throws IOException
-	{
-		
-		final String string = "\"abc\",\"x\"\"yz\"";
-		final StringReader reader = new StringReader( string );
-		final CSVParser parser = getLazyQuotedParser( reader );
-		
-		parser.read();
-		Assert.assertEquals( CSVToken.FIELD, parser.getCurrentToken() );
-		Assert.assertEquals( "abc" , parser.getCurrentValue() );
-		
-		parser.read();
-		Assert.assertEquals( CSVToken.FIELD, parser.getCurrentToken() );
-		Assert.assertEquals( "x\"yz" , parser.getCurrentValue() );
-		
-		parser.read();
-		Assert.assertEquals( CSVToken.END_OF_RECORD , parser.getCurrentToken() );
-		
-		parser.read();
-		Assert.assertEquals( CSVToken.END_OF_DATA , parser.getCurrentToken() );
-		
-		parser.read();
-		Assert.assertEquals( CSVToken.END_OF_DATA , parser.getCurrentToken() );
-		
-	}
-	
 	
 	/**
-	 * Test the presence of an unescaped quote in quoted field.
+	 * Test the presence of a not escaped quote in quoted field.
 	 */
 	@Test
-	public void quotedUnescapedQuote() throws IOException
+	public void strictQuotedUnescapedQuote() throws IOException
 	{
 		
 		final String string = "\"abc\",\"x\"yz\"";
 		final StringReader reader = new StringReader( string );
 		
-		final CSVParserFactory factory = new CSVParserFactory();
-		final CSVParser parser = factory.create( reader );
+		final CSVParser parser = getStrictQuotedParser( reader );
 		
 		parser.read();
 		Assert.assertEquals( CSVToken.FIELD, parser.getCurrentToken() );
@@ -508,12 +506,14 @@ public class CSVParserTest extends BaseTest
 	 * Test the presence of an unescaped quote in lazy-quoted field.
 	 */
 	@Test
-	public void lazyQuotedUnescapedQuote() throws IOException
+	public void quotedUnescapedQuote() throws IOException
 	{
 		
 		final String string = "\"abc\",\"x\"yz\"";
 		final StringReader reader = new StringReader( string );
-		final CSVParser parser = getLazyQuotedParser( reader );
+		
+		final CSVParserFactory factory = new CSVParserFactory();
+		final CSVParser parser = factory.create( reader );
 		
 		parser.read();
 		Assert.assertEquals( CSVToken.FIELD, parser.getCurrentToken() );
@@ -539,14 +539,12 @@ public class CSVParserTest extends BaseTest
 	 * Test the presence of spaces after a quote in a quoted field.
 	 */
 	@Test
-	public void quotedSpacesAfterQuote() throws IOException
+	public void strictQuotedSpacesAfterQuote() throws IOException
 	{
 		
 		final String string = "\"x\"\"  yz\"  ";
 		final StringReader reader = new StringReader( string );
-		
-		final CSVParserFactory factory = new CSVParserFactory();
-		final CSVParser parser = factory.create( reader );
+		final CSVParser parser = getStrictQuotedParser( reader );
 		
 		parser.read();
 		Assert.assertEquals( CSVToken.FIELD, parser.getCurrentToken() );
@@ -568,12 +566,14 @@ public class CSVParserTest extends BaseTest
 	 * Test the presence of spaces after a quote in a quoted field.
 	 */
 	@Test
-	public void lazyQuotedSpacesAfterQuote() throws IOException
+	public void quotedSpacesAfterQuote() throws IOException
 	{
 		
 		final String string = "\"x\"  yz\"  ";
 		final StringReader reader = new StringReader( string );
-		final CSVParser parser = getLazyQuotedParser( reader );
+		
+		final CSVParserFactory factory = new CSVParserFactory();
+		final CSVParser parser = factory.create( reader );
 		
 		parser.read();
 		Assert.assertEquals( CSVToken.FIELD, parser.getCurrentToken() );
@@ -591,6 +591,32 @@ public class CSVParserTest extends BaseTest
 	}
 	
 
+	/**
+	 * Test presence of triple quotes in a quoted field.
+	 */
+	@Test
+	public void strictQuotedTripleQuote() throws IOException
+	{
+		
+		final String string = "\"\"\"xyz\"\"\"";
+		final StringReader reader = new StringReader( string );
+		final CSVParser parser = getStrictQuotedParser( reader );
+		
+		parser.read();
+		Assert.assertEquals( CSVToken.FIELD, parser.getCurrentToken() );
+		Assert.assertEquals( "\"xyz\"", parser.getCurrentValue() );
+		
+		parser.read();
+		Assert.assertEquals( CSVToken.END_OF_RECORD , parser.getCurrentToken() );
+		
+		parser.read();
+		Assert.assertEquals( CSVToken.END_OF_DATA , parser.getCurrentToken() );
+		
+		parser.read();
+		Assert.assertEquals( CSVToken.END_OF_DATA , parser.getCurrentToken() );
+		
+	}
+	
 	/**
 	 * Test presence of triple quotes in a quoted field.
 	 */
@@ -620,38 +646,10 @@ public class CSVParserTest extends BaseTest
 	}
 	
 	/**
-	 * Test presence of triple quotes in a quoted field.
-	 */
-	@Test
-	public void lazyQuotedTripleQuote() throws IOException
-	{
-		
-		final String string = "\"\"\"xyz\"\"\"";
-		final StringReader reader = new StringReader( string );
-		
-		final CSVParserFactory factory = new CSVParserFactory();
-		final CSVParser parser = factory.create( reader );
-		
-		parser.read();
-		Assert.assertEquals( CSVToken.FIELD, parser.getCurrentToken() );
-		Assert.assertEquals( "\"xyz\"", parser.getCurrentValue() );
-		
-		parser.read();
-		Assert.assertEquals( CSVToken.END_OF_RECORD , parser.getCurrentToken() );
-		
-		parser.read();
-		Assert.assertEquals( CSVToken.END_OF_DATA , parser.getCurrentToken() );
-		
-		parser.read();
-		Assert.assertEquals( CSVToken.END_OF_DATA , parser.getCurrentToken() );
-		
-	}
-	
-	/**
 	 * Test a field made of only quoting characters.
 	 */
 	@Test
-	public void quotedOnlyQuotes() throws IOException
+	public void strictQuotedOnlyQuotes() throws IOException
 	{
 		
 		final String fiveQuotes = "\"\"\"\"\"";
@@ -660,11 +658,9 @@ public class CSVParserTest extends BaseTest
 		final StringReader fiveQuotesReader = new StringReader( fiveQuotes );
 		final StringReader sixQuotesReader = new StringReader( sixQuotes );
 		
-		final CSVParserFactory factory = new CSVParserFactory();
+		final CSVParser fiveQuotesParser = getStrictQuotedParser( fiveQuotesReader );
+		final CSVParser sixQuotesParser = getStrictQuotedParser( sixQuotesReader );
 
-		final CSVParser fiveQuotesParser = factory.create( fiveQuotesReader );
-		final CSVParser sixQuotesParser = factory.create( sixQuotesReader );
-		
 		try{
 		
 			fiveQuotesParser.read();
@@ -692,17 +688,19 @@ public class CSVParserTest extends BaseTest
 	 * Test a field made of only quoting characters.
 	 */
 	@Test
-	public void lazyQuotedOnlyQuotes() throws IOException
+	public void quotedOnlyQuotes() throws IOException
 	{
 		
 		final String fiveQuotes = "\"\"\"\"\"";
 		final String sixQuotes = "\"\"\"\"\"\"";
-		
+						
 		final StringReader fiveQuotesReader = new StringReader( fiveQuotes );
 		final StringReader sixQuotesReader = new StringReader( sixQuotes );
 		
-		final CSVParser fiveQuotesParser = getLazyQuotedParser( fiveQuotesReader );
-		final CSVParser sixQuotesParser = getLazyQuotedParser( sixQuotesReader );
+		final CSVParserFactory factory = new CSVParserFactory();
+		
+		final CSVParser fiveQuotesParser = factory.create( fiveQuotesReader );
+		final CSVParser sixQuotesParser = factory.create( sixQuotesReader );
 		
 		try{
 			
@@ -731,14 +729,12 @@ public class CSVParserTest extends BaseTest
 	 * Test presence of text after a quote (this version should throw ad exception).
 	 */
 	@Test
-	public void quotedTextAfterAQuote() throws IOException
+	public void strictquotedTextAfterAQuote() throws IOException
 	{
 		
 		final String string = "\"15\" A\"";
 		final StringReader reader = new StringReader( string );
-		
-		final CSVParserFactory factory = new CSVParserFactory();
-		final CSVParser parser = factory.create( reader );
+		final CSVParser parser = getStrictQuotedParser( reader );
 		
 		try{
 			
@@ -754,12 +750,14 @@ public class CSVParserTest extends BaseTest
 	 * Test presence of text after a quote (this version should treat the quote as normal text).
 	 */
 	@Test
-	public void lazyQuotedTextAfterAQuote() throws IOException
+	public void quotedTextAfterAQuote() throws IOException
 	{
 		
 		final String string = "\"15\" A\",15\" A";
 		final StringReader reader = new StringReader( string );
-		final CSVParser parser = getLazyQuotedParser( reader );
+		
+		final CSVParserFactory factory = new CSVParserFactory();
+		final CSVParser parser = factory.create( reader );
 		
 		parser.read();
 		Assert.assertEquals( CSVToken.FIELD, parser.getCurrentToken() );
@@ -781,13 +779,13 @@ public class CSVParserTest extends BaseTest
 	}
 	
 	/**
-	 * Returns a parser with lazy quotes enabled.
+	 * Returns a parser with strict quotes enabled.
 	 */
-	private CSVParser getLazyQuotedParser( Reader reader )
+	private CSVParser getStrictQuotedParser( Reader reader )
 	{
 		
 		final CSVParserMetadata metadata = new CSVParserMetadata();
-		metadata.setLazyQuotes( true );
+		metadata.setStrictQuotes( true );
 		
 		final CSVParserFactory factory = new CSVParserFactory( metadata );
 		return factory.create( reader );

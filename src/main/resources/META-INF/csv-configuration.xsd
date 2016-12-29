@@ -24,7 +24,7 @@
     Represents the set of characters used to define the CSV structure.
    </xs:documentation></xs:annotation>
    
-   <xs:attribute name="quote" type="xs:string">
+   <xs:attribute  name="quote" type="xs:string">
     <xs:annotation><xs:documentation>
      Character used to quote fields.
      The character used by default is the double quote ["].
@@ -52,22 +52,6 @@
      separator will be used.
     </xs:documentation></xs:annotation>
    </xs:attribute>
-   
-<!--    <xs:attribute name="record-sep-1" type="xs:string" use="required"> -->
-<!--     <xs:annotation><xs:documentation> -->
-<!--      The first of at most two record separator characters. -->
-<!--      This character is mandatory, the second one is optional. -->
-<!-- 	 The character used by default is the new line feed [\n]. -->
-<!--     </xs:documentation></xs:annotation> -->
-<!--    </xs:attribute> -->
-   
-<!--    <xs:attribute name="record-sep-2" type="xs:string"> -->
-<!--     <xs:annotation><xs:documentation> -->
-<!--      The second of at most two record separator characters. -->
-<!--      This character is optional, the first one is mandatory. -->
-<!-- 	 There is no default values for this feature. -->
-<!--     </xs:documentation></xs:annotation> -->
-<!--    </xs:attribute> -->
     
   </xs:complexType>
 
@@ -99,10 +83,12 @@
       </xs:documentation></xs:annotation>
      </xs:attribute>
      
-     <xs:attribute name="lazy-quotes" type="xs:boolean">
+     <xs:attribute name="strict-quotes" type="xs:boolean">
       <xs:annotation><xs:documentation>
-       Tells the CSVParser to treat
-       not escaped 	quotes less strictly.
+       Tells the CSVParser to treat not escaped quotes strictly.
+       More precisely tells the parser to fail in case a not escaped
+       quote is found into a field. The default value for this filed
+       is false.
       </xs:documentation></xs:annotation>
      </xs:attribute>
 
@@ -113,7 +99,7 @@
        provided in the record-rep attribute.
        By default it will match a record separator as
        soon as it finds any record separator character
-       (this is the behavior implemented by Mucrosoft Excel
+       (this is the behavior implemented by Microsoft Excel
        and OpenOffice Calc).
       </xs:documentation></xs:annotation>
      </xs:attribute>

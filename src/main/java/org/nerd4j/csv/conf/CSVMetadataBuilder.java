@@ -98,8 +98,8 @@ public final class CSVMetadataBuilder
         if( configuration.getCharsToIgnoreAroundFields() != null )
             metadata.setCharsToIgnoreAroundFields( configuration.getCharsToIgnoreAroundFields() );
         
-        if( configuration.isLazyQuotes() != null )
-            metadata.setLazyQuotes( configuration.isLazyQuotes() );
+        if( configuration.isStrictQuotes() != null )
+            metadata.setStrictQuotes( configuration.isStrictQuotes() );
         
         return metadata;
         
