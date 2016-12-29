@@ -56,11 +56,10 @@ final class CSVParserImpl implements CSVParser
 	private final int[] types;
 	
 	/**
-	 * Accept more lazy quotes: in unquoted fields ({@link FieldState#NORMAL}
-	 * and {@link FieldState#NORMAL_END}) are handled as
-	 * {@link CharacterClass#NORMAL} without being escaped
+	 * Accept only strict quotes: if some ({@link FieldState#NORMAL}
+	 * character is found after a not escaped quote the parsing fails.
 	 */
-	private final boolean lazyQuotes;
+	private final boolean strictQuotes;
 	
 	/** CSV data source reader. */
 	private final Reader reader;
@@ -116,15 +115,15 @@ final class CSVParserImpl implements CSVParser
 	 * @param reader CSV data source.
 	 * @param types  character classes configuration.
 	 * @param recordSeparator the record separator sequence.
-	 * @param lazyQuotes tells if quotes inside text are admitted.
+	 * @param strictQuotes tells to handle quotes escaping strictly.
 	 */
-	CSVParserImpl( final Reader reader, final int[] types, final char[] recordSeparator, boolean lazyQuotes )
+	CSVParserImpl( final Reader reader, final int[] types, final char[] recordSeparator, boolean strictQuotes )
 	{
 		
 		this.reader = reader;
 		
 		this.types = types;
-		this.lazyQuotes = lazyQuotes ;
+		this.strictQuotes = strictQuotes ;
 		
 		this.nexts = new LinkedList<CSVToken>();
 
@@ -617,15 +616,13 @@ final class CSVParserImpl implements CSVParser
 				case FieldState.NORMAL ^ CharacterClass.QUOTE:
 					/* Current field is unquoted but contains a not escaped quote. */
 					
-					/* If quotes have to be handled less strictly */
-					if ( lazyQuotes )
-					{
-						/* Handle as CharacterClass.NORMAL */
-						if( read ) builder.append( current );
-						break;
-					}
+					/* If quotes have to be handled strictly */
+					if( strictQuotes )
+						throw new MalformedCSVException( "Encountered an unescaped quote in a unquoted field." );
 					
-					throw new MalformedCSVException( "Encountered an unescaped quote in a unquoted field." );
+					/* Handle as CharacterClass.NORMAL */
+					if( read ) builder.append( current );
+					break;
 					
 				case FieldState.NORMAL ^ CharacterClass.ESCAPE:
 					state = FieldState.NORMAL_ESCAPE;
@@ -705,16 +702,16 @@ final class CSVParserImpl implements CSVParser
 					/* Current field is unquoted but contains a not escaped quote. */
 					
 					/* If quotes have to be handled less strictly */
-					if ( lazyQuotes )
+					if( strictQuotes )
 					{
-						/* Handle as CharacterClass.NORMAL */
-						state = FieldState.NORMAL;
-						if( read ) builder.append( current );
-						break;
+						if( read ) builder.rollbackToMark();
+						throw new MalformedCSVException( "Encountered an unescaped quote in a unquoted field." );
 					}
-						
-				    if( read ) builder.rollbackToMark();
-					throw new MalformedCSVException( "Encountered an unescaped quote in a unquoted field." );
+					
+					/* Handle as CharacterClass.NORMAL */
+					state = FieldState.NORMAL;
+					if( read ) builder.append( current );
+					break;
 					
 				case FieldState.NORMAL_END ^ CharacterClass.ESCAPE:
 					state = FieldState.NORMAL_ESCAPE;
@@ -815,22 +812,26 @@ final class CSVParserImpl implements CSVParser
 				/* ***************************** */
 				
 				case FieldState.QUOTED_END ^ CharacterClass.NORMAL:
-					/* If quotes have to be handled less strictly */
-					if( lazyQuotes )
-					{
-						/* Handle as CharacterClass.NORMAL */
-						state = FieldState.QUOTED;
-						if( read ) builder.append( current );
-						break;
-					}
-					/* Normal character outside a quoted field. */
-					throw new MalformedCSVException( "Encountered a normal character outside a quoted field." );
+					/* If quotes have to be handled strictly */
+					if( strictQuotes )
+						/* Normal character outside a quoted field. */
+						throw new MalformedCSVException( "Encountered a normal character outside a quoted field." );
 					
+					/* Handle as CharacterClass.NORMAL */
+					state = FieldState.QUOTED;
+					if( read ) builder.append( current );
+					break;
+										
 				case FieldState.QUOTED_END ^ CharacterClass.TO_IGNORE:
 					break;
 					
 				case FieldState.QUOTED_END ^ CharacterClass.TO_IGNORE_AROUND_FIELDS:
-					if( lazyQuotes && read )
+					/*
+					 * If we are not skipping the text and we are handling
+					 * quotes less strictly then we read ahead to see if
+					 * the field ends or if there is some other text. 
+					 */
+					if( ! strictQuotes && read )
 					{
 						builder.extendMark();
 						builder.append( current );
@@ -838,46 +839,42 @@ final class CSVParserImpl implements CSVParser
 					break;
 					
 				case FieldState.QUOTED_END ^ CharacterClass.QUOTE:
-					/* If quotes have to be handled less strictly */
-					if ( lazyQuotes )
-					{
-						state = FieldState.DOUBLE_QUOTE;
-						if( read ) builder.append( current );
-						break;
-					}
+					/* If quotes have to be handled strictly */
+					if( strictQuotes )
+						/* Quote character outside a quoted field. */
+						throw new MalformedCSVException( "Encountered a quote character outside a quoted field." );
 					
-					/* Quote character outside a quoted field. */
-					throw new MalformedCSVException( "Encountered a quote character outside a quoted field." );
+					state = FieldState.DOUBLE_QUOTE;
+					if( read ) builder.append( current );
+					break;
 					
 				case FieldState.QUOTED_END ^ CharacterClass.ESCAPE:
-					/* If quotes have to be handled less strictly */
-					if ( lazyQuotes )
-					{
-						state = FieldState.QUOTED_ESCAPE;
-						break;
-					}
-					
-					/* Escape character outside a quoted field. */
-					throw new MalformedCSVException( "Encountered an escape character outside a quoted field." );
+					/* If quotes have to be handled strictly */
+					if( strictQuotes )
+						/* Escape character outside a quoted field. */
+						throw new MalformedCSVException( "Encountered an escape character outside a quoted field." );
+
+					state = FieldState.QUOTED_ESCAPE;
+					break;
 					
 				case FieldState.QUOTED_END ^ CharacterClass.FIELD_SEPARATOR:
 					/*
-					 * If we are in lazyQuote mode we wrote the last quote
+					 * If we are not in strictQuote mode we wrote the last quote
 					 * and all the characters TO_IGNORE_AROUND_FIELDS so in
 					 * this case we need to rollback.
 					 */
-					if( lazyQuotes ) builder.rollbackToMark();
+					if( ! strictQuotes ) builder.rollbackToMark();
 					return FieldEndReason.FIELD_SEPARATOR;
 					
 				case FieldState.QUOTED_END ^ CharacterClass.RECORD_SEPARATOR:
 					if ( recordSeparatorStrategy.apply(read) )
 					{
 						/*
-						 * If we are in lazyQuote mode we wrote the last quote
+						 * If we are not in strictQuote mode we wrote the last quote
 						 * and all the characters TO_IGNORE_AROUND_FIELDS so in
 						 * this case we need to rollback.
 						 */
-						if( lazyQuotes ) builder.rollbackToMark();
+						if( ! strictQuotes ) builder.rollbackToMark();
 						return FieldEndReason.RECORD_SEPARATOR;
 					}
 						
@@ -890,24 +887,26 @@ final class CSVParserImpl implements CSVParser
 				/* ******************************* */
 				
 				case FieldState.DOUBLE_QUOTE ^ CharacterClass.NORMAL:
-					/* If quotes have to be handled less strictly */
-					if( lazyQuotes )
-					{
-						/* Handle as CharacterClass.NORMAL */
-						state = FieldState.QUOTED;
-						if( read ) builder.append( current );
-						break;
-					}
-					
-					/* Normal character outside a quoted field. */
-					throw new MalformedCSVException( "Encountered a normal character outside a quoted field." );
+					/* If quotes have to be handled strictly */
+					if( strictQuotes )
+						/* Normal character outside a quoted field. */
+						throw new MalformedCSVException( "Encountered a normal character outside a quoted field." );
+
+					/* Handle as CharacterClass.NORMAL */
+					state = FieldState.QUOTED;
+					if( read ) builder.append( current );
+					break;
 					
 				case FieldState.DOUBLE_QUOTE ^ CharacterClass.TO_IGNORE:
 					break;
 					
 				case FieldState.DOUBLE_QUOTE ^ CharacterClass.TO_IGNORE_AROUND_FIELDS:
-					/* If quotes have to be handled less strictly */
-					if( lazyQuotes && read )
+					/*
+					 * If we are not skipping the text and we are handling
+					 * quotes less strictly then we read ahead to see if
+					 * the field ends or if there is some other text. 
+					 */
+					if( ! strictQuotes && read )
 					{
 						builder.extendMark();
 						builder.append( current );
@@ -921,13 +920,12 @@ final class CSVParserImpl implements CSVParser
 					
 				case FieldState.DOUBLE_QUOTE ^ CharacterClass.ESCAPE:
 					/* If quotes have to be handled less strictly */
-					if( lazyQuotes )
-					{
-						state = FieldState.QUOTED_ESCAPE;
-						break;
-					}
-					/* Escape character outside a quoted field. */
-					throw new MalformedCSVException( "Encountered an escape character outside a quoted field." );
+					if( strictQuotes )
+						/* Escape character outside a quoted field. */
+						throw new MalformedCSVException( "Encountered an escape character outside a quoted field." );
+					
+					state = FieldState.QUOTED_ESCAPE;
+					break;
 					
 				case FieldState.DOUBLE_QUOTE ^ CharacterClass.FIELD_SEPARATOR:
 					/*

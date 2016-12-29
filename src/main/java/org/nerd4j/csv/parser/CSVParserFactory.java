@@ -48,11 +48,12 @@ public final class CSVParserFactory
 	 */
     private final int[] asciiCharClasses;
 	
-	/**
-	 * Accept more lazy quotes: in unquoted fields are handled as
-	 * {@link CharacterClass#NORMAL} without being escaped.
+    /**
+	 * Accept only strict quotes: quotes inside fields
+	 * MUST be escaped.
+	 * (by default this value is: {@code false}).
 	 */
-	private final boolean lazyQuotes;
+	private final boolean strictQuotes;
 	
 	/** Sequence of characters that represents a record separator. */
 	private final char[] recordSeparatorSequence;
@@ -83,7 +84,7 @@ public final class CSVParserFactory
 	public CSVParserFactory( CSVParserMetadata configuration )
 	{
 	    
-		this.lazyQuotes = configuration.isLazyQuotes();
+		this.strictQuotes = configuration.isStrictQuotes();
 	    this.asciiCharClasses = new int[ RemarkableASCII.ASCII_TABLE_SIZE ];
 
 	    for( char toIgnoreAround : configuration.getCharsToIgnoreAroundFields() )
@@ -127,7 +128,7 @@ public final class CSVParserFactory
 		 * We don't need a buffered reader, the parser
 		 * already handles his reading buffer.
 		 */
-		return new CSVParserImpl( reader, asciiCharClasses, recordSeparatorSequence, lazyQuotes );
+		return new CSVParserImpl( reader, asciiCharClasses, recordSeparatorSequence, strictQuotes );
 		
 	}
 	

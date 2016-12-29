@@ -232,7 +232,7 @@ public class AnnotatedConfigurationFactory
         
         if( checkNullConsistence(isValued(annConf), csvConf, "parser") ) return;
         
-        csvConf.setLazyQuotes( annConf.lazyQuotes() );
+        csvConf.setStrictQuotes( annConf.strictQuotes() );
         csvConf.setMatchRecordSeparatorExactSequence( annConf.recordSepMatchExactSequence() );
         
         if( isValued(annConf.quote()) ) csvConf.setQuoteChar( annConf.quote() );

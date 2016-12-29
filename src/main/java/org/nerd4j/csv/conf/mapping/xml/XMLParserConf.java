@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlType;
 public class XMLParserConf extends XMLCharSetConf
 {
     
-	private static final String LAZY_QUOTES = "lazy-quotes";
+	private static final String STRICT_QUOTES = "strict-quotes";
     private static final String CHARS_TO_IGNORE = "chars-to-ignore";
     private static final String CHARS_TO_IGNORE_AROUND_FIELDS = "chars-to-ignore-around-fields";
     private static final String MATCH_RECORD_SEP_EXACT_SEQUENCE = "record-sep-match-exact-sequence";
@@ -64,12 +64,12 @@ public class XMLParserConf extends XMLCharSetConf
     private char[] charsToIgnoreAroundFields;
     
     /**
-     * Tells if to treat CSV quotes less strictly.
-     * More precisely tells the parser not to fail
-     * in case a not escaped quote is found
-     * into a field.
+     * Tells to treat CSV quotes strictly.
+     * More precisely tells the parser to
+     * fail in case a not escaped quote is
+     * found into a field.
      */
-    private Boolean lazyQuotes;
+    private Boolean strictQuotes;
     
     /**
      * Tells the strategy to use for match a record separator.
@@ -77,7 +77,7 @@ public class XMLParserConf extends XMLCharSetConf
      * provided in the {@link CSVParserMetadata#recordSeparator}
      * field. By default it will match a record separator as
      * soon as it finds any record separator character (this is
-     * the behaviour implemented by Mucrosoft Excel and OpenOffice
+     * the behavior implemented by Microsoft Excel and OpenOffice
      * Calc).
      */
     private boolean matchRecordSeparatorExactSequence;
@@ -92,7 +92,7 @@ public class XMLParserConf extends XMLCharSetConf
 
         super();
         
-        this.lazyQuotes = null;
+        this.strictQuotes = null;
         
         this.charsToIgnoreString = null;
         this.charsToIgnoreAroundFieldsString = null;
@@ -186,24 +186,24 @@ public class XMLParserConf extends XMLCharSetConf
 	}
     
 	/**
-     * Returns the flag {@code lazy-quotes}.
+     * Returns the flag {@code strict-quotes}.
      * 
-     * @return the flag {@code lazy-quotes}.
+     * @return the flag {@code strict-quotes}.
      */
-	@XmlAttribute(name=LAZY_QUOTES,required=false)
-	public Boolean isLazyQuotes()
+	@XmlAttribute(name=STRICT_QUOTES,required=false)
+	public Boolean isStrictQuotes()
 	{
-		return lazyQuotes;
+		return strictQuotes;
 	}
 	
 	/**
-     * Sets the flag {@code lazy-quotes}.
+     * Sets the flag {@code strict-quotes}.
      * 
-     * @param lazyQuotes value to set.
+     * @param strictQuotes value to set.
      */
-	public void setLazyQuotes( Boolean lazyQuotes )
+	public void setStrictQuotes( Boolean strictQuotes )
 	{
-		this.lazyQuotes = lazyQuotes;
+		this.strictQuotes = strictQuotes;
 	}
 	
 }

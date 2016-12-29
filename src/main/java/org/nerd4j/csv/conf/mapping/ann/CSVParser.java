@@ -61,14 +61,14 @@ public @interface CSVParser
 	public char quote();
 	
 	/**
-     * Tells if to treat CSV quotes less strictly.
-     * More precisely tells the parser not to fail
-     * in case a not escaped quote is found
-     * into a field.
+     * Tells to treat CSV quotes strictly.
+     * More precisely tells the parser to
+     * fail in case a not escaped quote is
+     * found into a field.
      * 
-     * @return {@code true} if quotes should be treated less strictly.
+     * @return {@code true} if quotes should be treated strictly.
      */
-    public boolean lazyQuotes() default false;
+    public boolean strictQuotes() default false;
 
 	/**
 	 * Character used to escape other characters.

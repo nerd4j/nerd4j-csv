@@ -44,12 +44,12 @@ public class CSVParserConf extends CSVCharSetConf implements Cloneable
     private char[] charsToIgnoreAroundFields;
     
     /**
-     * Tells if to treat CSV quotes less strictly.
-     * More precisely tells the parser not to fail
-     * in case a not escaped quote is found
-     * into a field.
+     * Tells to treat CSV quotes strictly.
+     * More precisely tells the parser to
+     * fail in case a not escaped quote is
+     * found into a field.
      */
-    private Boolean lazyQuotes;
+    private Boolean strictQuotes;
     
     /**
      * Tells the strategy to use for match a record separator.
@@ -72,9 +72,9 @@ public class CSVParserConf extends CSVCharSetConf implements Cloneable
 
         super();
         
+        this.strictQuotes                      = null;
         this.charsToIgnore                     = null;
         this.charsToIgnoreAroundFields         = null;
-        this.lazyQuotes                        = null;
         this.matchRecordSeparatorExactSequence = null;
         
     }
@@ -126,23 +126,23 @@ public class CSVParserConf extends CSVCharSetConf implements Cloneable
     }
     
     /**
-     * Returns the flag {@code lazy-quotes}.
+     * Returns the flag {@code strict-quotes}.
      * 
-     * @return the flag {@code lazy-quotes}.
+     * @return the flag {@code strict-quotes}.
      */
-    public Boolean isLazyQuotes()
+    public Boolean isStrictQuotes()
     {
-    	return lazyQuotes;
+    	return strictQuotes;
     }
     
     /**
-     * Sets the flag {@code lazy-quotes}.
+     * Sets the flag {@code strict-quotes}.
      * 
-     * @param lazyQuotes value to set.
+     * @param strictQuotes value to set.
      */
-    public void setLazyQuotes( Boolean lazyQuotes )
+    public void setStrictQuotes( Boolean strictQuotes )
     {
-    	this.lazyQuotes = lazyQuotes;
+    	this.strictQuotes = strictQuotes;
     }
 
     /**
