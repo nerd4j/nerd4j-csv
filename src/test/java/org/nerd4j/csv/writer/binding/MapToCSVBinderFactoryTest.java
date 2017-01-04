@@ -61,7 +61,7 @@ public class MapToCSVBinderFactoryTest
             
         }catch( ModelToCSVBindingException ex )
         {
-            logger.info( "Expected exception has been thrown", ex.getMessage() );
+            logger.info( "Expected exception has been thrown: {}", ex.getMessage() );
         }
         
     }
@@ -111,7 +111,7 @@ public class MapToCSVBinderFactoryTest
             
         }catch( ModelToCSVBindingException ex )
         {
-            logger.info( "Expected exception has been thrown", ex.getMessage() );
+            logger.info( "Expected exception has been thrown: {}", ex.getMessage() );
         }
         
     }
@@ -136,7 +136,7 @@ public class MapToCSVBinderFactoryTest
             
         }catch( ModelToCSVBindingException ex )
         {
-            logger.info( "Expected exception has been thrown", ex.getMessage() );
+            logger.info( "Expected exception has been thrown: {}", ex.getMessage() );
         }
         
     }
@@ -155,9 +155,9 @@ public class MapToCSVBinderFactoryTest
         final CSVField field = new CSVField( new EmptyCSVFieldProcessor(String.class), false );
         final CSVFieldMetadata<Object,String>[] fieldConfs = new CSVFieldMetadata[3];
         
-        fieldConfs[0] = new CSVFieldMetadata<Object,String>( new CSVMappingDescriptor("COL-1","KEY-1",String.class), field );
-        fieldConfs[1] = new CSVFieldMetadata<Object,String>( new CSVMappingDescriptor("COL-2","KEY-3",String.class), field );
-        fieldConfs[2] = new CSVFieldMetadata<Object,String>( new CSVMappingDescriptor("COL-3","KEY-5",String.class), field );
+        fieldConfs[0] = new CSVFieldMetadata<Object,String>( new CSVMappingDescriptor("COL-1","KEY-1",String.class), field, 1 );
+        fieldConfs[1] = new CSVFieldMetadata<Object,String>( new CSVMappingDescriptor("COL-2","KEY-3",String.class), field, 2 );
+        fieldConfs[2] = new CSVFieldMetadata<Object,String>( new CSVMappingDescriptor("COL-3","KEY-5",String.class), field, 3 );
         
         final CSVFormatterMetadata formatterConfiguration = new CSVFormatterMetadata();
         final ModelToCSVBinderFactory<Map<String,Object>> binderFactory = new MapToCSVBinderFactory();
@@ -172,7 +172,12 @@ public class MapToCSVBinderFactoryTest
         final MapToCSVBinderFactory binderFactory = new MapToCSVBinderFactory();
         final CSVWriterMetadata<Map<String,Object>> configuration = getModelToCSVWriterConfiguration();
         
-        return binderFactory.getModelToCSVBinder( configuration );
+        final CSVFieldMetadata<?,String>[] fieldConf = configuration.getFieldConfigurations();
+        final String[] columnIds = new String[fieldConf.length];
+        for( int i = 0; i < fieldConf.length; ++i )
+        	columnIds[i] = fieldConf[i].getMappingDescriptor().getColumnId();
+        
+        return binderFactory.getModelToCSVBinder( configuration, columnIds );
         
     }
     

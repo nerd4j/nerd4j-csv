@@ -22,8 +22,7 @@
 package org.nerd4j.csv.exception;
 
 /**
- * {@code MalformedCSVException} is an error generated from data found in
- * CSV.
+ * {@code MalformedCSVException} is an error generated from data found in CSV.
  * 
  * @author Nerd4j Team
  */

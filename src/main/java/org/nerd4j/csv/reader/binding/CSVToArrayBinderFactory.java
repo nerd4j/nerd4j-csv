@@ -67,7 +67,7 @@ public final class CSVToArrayBinderFactory extends AbstractCSVToModelBinderFacto
     protected Integer getMapping( final CSVMappingDescriptor mappingDescriptor )
     {
         
-        return Integer.parseInt( mappingDescriptor.getModelKey() );
+        return Integer.parseInt( mappingDescriptor.getModelId() );
         
     }
     

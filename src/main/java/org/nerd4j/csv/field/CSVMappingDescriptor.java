@@ -34,19 +34,23 @@ public class CSVMappingDescriptor
 {
 
 	/**
-	 * The name of the CSV column reported
+	 * The identifier of the column.
+	 * <p>
+	 * Can be the name of the CSV column reported
 	 * in the CSV source header if any, or
 	 * the column index if no header is defined.
 	 */
-	private String columnKey;
+	private String columnId;
 	
 	/**
-	 * The key of the destination location in
-	 * the data model, for example the name
-	 * of the bean property or the key of
-	 * the map or the index of the array.
+	 * The identifier of the destination location
+	 * in the data model.
+	 * <p>
+	 * For example the name of the bean property
+	 * or the key of the map or the index of the
+	 * array.
 	 */
-	private String modelKey;
+	private String modelId;
 	
 	/**
 	 * The data type into which convert
@@ -58,28 +62,28 @@ public class CSVMappingDescriptor
 	/**
 	 * Constructor with parameters.
 	 * 
-	 * @param columnKey name or index of the CSV column.
-	 * @param modelKey  name or index of the data model location.
+	 * @param columnId identifier of the CSV column.
+	 * @param modelId  identifier of the data model location.
 	 * @param modelType type into which convert the column value.
 	 */
-	public CSVMappingDescriptor( String columnKey, String modelKey, Class<?> modelType )
+	public CSVMappingDescriptor( String columnId, String modelId, Class<?> modelType )
 	{
 		
 		super();
 		
-		if( columnKey == null || columnKey.isEmpty() )
-            throw new CSVConfigurationException( "The provided column key must be not null or empty. Check the configuration" );
+		if( columnId == null || columnId.isEmpty() )
+            throw new CSVConfigurationException( "The provided column identifier must be not null or empty. Check the configuration" );
 
         
-        if( modelKey == null || modelKey.isEmpty() )
-            throw new CSVConfigurationException( "The provided model key must be not null or empty. Check the configuration" );
+        if( modelId == null || modelId.isEmpty() )
+            throw new CSVConfigurationException( "The provided model identifier must be not null or empty. Check the configuration" );
         
         if( modelType == null )
             throw new CSVConfigurationException( "The model type is mandatory. Check the configuration" );
         
-        this.modelKey = modelKey;
+        this.modelId = modelId;
+        this.columnId = columnId;
         this.modelType = modelType;
-        this.columnKey = columnKey;
         
 	}
 
@@ -90,23 +94,23 @@ public class CSVMappingDescriptor
 
 	
 	/**
-	 * Returns the name of the CSV column.
+	 * Returns the identifier of the CSV column.
 	 * 
-	 * @return the name of the CSV column.
+	 * @return the identifier of the CSV column.
 	 */
-	public String getColumnKey()
+	public String getColumnId()
 	{
-		return columnKey;
+		return columnId;
 	}
 
 	/**
-	 * Returns the key of the destination location in the data model.
+	 * Returns the identifier of the destination location in the data model.
 	 * 
-	 * @return the key of the destination location in the data model.
+	 * @return the identifier of the destination location in the data model.
 	 */
-	public String getModelKey()
+	public String getModelId()
 	{
-		return modelKey;
+		return modelId;
 	}
 
 	/**

@@ -101,9 +101,9 @@ public class CSVToBeanBinderFactoryTest
         final CSVFieldMetadata<String,?>[] fieldConfs = new CSVFieldMetadata[3];
         final CSVField field = new CSVField( new EmptyCSVFieldProcessor(String.class), true );
         
-        fieldConfs[0] = new CSVFieldMetadata( new CSVMappingDescriptor("1","value1",String.class), field );
-        fieldConfs[1] = new CSVFieldMetadata( new CSVMappingDescriptor("2","value2",String.class), field );
-        fieldConfs[2] = new CSVFieldMetadata( new CSVMappingDescriptor("4","value4",String.class), field );
+        fieldConfs[0] = new CSVFieldMetadata( new CSVMappingDescriptor("1","value1",String.class), field, 1 );
+        fieldConfs[1] = new CSVFieldMetadata( new CSVMappingDescriptor("2","value2",String.class), field, 2 );
+        fieldConfs[2] = new CSVFieldMetadata( new CSVMappingDescriptor("4","value4",String.class), field, 3 );
         
         final CSVParserMetadata parserConfiguration = new CSVParserMetadata();
         final CSVToBeanBinderFactory<TestBean> binderFactory = new CSVToBeanBinderFactory<TestBean>( TestBean.class );

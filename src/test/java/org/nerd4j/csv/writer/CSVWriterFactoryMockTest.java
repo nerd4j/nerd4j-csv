@@ -27,7 +27,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.Assert;
 import org.junit.Test;
+import org.nerd4j.csv.exception.CSVInvalidHeaderException;
 import org.nerd4j.csv.exception.ModelToCSVBindingException;
 import org.nerd4j.csv.model.Product;
 import org.slf4j.Logger;
@@ -39,20 +41,59 @@ public class CSVWriterFactoryMockTest
     
     private static final Logger logger = LoggerFactory.getLogger( CSVWriterFactoryMockTest.class );
     
+    private static final String[] customHeader = new String[] { "NAME", "DESCRIPTION", "PRICE", "CURRENCY" };
+    
     
     @Test
-    public void testArrayToCSVWriter() throws Exception
+    public void testInvalidHeader() throws Exception
     {
         
-        final Object[] model = getArrayModel();
         final CSVWriterMetadataFactory<Object[]> metadataFactory = CSVWriterConfigurator.getArrayToCSVWriterMetadataFactory();
         final CSVWriterFactory<Object[]> writerFactory = new CSVWriterFactoryImpl<Object[]>( metadataFactory );
 
         final StringWriter writer = new StringWriter( 300 );
-        final CSVWriter<Object[]> csvWriter = writerFactory.getCSVWriter( writer );
+        final String[] invalidHeader = new String[] { "invalid", "header" };
         
-        performWrite( writer, csvWriter, model );
+        try{
         
+        	writerFactory.getCSVWriter( writer, invalidHeader );
+        	Assert.fail( "An exception was expected but not thrown." );
+        	
+        }catch( CSVInvalidHeaderException ex )
+        {
+        	logger.info( "Expected exception has been thrown: {}", ex.getMessage() );
+        }
+        
+    }
+    
+    @Test
+    public void testArrayToCSVWriter() throws Exception
+    {
+    	
+    	final Object[] model = getArrayModel();
+    	final CSVWriterMetadataFactory<Object[]> metadataFactory = CSVWriterConfigurator.getArrayToCSVWriterMetadataFactory();
+    	final CSVWriterFactory<Object[]> writerFactory = new CSVWriterFactoryImpl<Object[]>( metadataFactory );
+    	
+    	final StringWriter writer = new StringWriter( 300 );
+    	final CSVWriter<Object[]> csvWriter = writerFactory.getCSVWriter( writer );
+    	
+    	performWrite( writer, csvWriter, model );
+    	
+    }
+    
+    @Test
+    public void testCustomHeaderArrayToCSVWriter() throws Exception
+    {
+    	
+    	final Object[] model = getArrayModel();
+    	final CSVWriterMetadataFactory<Object[]> metadataFactory = CSVWriterConfigurator.getArrayToCSVWriterMetadataFactory();
+    	final CSVWriterFactory<Object[]> writerFactory = new CSVWriterFactoryImpl<Object[]>( metadataFactory );
+    	
+    	final StringWriter writer = new StringWriter( 300 );
+    	final CSVWriter<Object[]> csvWriter = writerFactory.getCSVWriter( writer, customHeader );
+    	
+    	performWrite( writer, csvWriter, model );
+    	
     }
     
     @Test
@@ -71,6 +112,21 @@ public class CSVWriterFactoryMockTest
     }
     
     @Test
+    public void testCustomHeaderMapToCSVWriter() throws Exception
+    {
+    	
+    	final Map<String,Object> model = getMapModel();
+    	final CSVWriterMetadataFactory<Map<String,Object>> metadataFactory = CSVWriterConfigurator.getMapToCSVWriterMetadataFactory();
+    	final CSVWriterFactory<Map<String,Object>> writerFactory = new CSVWriterFactoryImpl<Map<String,Object>>( metadataFactory );
+    	
+    	final StringWriter writer = new StringWriter( 300 );
+    	final CSVWriter<Map<String,Object>> csvWriter = writerFactory.getCSVWriter( writer, customHeader );
+    	
+    	performWrite( writer, csvWriter, model );
+    	
+    }
+    
+    @Test
     public void testBeanToCSVWriter() throws Exception
     {
         
@@ -83,6 +139,21 @@ public class CSVWriterFactoryMockTest
         
         performWrite( writer, csvWriter, model );
         
+    }
+    
+    @Test
+    public void testCustomHeaderBeanToCSVWriter() throws Exception
+    {
+    	
+    	final Product model = getBeanModel();
+    	final CSVWriterMetadataFactory<Product> metadataFactory = CSVWriterConfigurator.getBeanToCSVWriterMetadataFactory();
+    	final CSVWriterFactory<Product> writerFactory = new CSVWriterFactoryImpl<Product>( metadataFactory );
+    	
+    	final StringWriter writer = new StringWriter( 300 );
+    	final CSVWriter<Product> csvWriter = writerFactory.getCSVWriter( writer, customHeader );
+    	
+    	performWrite( writer, csvWriter, model );
+    	
     }
     
     
@@ -136,7 +207,8 @@ public class CSVWriterFactoryMockTest
         
         try{
         
-            csvWriter.write( model );        
+            csvWriter.write( model );
+            csvWriter.flush();
             logger.info( writer.toString() );
             
         }catch( IOException ex )

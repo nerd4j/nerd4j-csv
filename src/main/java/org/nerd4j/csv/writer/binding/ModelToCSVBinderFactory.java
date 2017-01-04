@@ -43,10 +43,12 @@ public interface ModelToCSVBinderFactory<Model> extends CSVRegistryEntry
      * model and returns the CSV fields in the required order.
      * 
      * @param configuration used to configure the binding.
+     * @param columnIds     which columns to use and in which order.
      * @return a new CSV model binder.
      * @throws ModelToCSVBindingException if binding configuration is inconsistent.
      */
-    public ModelToCSVBinder<Model> getModelToCSVBinder( final CSVWriterMetadata<Model> configuration )
+    public ModelToCSVBinder<Model> getModelToCSVBinder( final CSVWriterMetadata<Model> configuration,
+    		                                            final String[] columnIds )
     throws ModelToCSVBindingException;
     
 }

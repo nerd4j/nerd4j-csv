@@ -22,9 +22,13 @@
 package org.nerd4j.csv.writer.binding;
 
 import java.lang.reflect.Array;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.nerd4j.csv.exception.CSVInvalidHeaderException;
 import org.nerd4j.csv.exception.ModelToCSVBindingException;
 import org.nerd4j.csv.field.CSVFieldMetadata;
+import org.nerd4j.csv.field.CSVMappingDescriptor;
 import org.nerd4j.csv.writer.CSVWriterMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,14 +82,15 @@ public abstract class AbstractModelToCSVBinderFactory<Model,Mapping> implements 
      * {@inheritDoc}
      */
     @Override
-    public ModelToCSVBinder<Model> getModelToCSVBinder( final CSVWriterMetadata<Model> configuration )
+    public ModelToCSVBinder<Model> getModelToCSVBinder( final CSVWriterMetadata<Model> configuration,
+    		                                            final String[] columnIds )
     throws ModelToCSVBindingException
     {
         
         if( configuration == null )
             throw new ModelToCSVBindingException( "The CSV writer configuration is mandatory" );
         
-        return createBinder( configuration );
+        return createBinder( configuration, columnIds );
         
     }
 
@@ -99,29 +104,50 @@ public abstract class AbstractModelToCSVBinderFactory<Model,Mapping> implements 
      * Creates a new model binder using the provided configuration.
      * 
      * @param configuration used to configure the column mapping for binding.
+     * @param columnIds     which columns to use and in which order.
      * @throws ModelToCSVBindingException if the creation fails.
      */
     @SuppressWarnings("unchecked")
-    private ModelToCSVBinder<Model> createBinder( final CSVWriterMetadata<Model> configuration )
+    private ModelToCSVBinder<Model> createBinder( final CSVWriterMetadata<Model> configuration,
+    		                                      final String[] columnIds )
     throws ModelToCSVBindingException
     {
         
         try{
         
             final CSVFieldMetadata<?,?>[] fieldConfs = configuration.getFieldConfigurations();
-            
+                        
             /* If the mapping is empty we return an empty binder. */
-            if( fieldConfs == null || fieldConfs.length < 1 )
+            if( fieldConfs == null || fieldConfs.length < 1 ||
+            	columnIds == null || columnIds.length < 1 )
             {
                 final Mapping[] fieldMapping = (Mapping[]) Array.newInstance( mappingType, 0 );
                 return getBinder( fieldConfs, fieldMapping );
             }
             
-            /* Otherwise we create the internal structure. */
-            final Mapping[] fieldMapping = (Mapping[]) Array.newInstance( mappingType, fieldConfs.length );
+            /* We create a map that associates to each mapping descriptor the related column identifier. */
+            final Map<String,CSVMappingDescriptor> mappings = new HashMap<>( fieldConfs.length );
             
-            for( int i = 0; i < fieldMapping.length; ++i )
-                fieldMapping[i] = getMapping( fieldConfs[i].getMappingDescriptor().getModelKey() );
+            CSVMappingDescriptor descriptor;
+            for( CSVFieldMetadata<?,?> conf : fieldConfs )
+            {
+            	descriptor = conf.getMappingDescriptor();
+            	mappings.put( descriptor.getColumnId(), descriptor );
+            }
+            
+            /* And we create the internal structure matching the given columndIds. */
+            final Mapping[] fieldMapping = (Mapping[]) Array.newInstance( mappingType, columnIds.length );
+            
+            for( int i = 0; i < columnIds.length; ++i )
+            {
+            	
+            	descriptor = mappings.get( columnIds[i] );
+            	if( descriptor == null )
+            		throw new CSVInvalidHeaderException( columnIds[i] );
+            	else
+            		fieldMapping[i] = getMapping( descriptor.getModelId() );
+            	
+            }
             
             return getBinder( fieldConfs, fieldMapping );
         

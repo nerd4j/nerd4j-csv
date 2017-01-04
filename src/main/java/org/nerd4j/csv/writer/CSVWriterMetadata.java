@@ -163,9 +163,9 @@ public final class CSVWriterMetadata<Model>
         if( writeHeader )
             for( int i = 0; i < fieldConfigurations.length; ++i )
             {
-            	final String columnName = fieldConfigurations[i].getMappingDescriptor().getColumnKey(); 
-                if( columnName == null || columnName.isEmpty() )
-                    throw new CSVConfigurationException( "The flag 'writeHeader' is true but there is no header for column " + i + ". Check the configuration" );
+            	final String columnId = fieldConfigurations[i].getMappingDescriptor().getColumnId(); 
+                if( columnId == null || columnId.isEmpty() )
+                    throw new CSVConfigurationException( "The flag 'writeHeader' is true but there is no identifier for column " + i + ". Check the configuration" );
             }
         
     }

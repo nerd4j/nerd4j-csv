@@ -59,7 +59,7 @@ public class BeanToCSVBinderFactoryTest
             
         }catch( ModelToCSVBindingException ex )
         {
-            logger.info( "Expected exception has been thrown", ex.getMessage() );
+            logger.info( "Expected exception has been thrown: {}", ex.getMessage() );
         }
         
     }
@@ -97,19 +97,19 @@ public class BeanToCSVBinderFactoryTest
             final CSVField field = new CSVField( new EmptyCSVFieldProcessor(String.class), false );
             final CSVFieldMetadata<Object,String>[] fieldConfs = new CSVFieldMetadata[3];
             
-            fieldConfs[0] = new CSVFieldMetadata<Object,String>( new CSVMappingDescriptor("COL-1","value10",String.class), field );
+            fieldConfs[0] = new CSVFieldMetadata<Object,String>( new CSVMappingDescriptor("COL-1","value10",String.class), field, 0 );
         
             final CSVFormatterMetadata formatterConfiguration = new CSVFormatterMetadata();
             final ModelToCSVBinderFactory<TestBean> binderFactory = new BeanToCSVBinderFactory<TestBean>( TestBean.class );
             
             final CSVWriterMetadata<TestBean> configuration = new CSVWriterMetadata<TestBean>( formatterConfiguration, binderFactory, fieldConfs, USE_HEADER );
-            binderFactory.getModelToCSVBinder( configuration );
+            binderFactory.getModelToCSVBinder( configuration, new String[] { "COL-1" } );
             
             Assert.fail( "An exception was expected but not thrown." );
             
         }catch( Exception ex )
         {
-            logger.info( "Expected exception has been thrown", ex.getMessage() );
+            logger.info( "Expected exception has been thrown: {}", ex.getMessage() );
         }
         
     }
@@ -134,7 +134,7 @@ public class BeanToCSVBinderFactoryTest
             
         }catch( ModelToCSVBindingException ex )
         {
-            logger.info( "Expected exception has been thrown", ex.getMessage() );
+            logger.info( "Expected exception has been thrown: {}", ex.getMessage() );
         }
         
     }
@@ -153,9 +153,9 @@ public class BeanToCSVBinderFactoryTest
         final CSVField field = new CSVField( new EmptyCSVFieldProcessor(String.class), false );
         final CSVFieldMetadata<Object,String>[] fieldConfs = new CSVFieldMetadata[3];
         
-        fieldConfs[0] = new CSVFieldMetadata<Object,String>( new CSVMappingDescriptor("COL-1","value1",String.class), field );
-        fieldConfs[1] = new CSVFieldMetadata<Object,String>( new CSVMappingDescriptor("COL-2","value3",String.class), field );
-        fieldConfs[2] = new CSVFieldMetadata<Object,String>( new CSVMappingDescriptor("COL-3","value5",String.class), field );
+        fieldConfs[0] = new CSVFieldMetadata<Object,String>( new CSVMappingDescriptor("COL-1","value1",String.class), field, 1 );
+        fieldConfs[1] = new CSVFieldMetadata<Object,String>( new CSVMappingDescriptor("COL-2","value3",String.class), field, 2 );
+        fieldConfs[2] = new CSVFieldMetadata<Object,String>( new CSVMappingDescriptor("COL-3","value5",String.class), field, 3 );
         
         final CSVFormatterMetadata formatterConfiguration = new CSVFormatterMetadata();
         final ModelToCSVBinderFactory<TestBean> binderFactory = new BeanToCSVBinderFactory<TestBean>( TestBean.class );
@@ -170,7 +170,12 @@ public class BeanToCSVBinderFactoryTest
         final CSVWriterMetadata<TestBean> configuration = getModelToCSVWriterConfiguration();
         final BeanToCSVBinderFactory<TestBean> binderFactory = new BeanToCSVBinderFactory<TestBean>( TestBean.class );
         
-        return binderFactory.getModelToCSVBinder( configuration );
+        final CSVFieldMetadata<?,String>[] fieldConf = configuration.getFieldConfigurations();
+        final String[] columnIds = new String[fieldConf.length];
+        for( int i = 0; i < fieldConf.length; ++i )
+        	columnIds[i] = fieldConf[i].getMappingDescriptor().getColumnId();
+        
+        return binderFactory.getModelToCSVBinder( configuration, columnIds );
         
     }
     

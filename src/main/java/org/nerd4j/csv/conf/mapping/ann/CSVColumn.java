@@ -73,6 +73,17 @@ public @interface CSVColumn
 	public boolean optional() default false;
 	
 	/**
+	 * This configuration is used only by the {@link CSVWriter}
+	 * and tells the order in which the columns should be written.
+	 * <p>
+	 * If two or more columns have the same order value the framework
+	 * chooses the related order depending on the implementation.
+	 * 
+	 * @return the order of the column.
+	 */
+	public int order() default Integer.MAX_VALUE;
+	
+	/**
 	 * The name used to refer to a previous configured field processor
 	 * and use it during reading process.
 	 * 

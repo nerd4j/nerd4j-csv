@@ -309,6 +309,15 @@
      </xs:documentation></xs:annotation>
     </xs:attribute>
     
+    <xs:attribute name="order"  type="xs:integer">
+     <xs:annotation><xs:documentation>
+      This configuration is used only by the CSV writer
+      and tells the order in which the columns should be written.
+      If two or more columns have the same order value the framework
+      chooses the related order depending on the implementation.
+     </xs:documentation></xs:annotation>
+    </xs:attribute>
+    
     <xs:attribute name="processor-ref" type="xs:string">
      <xs:annotation><xs:documentation>
        The name used to refer to a previous configured field processor.

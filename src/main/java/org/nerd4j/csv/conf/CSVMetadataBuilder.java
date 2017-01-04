@@ -21,6 +21,7 @@
  */
 package org.nerd4j.csv.conf;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
@@ -214,6 +215,9 @@ public final class CSVMetadataBuilder
         for( CSVColumnConf column : columns )
             fieldConfs[++i] = CSVMetadataBuilder.build( column, registry );
         
+        /* We sort the field meta-data according to the order. */
+        Arrays.sort( fieldConfs );
+        
         final boolean writeHeader = writerConf.getWriteHeader() != null ? writerConf.getWriteHeader() : true;
         final String formatterRef = writerConf.getFormatterRef();
         
@@ -255,6 +259,7 @@ public final class CSVMetadataBuilder
                                                : build( processorConf, registry );
         
         final CSVFieldProcessor<?,?> processor = processorFactory.create();                                       
+        final int order = configuration.getOrder() != null ? configuration.getOrder() : Integer.MAX_VALUE;
         final boolean optional = configuration.getOptional() != null ? configuration.getOptional() : false;
         final CSVField<?,?> field = new CSVField( processor, optional );
         
@@ -262,7 +267,7 @@ public final class CSVMetadataBuilder
         final String mapping = configuration.getMapping();
         final CSVMappingDescriptor mappingDescriptor = new CSVMappingDescriptor( name, mapping,  processor.getTargetType() );
         
-        return new CSVFieldMetadata( mappingDescriptor, field );
+        return new CSVFieldMetadata( mappingDescriptor, field, order );
         
     }
     

@@ -44,6 +44,9 @@ public class XMLColumnConf
     /** Tells if the column can have {@code null} values. */
     private Boolean optional;
     
+    /** The order in which the column should be written. */
+    private Integer order;
+    
     /** The name to reference the processor to use to process the column data. */
     private String processorRef;
 
@@ -61,6 +64,7 @@ public class XMLColumnConf
         super();
     
         this.name = null;
+        this.order = null;
         this.mapping = null;
         this.optional = null;
         this.processor = null;
@@ -135,6 +139,27 @@ public class XMLColumnConf
     public void setOptional( Boolean optional )
     {
         this.optional = optional;
+    }
+    
+    /**
+     * Returns the {@code order} value.
+     * 
+     * @return the {@code order} value.
+     */
+    @XmlAttribute(name="order",required=false)
+    public Integer getOrder()
+    {
+    	return order;
+    }
+    
+    /**
+     * Sets the {@code order} value.
+     * 
+     * @param order value to set.
+     */
+    public void setOrder( Integer order )
+    {
+    	this.order = order;
     }
 
     /**
