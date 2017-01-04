@@ -70,7 +70,7 @@ public final class CSVToMapBinderFactory extends AbstractCSVToModelBinderFactory
     protected String getMapping( final CSVMappingDescriptor mappingDescriptor )
     {
         
-        return mappingDescriptor.getModelKey();
+        return mappingDescriptor.getModelId();
         
     }
     

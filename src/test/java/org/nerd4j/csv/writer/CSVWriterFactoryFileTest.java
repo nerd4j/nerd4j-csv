@@ -35,6 +35,8 @@ import org.nerd4j.csv.model.Product;
 
 public class CSVWriterFactoryFileTest
 {
+	
+	private static final String[] customHeader = new String[] { "NAME", "DESCRIPTION", "PRICE", "CURRENCY" };
     
     @Test
     public void testArrayToCSVWriter() throws Exception
@@ -55,6 +57,27 @@ public class CSVWriterFactoryFileTest
         
         csvWriter.close();
         
+    }
+    
+    @Test
+    public void testCustomHeaderArrayToCSVWriter() throws Exception
+    {
+    	
+    	final Writer writer = getCSVDestinationWriter();
+    	final CSVWriterMetadataFactory<Object[]> metadataFactory = CSVWriterConfigurator.getArrayToCSVWriterMetadataFactory();        
+    	
+    	final CSVWriterFactory<Object[]> writerFactory = new CSVWriterFactoryImpl<Object[]>( metadataFactory );       
+    	final CSVWriter<Object[]> csvWriter = writerFactory.getCSVWriter( writer, customHeader );
+    	
+    	Object[] model;
+    	for( int i = 0; i < 100; ++i )
+    	{
+    		model = getNewArray();
+    		csvWriter.write( model );
+    	}
+    	
+    	csvWriter.close();
+    	
     }
     
     @Test
@@ -79,6 +102,27 @@ public class CSVWriterFactoryFileTest
     }
     
     @Test
+    public void testCustomHeaderBeanToCSVWriter() throws Exception
+    {
+    	
+    	final Writer writer = getCSVDestinationWriter();
+    	final CSVWriterMetadataFactory<Product> metadataFactory = CSVWriterConfigurator.getBeanToCSVWriterMetadataFactory();
+    	
+    	final CSVWriterFactory<Product> writerFactory = new CSVWriterFactoryImpl<Product>( metadataFactory ); 
+    	final CSVWriter<Product> csvWriter = writerFactory.getCSVWriter( writer, customHeader );
+    	
+    	Product model;
+    	for( int i = 0; i < 100; ++i )
+    	{
+    		model = getNewBean();
+    		csvWriter.write( model );
+    	}
+    	
+    	csvWriter.close();
+    	
+    }
+    
+    @Test
     public void testMapToCSVWriter() throws Exception
     {
         
@@ -97,6 +141,27 @@ public class CSVWriterFactoryFileTest
         
         csvWriter.close();
         
+    }
+    
+    @Test
+    public void testCustomHeaderMapToCSVWriter() throws Exception
+    {
+    	
+    	final Writer writer = getCSVDestinationWriter();
+    	final CSVWriterMetadataFactory<Map<String,Object>> metadataFactory = CSVWriterConfigurator.getMapToCSVWriterMetadataFactory();
+    	
+    	final CSVWriterFactory<Map<String,Object>> writerFactory = new CSVWriterFactoryImpl<Map<String,Object>>( metadataFactory );       
+    	final CSVWriter<Map<String,Object>> csvWriter = writerFactory.getCSVWriter( writer, customHeader );
+    	
+    	Map<String,Object> model;
+    	for( int i = 0; i < 100; ++i )
+    	{
+    		model = getNewMap();
+    		csvWriter.write( model );
+    	}
+    	
+    	csvWriter.close();
+    	
     }
     
     

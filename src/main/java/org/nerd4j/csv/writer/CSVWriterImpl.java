@@ -150,7 +150,7 @@ final class CSVWriterImpl<M> implements CSVWriter<M>
         /* First of all we clear the reading context and outcome. */
         context.clear();
         
-        /* Otherwise we tell the context that we start processing a new row. */
+        /* Furthermore we tell the context that we start processing a new row. */
         context.newRow();
         
         /* If the model is null there is nothing to do. */
@@ -242,12 +242,6 @@ final class CSVWriterImpl<M> implements CSVWriter<M>
         this.formatter.flush();
         
     }
-    
-    
-    /* ***************** */
-    /*  PRIVATE METHODS  */
-    /* ***************** */
-	
     
     
     /* *************** */

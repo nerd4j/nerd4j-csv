@@ -33,7 +33,7 @@ import org.nerd4j.csv.exception.CSVConfigurationException;
  * 
  * @author Nerd4J Team
  */
-public final class CSVFieldMetadata<S,T>
+public final class CSVFieldMetadata<S,T> implements Comparable<CSVFieldMetadata<S,T>>
 {
 
     /** Object that describes the field-model mapping. */
@@ -41,6 +41,9 @@ public final class CSVFieldMetadata<S,T>
     
     /** The field used to represent the column. */
     private final CSVField<S,T> field;
+    
+    /** The order in which the field should be written. */
+    private final int order;
 
     
     /**
@@ -48,9 +51,11 @@ public final class CSVFieldMetadata<S,T>
      * 
      * @param mappingDescriptor the field-model mapping (mandatory).
      * @param field             the field used to represent the column (mandatory).
+     * @param order             the order in which the field should be written.
      * 
      */
-    public CSVFieldMetadata( final CSVMappingDescriptor mappingDescriptor, final CSVField<S,T> field )
+    public CSVFieldMetadata( final CSVMappingDescriptor mappingDescriptor,
+    		                 final CSVField<S,T> field, final int order )
     {
         
         super();
@@ -62,15 +67,32 @@ public final class CSVFieldMetadata<S,T>
             throw new CSVConfigurationException( "The field is mandatory. Check the configuration" );
         
         this.field = field;
+        this.order = order;
         this.mappingDescriptor = mappingDescriptor;
         
     }
 
     
     /* ******************* */
-    /*  GETTERS & SETTERS  */
+    /*  INTERFACE METHODS  */
     /* ******************* */
 
+    
+    /**
+     * {@inheritDoc}
+     */
+	@Override
+	public int compareTo( CSVFieldMetadata<S, T> o )
+	{
+		
+		return this.order - o.order;
+		
+	}
+    
+    /* ******************* */
+    /*  GETTERS & SETTERS  */
+    /* ******************* */
+    
     
     /**
      * Returns the field mapping descriptor.
@@ -90,6 +112,16 @@ public final class CSVFieldMetadata<S,T>
     public CSVField<S,T> getField()
     {
         return field;
+    }
+    
+    /**
+     * Returns the order in which the field should be written.
+     * 
+     * @return the order in which the field should be written.
+     */
+    public int getOrder()
+    {
+    	return order;
     }
     
 }

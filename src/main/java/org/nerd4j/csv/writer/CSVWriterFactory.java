@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
 
+import org.nerd4j.csv.exception.CSVInvalidHeaderException;
 import org.nerd4j.csv.exception.ModelToCSVBindingException;
 
 
@@ -55,8 +56,28 @@ public interface CSVWriterFactory<Model>
     
     /**
      * Creates the {@link CSVWriter} able to write the given
-     * data model into the provided CSV destination output stream.
+     * data model into the provided CSV destination file.
+     * <p>
+     * The given header determine which columns have to be written
+     * and in which order. Each column identifier in the given
+     * header must match a related column identifier in the
+     * configuration.
      * 
+     * @param file   the CSV destination file.
+     * @param header defines the columns to use.
+     * @return a related {@link CSVWriter}.
+     * @throws FileNotFoundException if fails to find the destination file.
+     * @throws IOException if fails to write the destination file.
+     * @throws ModelToCSVBindingException if binding configuration is inconsistent.
+     * @throws CSVInvalidHeaderException if the header is not valid.
+     */
+    public CSVWriter<Model> getCSVWriter( File file, String[] header )
+    throws FileNotFoundException, IOException, ModelToCSVBindingException, CSVInvalidHeaderException;
+    
+    /**
+     * Creates the {@link CSVWriter} able to write the given
+     * data model into the provided CSV destination output stream.
+     *  
      * @param os the CSV destination output stream.
      * @return a related {@link CSVWriter}.
      * @throws IOException if fails to write the destination.
@@ -64,6 +85,25 @@ public interface CSVWriterFactory<Model>
      */
     public CSVWriter<Model> getCSVWriter( OutputStream os )
     throws IOException, ModelToCSVBindingException;
+    
+    /**
+     * Creates the {@link CSVWriter} able to write the given
+     * data model into the provided CSV destination output stream.
+     * <p>
+     * The given header determine which columns have to be written
+     * and in which order. Each column identifier in the given
+     * header must match a related column identifier in the
+     * configuration.
+     * 
+     * @param os the CSV destination output stream.
+     * @param header defines the columns to use.
+     * @return a related {@link CSVWriter}.
+     * @throws IOException if fails to write the destination.
+     * @throws ModelToCSVBindingException if binding configuration is inconsistent.
+     * @throws CSVInvalidHeaderException if the header is not valid.
+     */
+    public CSVWriter<Model> getCSVWriter( OutputStream os, String[] header )
+    throws IOException, ModelToCSVBindingException, CSVInvalidHeaderException;
     
     /**
      * Creates the {@link CSVWriter} able to write the given
@@ -77,5 +117,25 @@ public interface CSVWriterFactory<Model>
      */
     public CSVWriter<Model> getCSVWriter( Writer writer )
     throws IOException, ModelToCSVBindingException;
+    
+    /**
+     * Creates the {@link CSVWriter} able to write the given
+     * data model of type {@code M} into the provided
+     * CSV destination.
+     * <p>
+     * The given header determine which columns have to be written
+     * and in which order. Each column identifier in the given
+     * header must match a related column identifier in the
+     * configuration.
+     * 
+     * @param writer the CSV destination writer.
+     * @param header defines the columns to use.
+     * @return a related {@link CSVWriter}.
+     * @throws IOException if fails to write the destination.
+     * @throws ModelToCSVBindingException if binding configuration is inconsistent.
+     * @throws CSVInvalidHeaderException if the header is not valid.
+     */
+    public CSVWriter<Model> getCSVWriter( Writer writer, String[] header )
+    throws IOException, ModelToCSVBindingException, CSVInvalidHeaderException;
 
 }

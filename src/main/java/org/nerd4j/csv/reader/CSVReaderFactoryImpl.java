@@ -290,12 +290,12 @@ public final class CSVReaderFactoryImpl<Model> implements CSVReaderFactory<Model
         {
             try{
                 
-                indexes[i] = Integer.parseInt( fieldConfs[i].getMappingDescriptor().getColumnKey() );
+                indexes[i] = Integer.parseInt( fieldConfs[i].getMappingDescriptor().getColumnId() );
                 
             }catch( Exception ex )
             {
                 logger.error( "Unable to get column index", ex );
-                throw new CSVConfigurationException( fieldConfs[i].getMappingDescriptor().getColumnKey() + " is not a valid column index", ex );
+                throw new CSVConfigurationException( fieldConfs[i].getMappingDescriptor().getColumnId() + " is not a valid column index", ex );
             }
         }
         
@@ -333,15 +333,15 @@ public final class CSVReaderFactoryImpl<Model> implements CSVReaderFactory<Model
     {
         
         /* We create a map that allows to find the processor by column name. */
-        String columnName = null;
+        String columnId = null;
         final Map<String,Integer> namedColumnMap = new HashMap<String,Integer>();
         for( int i = 0; i < fieldConfs.length; ++i )
         {
-            columnName = fieldConfs[i].getMappingDescriptor().getColumnKey();
-            if( namedColumnMap.containsKey(columnName) )
-                throw new CSVConfigurationException( "Multiple configuration for the same column " + columnName );
+            columnId = fieldConfs[i].getMappingDescriptor().getColumnId();
+            if( namedColumnMap.containsKey(columnId) )
+                throw new CSVConfigurationException( "Multiple configuration for the same column identifier: " + columnId );
             
-            namedColumnMap.put( columnName, i );
+            namedColumnMap.put( columnId, i );
         }
         
         final Integer[] columnMapping = new Integer[header.length];

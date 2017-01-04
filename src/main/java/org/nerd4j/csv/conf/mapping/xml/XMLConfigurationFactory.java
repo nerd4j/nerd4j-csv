@@ -684,6 +684,7 @@ public class XMLConfigurationFactory
     	
     	if( checkNullConsistence(xmlConf, csvConf, "column") ) return;
 
+    	if( xmlConf.getOrder() != null ) csvConf.setOrder( xmlConf.getOrder() );
     	if( xmlConf.getMapping() != null ) csvConf.setMapping( xmlConf.getMapping() );
     	if( xmlConf.getOptional() != null ) csvConf.setOptional( xmlConf.getOptional() );
     	

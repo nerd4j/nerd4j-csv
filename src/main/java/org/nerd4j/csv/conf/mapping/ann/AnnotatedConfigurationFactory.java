@@ -376,6 +376,7 @@ public class AnnotatedConfigurationFactory
             throw new NullPointerException( "The " + confType + " configuration must be not null" );
 
         csvConf.setOptional( annotation.optional() );
+        csvConf.setOrder( annotation.order() );
         
         switch( confType )
         {

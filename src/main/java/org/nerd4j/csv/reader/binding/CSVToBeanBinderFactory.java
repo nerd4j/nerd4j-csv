@@ -84,10 +84,10 @@ public final class CSVToBeanBinderFactory<B> extends AbstractCSVToModelBinderFac
     protected CSVToBeanFieldWriter getMapping( final CSVMappingDescriptor mappingDescriptor )
     {
         
-        final Method setter = ReflectionUtil.findPublicSetter( mappingDescriptor.getModelKey(), beanClass );
+        final Method setter = ReflectionUtil.findPublicSetter( mappingDescriptor.getModelId(), beanClass );
         if( setter != null )return CSVToBeanFieldWriter.getWriter( setter );
         
-        final Field field = ReflectionUtil.findField( mappingDescriptor.getModelType(), mappingDescriptor.getModelKey(), beanClass );
+        final Field field = ReflectionUtil.findField( mappingDescriptor.getModelType(), mappingDescriptor.getModelId(), beanClass );
         if( field != null ) return CSVToBeanFieldWriter.getWriter( field );
         	
         throw new NullPointerException( "There isn't a valid setter or field related to " + mappingDescriptor );

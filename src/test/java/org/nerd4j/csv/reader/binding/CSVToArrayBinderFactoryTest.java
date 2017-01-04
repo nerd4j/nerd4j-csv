@@ -104,9 +104,9 @@ public class CSVToArrayBinderFactoryTest
         final CSVFieldMetadata<String,?>[] fieldConfs = new CSVFieldMetadata[3];
         final CSVField field = new CSVField( new EmptyCSVFieldProcessor(String.class), true );
         
-        fieldConfs[0] = new CSVFieldMetadata( new CSVMappingDescriptor("1","0",String.class), field );
-        fieldConfs[1] = new CSVFieldMetadata( new CSVMappingDescriptor("2","1",String.class), field );
-        fieldConfs[2] = new CSVFieldMetadata( new CSVMappingDescriptor("4","2",String.class), field );
+        fieldConfs[0] = new CSVFieldMetadata( new CSVMappingDescriptor("1","0",String.class), field, 1 );
+        fieldConfs[1] = new CSVFieldMetadata( new CSVMappingDescriptor("2","1",String.class), field, 2 );
+        fieldConfs[2] = new CSVFieldMetadata( new CSVMappingDescriptor("4","2",String.class), field, 3 );
         
         final CSVParserMetadata parserConfiguration = new CSVParserMetadata();
         final CSVToArrayBinderFactory binderFactory = new CSVToArrayBinderFactory();
