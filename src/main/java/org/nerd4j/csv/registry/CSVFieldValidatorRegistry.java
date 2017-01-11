@@ -111,7 +111,7 @@ final class CSVFieldValidatorRegistry extends CSVAbstractRegistry<CSVFieldValida
                 final String max = params.get( "max" );
                 if( min == null || min.isEmpty() ||
                     max == null || max.isEmpty() )
-                    throw new CSVConfigurationException( "Unable to build validator, neither 'lenght' nor 'min','max' parameters are available" );
+                    throw new CSVConfigurationException( "Unable to build validator, neither 'length' nor 'min','max' parameters are available" );
                 
                 final int minVal = Integer.parseInt( min );
                 final int maxVal = Integer.parseInt( max );
@@ -127,7 +127,7 @@ final class CSVFieldValidatorRegistry extends CSVAbstractRegistry<CSVFieldValida
             public void validate( Map<String,String> params )
             {
             	if( params == null || params.isEmpty() )
-            		throw new CSVConfigurationException( "Unable to build validator, neither 'lenght' nor 'min','max' parameters are available" );
+            		throw new CSVConfigurationException( "Unable to build validator, neither 'length' nor 'min','max' parameters are available" );
             	
             	final String length = params.get( "length" );
                 if( length != null && ! length.isEmpty() )
@@ -135,6 +135,7 @@ final class CSVFieldValidatorRegistry extends CSVAbstractRegistry<CSVFieldValida
                 	try{
                         
                 		Integer.parseInt( length );
+                		return;
                     
                     }catch( Exception ex )
                     {
@@ -149,7 +150,7 @@ final class CSVFieldValidatorRegistry extends CSVAbstractRegistry<CSVFieldValida
                 final boolean emptyMax = (max == null || max.isEmpty());
                 
                 if ( emptyMin && emptyMax )
-                	throw new CSVConfigurationException( "Unable to build validator, neither 'lenght' nor 'min','max' parameters are available" );
+                	throw new CSVConfigurationException( "Unable to build validator, neither 'length' nor 'min','max' parameters are available" );
                 
                 try{
                 
