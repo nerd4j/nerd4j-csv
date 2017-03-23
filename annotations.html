@@ -348,7 +348,9 @@
   <li><b>checkBigIntegerRange</b>: min, max = the minimum and maximum value (at least one mandatory)</li> 
   <li><b>checkBigDecimalRange</b>: min, max = the minimum and maximum value (at least one mandatory)</li> 
  </ul> 
- <p>In both case of converters and validators its up to the developer to ensure that the right processor is configured for handling the actual data type.</p> 
+ <p>In both case of converters and validators its up to the developer to ensure that the right processor is configured for handling the actual data type.</p>
+ <h3>Order</h3>
+ <p>The <tt>CSVColumn</tt> annotation comes also with an attribute called <tt>order</tt>. This is used only by the <tt>CSVWriter</tt> and tells the order in which the columns should be written.<br /> If two or more columns have the same order value the framework chooses the related order depending on the implementation.</p>
 </div> 
 <div class="section"> 
  <h2 id="aCSVReader_in_detail">@CSVReader in detail</h2> 
@@ -356,14 +358,14 @@
  <div class="source"> 
   <pre>  @CSVReader(
     parser=@CSVParser(
-      fieldSep=';',quote='&quot;',recordSep1='\r',recordSep2='\n'
+      fieldSep=';',quote='&quot;',recordSep={'\r','\n'}
     )
   )
 </pre> 
  </div> 
  <p>The <tt>@CSVParser</tt> annotation provides also the following fields:</p> 
  <ul> 
-  <li>lazyQuotes: default false, if set to true tells the framework to handle less strictly non escaped quoting characters found inside a quoted field. By default the parser fails with a <tt>MalformedCSVException</tt>.</li> 
+  <li>strictQuotes: default false, if set to true tells the framework to handle CSV quotes strictly. Non escaped quoting characters found inside a quoted field will force the parser to fail with a <tt>MalformedCSVException</tt>.</li> 
   <li>escape: default empty, sets the character to be used to escape control characters (not CSV standard).</li> 
   <li>charsToIgnore: default empty, tells the parser a set of characters to be ignored during parsing.</li> 
  </ul> 
@@ -372,13 +374,13 @@
  <ul> 
   <li>readHeader: default true, tells to handle the first row of the CSV source as an header.</li> 
   <li>useColumnNames: default true, if readHeader is true tells to use the column names found in the header to perform the mapping between CSV columns and the data model.</li> 
-  <li>acceptIncompleteRecords: default false, tells that the reader must not fail if the records in the CSV source are not alle of the same length. By default the reader fails with a <tt>MalformedCSVException</tt>.</li> 
+  <li>acceptIncompleteRecords: default false, tells that the reader must not fail if the records in the CSV source are not all of the same length. By default the reader fails with a <tt>MalformedCSVException</tt>.</li> 
  </ul> 
  <p>At the same way we can write non standard CSV files configuring a custom <tt>CSVFormatter</tt> to the related <tt>CSVWriter</tt>. For example we can use the following annotation: </p> 
  <div class="source"> 
   <pre>  @CSVWriter(  
     formatter=@CSVFormatter(  
-      fieldSep=';',quote='&quot;',recordSep1='\r',recordSep2='\n'
+      fieldSep=';',quote='&quot;',recordSep={'\r','\n'}
     )
   )
 </pre> 

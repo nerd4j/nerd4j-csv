@@ -131,11 +131,11 @@
 
     &lt;csv:columns&gt;
 
-      &lt;csv:column name=&quot;user-name&quot; mapping=&quot;name&quot; /&gt;
+      &lt;csv:column name=&quot;user_name&quot; mapping=&quot;name&quot; /&gt;
       &lt;csv:column name=&quot;password&quot;  mapping=&quot;password&quot; optional=&quot;true&quot; /&gt;
-      &lt;csv:column name=&quot;user-age&quot;  mapping=&quot;age&quot; processor-ref=&quot;parseInteger&quot; /&gt;
+      &lt;csv:column name=&quot;user_age&quot;  mapping=&quot;age&quot; processor-ref=&quot;parseInteger&quot; /&gt;
     
-      &lt;csv:column name=&quot;user-type&quot; mapping=&quot;type&quot;&gt;
+      &lt;csv:column name=&quot;user_type&quot; mapping=&quot;type&quot;&gt;
         &lt;csv:processor&gt;
           &lt;csv:converter type=&quot;parseEnum&quot; enum-type=&quot;full.path.to.UserType&quot; /&gt;
         &lt;/csv:processor&gt;
@@ -336,6 +336,12 @@
     // This converter does not need any parameter. 
     return new SymbolToCurrencyConverter();
   }
+
+  @Override
+  public void validate( Map&lt;String,String&gt; params ) throws CSVConfigurationException
+  {
+    // In this case parameters validation is not needed.
+  }
 }
 </pre> 
  </div> 
@@ -350,7 +356,7 @@
 
   &lt;csv:processors&gt;
     &lt;!-- 
-      And here we register a singleton instance of the SymbolToCurrencyConverter class
+      And here we register the preconfigured instance of the SymbolToCurrencyConverter class
       to call by reference in the related field annotation. Actually we register a CSVProcessor
       that contains a CSVConverter of type &quot;parseCurrencySymbol&quot;.
     --&gt;

@@ -116,11 +116,11 @@
 
     &lt;csv:columns&gt;
 
-      &lt;csv:column name=&quot;user-name&quot; mapping=&quot;name&quot; /&gt;
+      &lt;csv:column name=&quot;user_name&quot; mapping=&quot;name&quot; /&gt;
       &lt;csv:column name=&quot;password&quot;  mapping=&quot;password&quot; optional=&quot;true&quot; /&gt;
-      &lt;csv:column name=&quot;user-age&quot;  mapping=&quot;age&quot; processor-ref=&quot;parseInteger&quot; /&gt;
+      &lt;csv:column name=&quot;user_age&quot;  mapping=&quot;age&quot; processor-ref=&quot;parseInteger&quot; /&gt;
 
-      &lt;csv:column name=&quot;user-type&quot; mapping=&quot;type&quot;&gt;
+      &lt;csv:column name=&quot;user_type&quot; mapping=&quot;type&quot;&gt;
         &lt;csv:processor&gt;
           &lt;csv:converter type=&quot;parseEnum&quot; enum-type=&quot;full.path.to.UserType&quot; /&gt;
         &lt;/csv:processor&gt;
@@ -139,7 +139,7 @@
 </pre> 
  </div> 
  <p>As you can see you just need to change the <tt>csv:model-binder</tt> tag and everything works fine. Of course if you choose to use the model-binder type array all <tt>mapping</tt> attributes must contain a valid index in the target array.</p> 
- <p>Its also possible to register a custom binder. To do so as first you need to provide an implementation of the <tt>org.nerd4j.csv.reader.binding.CSVToModelBinder</tt> interface that performs the binding from the raw data into the needed data model, or implement the <tt>org.nerd4j.csv.writer.binding.ModelToCSVBinder</tt> that provides the data (in you custom data model) to the CSV writer.</p> 
+ <p>Its also possible to register a custom binder. To do so as first you need to provide an implementation of the <tt>org.nerd4j.csv.reader.binding.CSVToModelBinder</tt> interface that performs the binding from the raw data into the needed data model, or implement the <tt>org.nerd4j.csv.writer.binding.ModelToCSVBinder</tt> that provides the data (in your custom data model) to the CSV writer.</p> 
  <p>As second step you need to provide an implementation of the <tt>org.nerd4j.csv.reader.binding.CSVToModelBinderFactory</tt> interface which is able to produce a <tt>org.nerd4j.csv.reader.binding.CSVToModelBinder</tt> according to the given configuration. There is an abstract implementation that provides most of the work out of the box.</p> 
  <p>Finally you need to provide an implementation of the <tt>CSVRegistryEntryProvider</tt> to be able to register your custom binder in the registry as we have seen for the registration of custom <a class="externalLink" href="https://github.com/nerd4j/nerd4j-csv/wiki/The-XML-configuration">CSVFieldProcessors</a>.</p> 
  <p>Once you have the <tt>CSVRegistryEntryProvider</tt> the entry in the XML configuration is the same used to register our custom <tt>CSVFieldProcessor</tt> in the previous chapter:</p> 

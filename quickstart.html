@@ -141,7 +141,7 @@ public class Model
  <p>Thats it!! Mapping is done!<br /><b>@CSVReader</b> and <b>@CSVWriter</b> tell the framework that the configuration for a <b>CSVReader</b> and a <b>CSVWriter</b> should be prepared inferring the mapping information from the fields annotated with <b>@Column</b>.</p> 
  <p>Now you can produce <i>CsvReader</i> and <i>CSVWriter</i> factories using this lines of code:</p> 
  <div class="source"> 
-  <pre>  // This factory is able to pase annotations and XML files and produce a CSVConfiguration.
+  <pre>  // This factory is able to parse annotations and XML files and produce a CSVConfiguration.
   final CSVConfigurationFactory configurationFactory = new CSVConfigurationFactory();
 
   // The factory reads the annotations in the given class and creates the related CSVConfiguration.
