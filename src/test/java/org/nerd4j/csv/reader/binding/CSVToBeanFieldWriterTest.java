@@ -67,7 +67,7 @@ public class CSVToBeanFieldWriterTest
 		final Product product = new Product();
 		assertNull( product.getName() );
 		
-		final Field field = ReflectionUtil.findField( Void.class, "name", Product.class );
+		final Field field = ReflectionUtil.findField( String.class, "name", Product.class );
 		assertNotNull( field );
 		
 		final CSVToBeanFieldWriter writer = CSVToBeanFieldWriter.getWriter( field );
