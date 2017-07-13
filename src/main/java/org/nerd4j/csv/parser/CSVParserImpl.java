@@ -1032,17 +1032,20 @@ final class CSVParserImpl implements CSVParser
 			{
 			
 				/*
-				 * Check if buffer need to be refilled. Checking on BUFFER_SIZE
-				 * instead of bufferElements because is faster on a constant value
-				 * AND if bufferElements is less than BUFFER_SIZE it can't be
-				 * refilled (data already completely read into buffer)
+				 * Check if buffer need to be refilled.
 				 */
-				if ( bufferIndex >= BUFFER_SIZE )
+				if ( bufferIndex >= bufferElements )
 				{
-				
+					
+					/*
+					 * The read operation may not fill all the buffer
+					 * even if there are enough data. So we can't
+					 * assume bufferElements == BUFFER_SIZE neither if
+					 * the stream is much bigger than BUFFER_SIZE.
+					 */
 					bufferElements = reader.read( buffer, 0 , BUFFER_SIZE );
 					bufferIndex = 0;
-				
+					
 				}
 			
 				/* No more elements can be read. */
@@ -1134,14 +1137,17 @@ final class CSVParserImpl implements CSVParser
 			do{
 			
 				/*
-				 * Check if buffer need to be refilled. Checking on BUFFER_SIZE
-				 * instead of bufferElements because is faster on a constant value
-				 * AND if bufferElements is less than BUFFER_SIZE it can't be
-				 * refilled (data already completely read into buffer)
+				 * Check if buffer need to be refilled.
 				 */
-				if ( bufferIndex >= BUFFER_SIZE )
+				if ( bufferIndex >= bufferElements )
 				{
 					
+					/*
+					 * The read operation may not fill all the buffer
+					 * even if there are enough data. So we can't
+					 * assume bufferElements == BUFFER_SIZE neither if
+					 * the stream is much bigger than BUFFER_SIZE.
+					 */
 					bufferElements = reader.read( buffer, 0 , BUFFER_SIZE );
 					bufferIndex = 0;
 					
