@@ -164,7 +164,7 @@ public final class MapToCSVBinderFactory extends AbstractModelToCSVBinderFactory
             
             try{
                 
-                if( key != null && model.containsKey(key) )
+                if( key != null )
                 {
                     
                     final Object value = model.get( key );

@@ -106,12 +106,10 @@ public class MapToCSVBinderFactoryTest
             binder.setModel( model );
             for( int i = 0; i < binder.getRecordSize(); ++i )
                 logger.debug( String.valueOf(binder.getValue(i)) );
-        
-            Assert.fail( "An exception was expected but not thrown." );
             
         }catch( ModelToCSVBindingException ex )
         {
-            logger.info( "Expected exception has been thrown: {}", ex.getMessage() );
+        	Assert.fail( "No exceptions was expected to be thrown." );
         }
         
     }
