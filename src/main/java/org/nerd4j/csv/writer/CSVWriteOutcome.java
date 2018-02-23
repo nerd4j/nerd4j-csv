@@ -22,6 +22,7 @@
 package org.nerd4j.csv.writer;
 
 import org.nerd4j.csv.CSVProcessContext;
+import org.nerd4j.csv.CSVProcessOutcome;
 
 
 /**
@@ -36,7 +37,7 @@ import org.nerd4j.csv.CSVProcessContext;
  * 
  * @author Nerd4j Team
  */
-public interface CSVWriteOutcome
+public interface CSVWriteOutcome<M> extends CSVProcessOutcome<M>
 {
     
     /**
@@ -51,7 +52,9 @@ public interface CSVWriteOutcome
      *                  during execution.
      *                  
      * @return the writing execution context.
+     * @deprecated use {@link CSVProcessOutcome#getCSVProcessContext()} instead.
      */
+	@Deprecated
     public CSVProcessContext getCSVWritingContext();
     
 }

@@ -24,6 +24,11 @@ package org.nerd4j.csv.writer;
 import java.io.Closeable;
 import java.io.Flushable;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import org.nerd4j.csv.exception.CSVProcessException;
 import org.nerd4j.csv.exception.ModelToCSVBindingException;
@@ -82,6 +87,58 @@ public interface CSVWriter<M> extends Closeable, Flushable
 	 * @throws IOException if an error occurs reading the CSV source.
 	 * @throws ModelToCSVBindingException if an error occurs during model binding.
 	 */
-	public CSVWriteOutcome write( M model ) throws IOException, ModelToCSVBindingException;
+	public CSVWriteOutcome<M> write( M model ) throws IOException, ModelToCSVBindingException;
+	
+	/**
+	 * Drains the given {@link Stream} writing all elements into the CSV destination.
+	 * <p>
+	 * This method is intended to be used in a functional way like:<br>
+	 * {@code writer.drain(stream).intoCSV();} <br>
+	 * or <br>
+	 * {@code writer.drain(stream).afterEach( write -> do something ).intoCSV();}
+	 * 
+	 * @param stream {@link Stream} to be drained.
+	 * @return the class able to drain the {@link Stream}.
+	 */	
+	default CSVStreamDrainer<M> drain( Stream<M> stream )
+	{
+		
+		return new CSVStreamDrainer<>( stream, this );
+		
+	}
+	
+	/**
+	 * Drains the given {@link Spliterator} writing all elements into the CSV destination.
+	 * <p>
+	 * This method is intended to be used in a functional way like:<br>
+	 * {@code writer.drain(spliterator).intoCSV();} <br>
+	 * or <br>
+	 * {@code writer.drain(spliterator).afterEach( write -> do something ).intoCSV();}
+	 * 
+	 * @param spliterator {@link Spliterator} to be drained.
+	 * @return the class able to drain the {@link Spliterator}.
+	 */
+	default CSVStreamDrainer<M> drain( Spliterator<M> spliterator )
+	{
+		return drain( StreamSupport.stream(spliterator, false) );
+	}
+	
+	/**
+	 * Drains the given {@link Iterator} writing all elements into the CSV destination.
+	 * <p>
+	 * This method is intended to be used in a functional way like:<br>
+	 * {@code writer.drain(iterator).intoCSV();} <br>
+	 * or <br>
+	 * {@code writer.drain(iterator).afterEach( write -> do something ).intoCSV();}
+	 * 
+	 * @param iterator {@link Iterator} to be drained.
+	 * @return the class able to drain the {@link Iterator}.
+	 */
+	default CSVStreamDrainer<M> drain( Iterator<M> iterator )
+	{
+		
+		return drain( Spliterators.spliteratorUnknownSize(iterator, 0) );
+		
+	}
 	
 }

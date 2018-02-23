@@ -25,7 +25,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.Reader;
 
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;

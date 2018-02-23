@@ -144,11 +144,14 @@ final class CSVWriterImpl<M> implements CSVWriter<M>
 	 * {@inheritDoc}
 	 */
     @Override
-	public CSVWriteOutcome write( M model ) throws IOException, ModelToCSVBindingException
+	public CSVWriteOutcome<M> write( M model ) throws IOException, ModelToCSVBindingException
 	{
         
-        /* First of all we clear the reading context and outcome. */
+        /* First of all we clear the writing context. */
         context.clear();
+        
+        /* We set the processed model to the outcome. */
+        outcome.model = model;        
         
         /* Furthermore we tell the context that we start processing a new row. */
         context.newRow();
@@ -255,9 +258,12 @@ final class CSVWriterImpl<M> implements CSVWriter<M>
      * 
      * @author Nerd4J Team
      */
-    private class CSVWriteOutcomeImpl implements CSVWriteOutcome
+    private class CSVWriteOutcomeImpl implements CSVWriteOutcome<M>
     {
 
+    	/** The data model corresponding to the CSV record written. */
+        private M model;
+        
         
         /**
          * Default constructor.
@@ -267,6 +273,8 @@ final class CSVWriterImpl<M> implements CSVWriter<M>
         {
             
             super();
+            
+            this.model = null;
                         
         }
 
@@ -280,10 +288,29 @@ final class CSVWriterImpl<M> implements CSVWriter<M>
          * {@inheritDoc}
          */
         @Override
+        public M getModel()
+        {
+            return model;
+        }
+        
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public CSVProcessContext getCSVProcessContext()
+        {
+        	return context;
+        }
+        
+        /**
+         * {@inheritDoc}
+         */
+        @Override
         public CSVProcessContext getCSVWritingContext()
         {
-            return context;
+        	return context;
         }
         
     }
+	
 }

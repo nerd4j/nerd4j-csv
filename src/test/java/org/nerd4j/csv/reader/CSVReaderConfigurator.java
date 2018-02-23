@@ -90,7 +90,7 @@ public class CSVReaderConfigurator
         columnConf.setName( "IN-STOCK" );
         columnConf.setMapping( "5" );
         columnConf.setProcessorRef( "parseBoolean" );
-        columnConf.setOptional( false );
+        columnConf.setOptional( true );
         readerConf.getColumns().put( columnConf.getName(), columnConf );
         
         final CSVFieldConverterConf dateConverterConf = new CSVFieldConverterConf();
@@ -104,7 +104,7 @@ public class CSVReaderConfigurator
         columnConf.setName( "LAST-UPDATE" );
         columnConf.setMapping( "6" );
         columnConf.setProcessor( dateProcessorConf );
-        columnConf.setOptional( false );
+        columnConf.setOptional( true );
         readerConf.getColumns().put( columnConf.getName(), columnConf );
         
         final CSVConfiguration configuration = new CSVConfiguration();
@@ -175,7 +175,7 @@ public class CSVReaderConfigurator
     	columnConf.setName( "IN-STOCK" );
     	columnConf.setMapping( "inStock" );
     	columnConf.setProcessorRef( "parseBoolean" );
-    	columnConf.setOptional( false );
+    	columnConf.setOptional( true );
     	readerConf.getColumns().put( columnConf.getName(), columnConf );
     	
     	final CSVFieldConverterConf dateConverterConf = new CSVFieldConverterConf();
@@ -189,7 +189,7 @@ public class CSVReaderConfigurator
     	columnConf.setName( "LAST-UPDATE" );
     	columnConf.setMapping( "lastUpdate" );
     	columnConf.setProcessor( dateProcessorConf );
-    	columnConf.setOptional( false );
+    	columnConf.setOptional( true );
     	readerConf.getColumns().put( columnConf.getName(), columnConf );
     	
     	final CSVConfiguration configuration = new CSVConfiguration();
@@ -258,7 +258,7 @@ public class CSVReaderConfigurator
     	columnConf.setName( "IN-STOCK" );
     	columnConf.setMapping( "InStock" );
     	columnConf.setProcessorRef( "parseBoolean" );
-    	columnConf.setOptional( false );
+    	columnConf.setOptional( true );
     	readerConf.getColumns().put( columnConf.getName(), columnConf );
     	
     	final CSVFieldConverterConf dateConverterConf = new CSVFieldConverterConf();
@@ -272,7 +272,7 @@ public class CSVReaderConfigurator
     	columnConf.setName( "LAST-UPDATE" );
     	columnConf.setMapping( "LastUpdate" );
     	columnConf.setProcessor( dateProcessorConf );
-    	columnConf.setOptional( false );
+    	columnConf.setOptional( true );
     	readerConf.getColumns().put( columnConf.getName(), columnConf );
     	
     	final CSVConfiguration configuration = new CSVConfiguration();

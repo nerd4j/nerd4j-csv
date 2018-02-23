@@ -22,6 +22,7 @@
 package org.nerd4j.csv.reader;
 
 import org.nerd4j.csv.CSVProcessContext;
+import org.nerd4j.csv.CSVProcessOutcome;
 
 
 /**
@@ -39,18 +40,8 @@ import org.nerd4j.csv.CSVProcessContext;
  * 
  * @author Nerd4j Team
  */
-public interface CSVReadOutcome<M>
+public interface CSVReadOutcome<M> extends CSVProcessOutcome<M>
 {
-    
-    /**
-     * Returns the data model corresponding to the CSV record read.
-     * <p>
-     * If the CSV source is empty or an error occurred the model
-     * is {@code null}.
-     * 
-     * @return the data model corresponding to the CSV record read.
-     */
-    public M getModel();
     
     /**
      * Returns the reading execution context.
@@ -64,7 +55,9 @@ public interface CSVReadOutcome<M>
      *                  during execution.
      *                  
      * @return the reading execution context.
+     * @deprecated use {@link CSVProcessOutcome#getCSVProcessContext()} instead.
      */
+	@Deprecated
     public CSVProcessContext getCSVReadingContext();
-    
+           
 }

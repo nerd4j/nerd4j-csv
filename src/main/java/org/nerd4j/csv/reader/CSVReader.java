@@ -23,6 +23,7 @@ package org.nerd4j.csv.reader;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.util.stream.Stream;
 
 import org.nerd4j.csv.exception.CSVProcessException;
 import org.nerd4j.csv.exception.CSVToModelBindingException;
@@ -42,13 +43,17 @@ import org.nerd4j.csv.exception.CSVToModelBindingException;
  * If multiple threads access a CSV reader concurrently, it must be synchronized
  * externally.
  * 
+ * @since version {@code 1.2.0} support has been added for the new {@code Java 8 Stream API}.
+ * Now it's possible to use the {@link CSVReader} as the target of the {@code "for-each-loop"}
+ * statement and even to get a {@link Stream} of {@link CSVReadOutcome}s.
+ * 
  * @param <M> type of the data model representing the CSV record.
  * 
  * @author Nerd4J Team
  */
-public interface CSVReader<M> extends Closeable
+public interface CSVReader<M> extends Closeable, Iterable<CSVReadOutcome<M>>
 {
-
+	
 	/**
 	 * Returns the CSV header if any, otherwise returns {@code null}.
 	 * 
@@ -94,5 +99,13 @@ public interface CSVReader<M> extends Closeable
 	 * @throws CSVToModelBindingException if an error occurs during model binding.
 	 */
 	public CSVReadOutcome<M> read() throws IOException, CSVToModelBindingException;
+	
+    /**
+     * Returns a sequential {@code Stream} of {@link CSVReadOutcome}s.
+     *
+     * @return a sequential {@code Stream} of {@link CSVReadOutcome}s.
+     * @since 1.2.0
+     */
+    public Stream<CSVReadOutcome<M>> stream();
 	
 }
