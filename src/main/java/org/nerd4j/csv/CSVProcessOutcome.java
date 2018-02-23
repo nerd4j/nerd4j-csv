@@ -26,7 +26,7 @@ import java.util.function.Consumer;
 
 /**
  * Represents the outcome of a CSV operation performed
- * by either {@link CSVReader} or {@link CSVWriter}.
+ * by either {@link org.nerd4j.csv.reader.CSVReader CSVReader} or {@link org.nerd4j.csv.writer.CSVWriter CSVWriter}.
  * 
  * <p>
  * This interface provides the following elements:
@@ -41,6 +41,8 @@ import java.util.function.Consumer;
 // * after the operation regardless the result.
  * 
  * @param <M> type of the data model representing the CSV record.
+ * 
+ * @since 1.2.0
  * 
  * @author Nerd4j Team
  */

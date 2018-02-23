@@ -37,6 +37,8 @@ import org.slf4j.LoggerFactory;
  * 
  * @param <M> type of the data model representing the CSV record.
  * 
+ * @since 1.2.0
+ * 
  * @author Nerd4J Team
  */
 class CSVReadOutcomeIterator<M> implements Iterator<CSVReadOutcome<M>>

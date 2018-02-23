@@ -43,11 +43,14 @@ import org.nerd4j.csv.exception.CSVToModelBindingException;
  * If multiple threads access a CSV reader concurrently, it must be synchronized
  * externally.
  * 
- * @since version {@code 1.2.0} support has been added for the new {@code Java 8 Stream API}.
+ * <p>
+ * Since version {@code 1.2.0} support has been added for the new {@code Java 8 Stream API}.
  * Now it's possible to use the {@link CSVReader} as the target of the {@code "for-each-loop"}
  * statement and even to get a {@link Stream} of {@link CSVReadOutcome}s.
  * 
  * @param <M> type of the data model representing the CSV record.
+ * 
+ * @since 1.2.0 implements {@link Iterable}
  * 
  * @author Nerd4J Team
  */

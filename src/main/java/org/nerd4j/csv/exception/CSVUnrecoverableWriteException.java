@@ -35,6 +35,7 @@ package org.nerd4j.csv.exception;
  * After this kind of exception occurs, it is not advisable to continue
  * with the writing.
  *  
+ * @since 1.2.0
  * 
  * @author Nerd4j Team
  */

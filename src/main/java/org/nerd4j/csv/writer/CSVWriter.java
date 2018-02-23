@@ -49,6 +49,22 @@ import org.nerd4j.csv.exception.ModelToCSVBindingException;
  * If multiple threads access a CSV writer concurrently, it must be synchronized
  * externally.
  * 
+ * <h3>Since version {@code 1.2.0}</h3>
+ * <p>
+ * support has been added for the new {@code Java 8 Stream API}.
+ * Now it's possible to use the {@link CSVWriter} in a functional way to drain a sequence of
+ * elements i.e.
+ * <ul>
+ *  <li>{@link Iterator}</li>
+ *  <li>{@link Spliterator}</li>
+ *  <li>{@link Stream}</li>
+ * </ul>
+ * For example can be used to drain a {@link Stream} writing all elements in a CSV destination
+ * in this way: <br>
+ * <b>{@code writer.drain(stream).intoCSV();}</b> <br>
+ * or in this way: <br>
+ * <b>{@code writer.drain(stream).afterEach( write -> do something ).intoCSV();}</b>
+ * 
  * @param <M> type of the data model representing the CSV record.
  * 
  * @author Nerd4J Team
@@ -99,6 +115,7 @@ public interface CSVWriter<M> extends Closeable, Flushable
 	 * 
 	 * @param stream {@link Stream} to be drained.
 	 * @return the class able to drain the {@link Stream}.
+	 * @since 1.2.0
 	 */	
 	default CSVStreamDrainer<M> drain( Stream<M> stream )
 	{
