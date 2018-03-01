@@ -29,21 +29,23 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.nerd4j.csv.exception.CSVUnrecoverableReadException;
+import org.nerd4j.csv.CSVProcessOutcome;
+import org.nerd4j.csv.exception.CSVSingleUseViolationException;
+import org.nerd4j.csv.exception.CSVUnrecoverableStateException;
 import org.nerd4j.csv.model.Product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
 /**
- * Test for the class CSVReadOutcomeIterator.
+ * Test for the class CSVReaderIterator.
  * 
  * @author Nerd4j Team
  */
-public class CSVReadOutcomeIteratorTest
+public class CSVReaderIteratorTest
 {
     
-    private static final Logger logger = LoggerFactory.getLogger( CSVReadOutcomeIteratorTest.class );
+    private static final Logger logger = LoggerFactory.getLogger( CSVReaderIteratorTest.class );
     
 	private static final String header = "\"NAME\",\"DESCRIPTION\",\"UPC\",\"CURRENCY\",\"PRICE\",\"IN-STOCK\",\"LAST-UPDATE\"\n";
 
@@ -64,7 +66,7 @@ public class CSVReadOutcomeIteratorTest
     {
     	
     	final CSVReader<Product> reader = getCSVReader( Source.EMPTY_CSV ); 
-	    final Iterator<CSVReadOutcome<Product>> iterator = reader.iterator();
+	    final Iterator<CSVProcessOutcome<Product>> iterator = reader.iterator();
 	    
 	    hasNoElements( iterator );
         
@@ -76,7 +78,7 @@ public class CSVReadOutcomeIteratorTest
     {
     	
     	final CSVReader<Product> reader = getCSVReader( Source.ONE_VALID_RECORD ); 
-    	final Iterator<CSVReadOutcome<Product>> iterator = reader.iterator();
+    	final Iterator<CSVProcessOutcome<Product>> iterator = reader.iterator();
     	
     	hasValidElement( iterator );
     	hasNoElements( iterator );
@@ -88,7 +90,7 @@ public class CSVReadOutcomeIteratorTest
     {
     	
     	final CSVReader<Product> reader = getCSVReader( Source.ONE_INVALID_RECORD ); 
-    	final Iterator<CSVReadOutcome<Product>> iterator = reader.iterator();
+    	final Iterator<CSVProcessOutcome<Product>> iterator = reader.iterator();
     	
     	hasInvalidElement( iterator );
     	hasNoElements( iterator );
@@ -100,7 +102,7 @@ public class CSVReadOutcomeIteratorTest
     {
     	
     	final CSVReader<Product> reader = getCSVReader( Source.ONE_INCOMPLETE_RECORD ); 
-    	final Iterator<CSVReadOutcome<Product>> iterator = reader.iterator();
+    	final Iterator<CSVProcessOutcome<Product>> iterator = reader.iterator();
     	
     	hasUnrecoverabeError( iterator );
     	hasUnrecoverabeError( iterator );
@@ -112,7 +114,7 @@ public class CSVReadOutcomeIteratorTest
     {
     	
     	final CSVReader<Product> reader = getCSVReader( Source.THREE_VALID_RECORDS ); 
-    	final Iterator<CSVReadOutcome<Product>> iterator = reader.iterator();
+    	final Iterator<CSVProcessOutcome<Product>> iterator = reader.iterator();
     	
     	hasValidElement( iterator );
     	hasValidElement( iterator );
@@ -126,7 +128,7 @@ public class CSVReadOutcomeIteratorTest
     {
     	
     	final CSVReader<Product> reader = getCSVReader( Source.THREE_RECORDS_ONE_INVALID ); 
-    	final Iterator<CSVReadOutcome<Product>> iterator = reader.iterator();
+    	final Iterator<CSVProcessOutcome<Product>> iterator = reader.iterator();
     	
     	hasValidElement( iterator );
     	hasInvalidElement( iterator );
@@ -140,7 +142,7 @@ public class CSVReadOutcomeIteratorTest
     {
     	
     	final CSVReader<Product> reader = getCSVReader( Source.THREE_RECORDS_ONE_INCOMPLETE ); 
-    	final Iterator<CSVReadOutcome<Product>> iterator = reader.iterator();
+    	final Iterator<CSVProcessOutcome<Product>> iterator = reader.iterator();
     	
     	hasValidElement( iterator );
     	hasUnrecoverabeError( iterator );
@@ -157,7 +159,7 @@ public class CSVReadOutcomeIteratorTest
     	 * the same value.
     	 */
     	final CSVReader<Product> reader = getCSVReader( Source.ONE_VALID_RECORD ); 
-    	final Iterator<CSVReadOutcome<Product>> iterator = reader.iterator();
+    	final Iterator<CSVProcessOutcome<Product>> iterator = reader.iterator();
     	
     	for( int i = 0; i < 10; ++i )
     		Assert.assertTrue( iterator.hasNext() );
@@ -177,11 +179,11 @@ public class CSVReadOutcomeIteratorTest
     	 * next() works without invoking hasNext().
     	 */
     	final CSVReader<Product> reader = getCSVReader( Source.ONE_VALID_RECORD ); 
-    	final Iterator<CSVReadOutcome<Product>> iterator = reader.iterator();
+    	final Iterator<CSVProcessOutcome<Product>> iterator = reader.iterator();
     	
-    	final CSVReadOutcome<Product> element = iterator.next();
+    	final CSVProcessOutcome<Product> element = iterator.next();
     	Assert.assertNotNull( "Iterator output is always not null", element );
-    	Assert.assertFalse( "No errors expected", element.getCSVReadingContext().isError() );
+    	Assert.assertFalse( "No errors expected", element.getCSVProcessContext().isError() );
     	Assert.assertNotNull( "Data model expected", element.getModel() );
 
     	try{
@@ -205,7 +207,7 @@ public class CSVReadOutcomeIteratorTest
     	    	
     	final CSVReader<Product> reader = getCSVReader( Source.THREE_VALID_RECORDS );
     	
-    	for( CSVReadOutcome<Product> outcome : reader )
+    	for( CSVProcessOutcome<Product> outcome : reader )
     		Assert.assertTrue( check(outcome) );
     	    	
     }
@@ -219,20 +221,20 @@ public class CSVReadOutcomeIteratorTest
     	int count = 0;
     	try{
     		
-    		for( CSVReadOutcome<Product> outcome : reader )
+    		for( CSVProcessOutcome<Product> outcome : reader )
     		{
     			Assert.assertTrue( check(outcome) );
     			++count;
     		}
     		
-    		Assert.fail( "A CSVUnrecoverableReadException was expected" );
+    		Assert.fail( "A CSVUnrecoverableStateException was expected" );
     		
-    	}catch( CSVUnrecoverableReadException ex )
+    	}catch( CSVUnrecoverableStateException ex )
     	{
     		Assert.assertEquals( 1, count );
     	}catch( Exception ex )
     	{
-    		Assert.fail( "A CSVUnrecoverableReadException was expected" );
+    		Assert.fail( "A CSVUnrecoverableStateException was expected" );
     	}
     	
     }
@@ -269,14 +271,14 @@ public class CSVReadOutcomeIteratorTest
     		
     		reader.forEach( outcome -> count.incrementAndGet() );
     		
-    		Assert.fail( "A CSVUnrecoverableReadException was expected" );
+    		Assert.fail( "A CSVUnrecoverableStateException was expected" );
     		
-    	}catch( CSVUnrecoverableReadException ex )
+    	}catch( CSVUnrecoverableStateException ex )
     	{
     		Assert.assertEquals( 1, count.get() );
     	}catch( Exception ex )
     	{
-    		Assert.fail( "A CSVUnrecoverableReadException was expected" );
+    		Assert.fail( "A CSVUnrecoverableStateException was expected" );
     	}
     	
     }
@@ -318,14 +320,92 @@ public class CSVReadOutcomeIteratorTest
     		.peek( outcome -> count.incrementAndGet() )
 	    	.count();
     		
-    		Assert.fail( "A CSVUnrecoverableReadException was expected" );
+    		Assert.fail( "A CSVUnrecoverableStateException was expected" );
     		
-    	}catch( CSVUnrecoverableReadException ex )
+    	}catch( CSVUnrecoverableStateException ex )
     	{
     		Assert.assertEquals( 1, count.get() );
     	}catch( Exception ex )
     	{
-    		Assert.fail( "A CSVUnrecoverableReadException was expected" );
+    		Assert.fail( "A CSVUnrecoverableStateException was expected" );
+    	}
+    	
+    }
+    
+    @Test
+    public void testForEachLoopCalledTwice() throws Exception
+    {
+    	
+    	final CSVReader<Product> reader = getCSVReader( Source.THREE_VALID_RECORDS );
+    	final AtomicInteger count = new AtomicInteger();
+    	for( CSVProcessOutcome<Product> read : reader )
+		{
+    		read.then( c -> count.incrementAndGet() );
+		}
+		
+    	try{
+    		
+    		for( CSVProcessOutcome<Product> read : reader )
+    		{
+    			read.then( c -> count.incrementAndGet() );
+    		}
+    		
+    		Assert.fail( "A CSVSingleUseViolationException was expected" );
+    		
+    	}catch( CSVSingleUseViolationException ex )
+    	{
+    		logger.debug( "Test success" );
+    	}catch( Exception ex )
+    	{
+    		Assert.fail( "A CSVSingleUseViolationException was expected" );
+    	}
+    	
+    }
+    
+    @Test
+    public void testForEachCalledTwice() throws Exception
+    {
+    	
+    	final CSVReader<Product> reader = getCSVReader( Source.THREE_VALID_RECORDS );
+    	final AtomicInteger count = new AtomicInteger();
+    	reader.forEach( read -> read.then( c -> count.incrementAndGet() ));
+    	
+    	try{
+    		
+    		reader.forEach( read -> read.then( c -> count.incrementAndGet() ));
+    		
+    		Assert.fail( "A CSVSingleUseViolationException was expected" );
+    		
+    	}catch( CSVSingleUseViolationException ex )
+    	{
+    		logger.debug( "Test success" );
+    	}catch( Exception ex )
+    	{
+    		Assert.fail( "A CSVSingleUseViolationException was expected" );
+    	}
+    	
+    }
+    
+    @Test
+    public void testStreamCalledTwice() throws Exception
+    {
+    	
+    	final CSVReader<Product> reader = getCSVReader( Source.THREE_VALID_RECORDS );
+    	final AtomicInteger count = new AtomicInteger();
+    	reader.stream().forEach( read -> read.then( c -> count.incrementAndGet() ));
+    	
+    	try{
+    		
+    		reader.stream().forEach( read -> read.then( c -> count.incrementAndGet() ));
+    		
+    		Assert.fail( "A CSVSingleUseViolationException was expected" );
+    		
+    	}catch( CSVSingleUseViolationException ex )
+    	{
+    		logger.debug( "Test success" );
+    	}catch( Exception ex )
+    	{
+    		Assert.fail( "A CSVSingleUseViolationException was expected" );
     	}
     	
     }
@@ -363,10 +443,10 @@ public class CSVReadOutcomeIteratorTest
      * @param csvReader the reader to test.
      * @return {@code true} if the outcome has no errors.
      */
-    private <T> boolean check( CSVReadOutcome<T> outcome ) throws Exception
+    private <T> boolean check( CSVProcessOutcome<T> outcome ) throws Exception
     {
         
-        if( outcome == null || outcome.getCSVReadingContext().isError() )
+        if( outcome == null || outcome.getCSVProcessContext().isError() )
         	return false;
         
         logger.info( String.valueOf(outcome.getModel()) );
@@ -379,7 +459,7 @@ public class CSVReadOutcomeIteratorTest
      * 
      * @param iterator the iterator to check.
      */
-    private void hasNoElements( Iterator<CSVReadOutcome<Product>> iterator )
+    private void hasNoElements( Iterator<CSVProcessOutcome<Product>> iterator )
     {
     	
     	Assert.assertFalse( "No elements expected", iterator.hasNext() );
@@ -404,7 +484,7 @@ public class CSVReadOutcomeIteratorTest
      * 
      * @param iterator the iterator to check.
      */
-    private void hasValidElement( Iterator<CSVReadOutcome<Product>> iterator )
+    private void hasValidElement( Iterator<CSVProcessOutcome<Product>> iterator )
     {
     	    	    	
     	Assert.assertTrue( "Element must be present", iterator.hasNext() );
@@ -428,7 +508,7 @@ public class CSVReadOutcomeIteratorTest
      * 
      * @param iterator the iterator to check.
      */
-    private void hasInvalidElement( Iterator<CSVReadOutcome<Product>> iterator )
+    private void hasInvalidElement( Iterator<CSVProcessOutcome<Product>> iterator )
     {
     	
     	Assert.assertTrue( "Element must be present", iterator.hasNext() );
@@ -452,33 +532,33 @@ public class CSVReadOutcomeIteratorTest
      * 
      * @param iterator the iterator to check.
      */
-    private void hasUnrecoverabeError( Iterator<CSVReadOutcome<Product>> iterator )
+    private void hasUnrecoverabeError( Iterator<CSVProcessOutcome<Product>> iterator )
     {
     	
     	try{
     		
     		iterator.hasNext();
-    		Assert.fail( "A CSVUnrecoverableReadException was expected" );
+    		Assert.fail( "A CSVUnrecoverableStateException was expected" );
     		
-    	}catch( CSVUnrecoverableReadException ex )
+    	}catch( CSVUnrecoverableStateException ex )
     	{
     		logger.debug( "Test success" );
     	}catch( Exception ex )
     	{
-    		Assert.fail( "A CSVUnrecoverableReadException was expected" );
+    		Assert.fail( "A CSVUnrecoverableStateException was expected" );
     	}
     	
     	try{
     		
     		iterator.next();
-    		Assert.fail( "A CSVUnrecoverableReadException was expected" );
+    		Assert.fail( "A CSVUnrecoverableStateException was expected" );
     		
-    	}catch( CSVUnrecoverableReadException ex )
+    	}catch( CSVUnrecoverableStateException ex )
     	{
     		logger.debug( "Test success" );
     	}catch( Exception ex )
     	{
-    		Assert.fail( "A CSVUnrecoverableReadException was expected" );
+    		Assert.fail( "A CSVUnrecoverableStateException was expected" );
     	}
     	
     }

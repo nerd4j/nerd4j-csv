@@ -27,6 +27,7 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.nerd4j.csv.CSVProcessOutcome;
 import org.nerd4j.csv.model.Product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -184,14 +185,14 @@ public class CSVReaderFactoryMockTest
     {
         
         T model;
-        CSVReadOutcome<T> outcome;
+        CSVProcessOutcome<T> outcome;
         int attempts = 0;
         do{
             
             outcome = csvReader.read();
             model = outcome.getModel();
-            if( outcome.getCSVReadingContext().isError() )
-            	throw new Exception( outcome.getCSVReadingContext().getError().getMessage() );
+            if( outcome.getCSVProcessContext().isError() )
+            	throw new Exception( outcome.getCSVProcessContext().getError().getMessage() );
             
             else if( model != null )
                 logger.info( String.valueOf(model) );

@@ -25,7 +25,8 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
-import org.nerd4j.csv.exception.CSVUnrecoverableReadException;
+import org.nerd4j.csv.CSVProcessOutcome;
+import org.nerd4j.csv.exception.CSVUnrecoverableStateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,7 +42,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Nerd4J Team
  */
-class CSVReadOutcomeIterator<M> implements Iterator<CSVReadOutcome<M>>
+class CSVReaderIterator<M> implements Iterator<CSVProcessOutcome<M>>
 {
 	
 	/** SLF4J Logging system. */
@@ -52,14 +53,14 @@ class CSVReadOutcomeIterator<M> implements Iterator<CSVReadOutcome<M>>
 	private CSVReader<M> source;
 	
 	/** The element to be returned by method {@link #next()}. */
-	private CSVReadOutcome<M> nextElement;
+	private CSVProcessOutcome<M> nextElement;
 	
 	/**
 	 * An unrecoverable exception occurred during a read operation.
 	 * If this kind of exception occurs the iterator is not able to
 	 * keep reading elements and must stop.
 	 */  
-	private CSVUnrecoverableReadException exception;
+	private CSVUnrecoverableStateException exception;
 	
 	
 	/**
@@ -69,7 +70,7 @@ class CSVReadOutcomeIterator<M> implements Iterator<CSVReadOutcome<M>>
 	 * @throws IOException if an error occurs reading the CSV source.
 	 * @throws CSVToModelBindingException if an error occurs during model binding.
 	 */
-	public CSVReadOutcomeIterator( CSVReader<M> source )
+	public CSVReaderIterator( CSVReader<M> source )
 	{
 		
 		super();
@@ -115,7 +116,7 @@ class CSVReadOutcomeIterator<M> implements Iterator<CSVReadOutcome<M>>
 	 * {@inheritDoc}
 	 */
 	@Override
-	public CSVReadOutcome<M> next()
+	public CSVProcessOutcome<M> next()
 	{
 		
 		/*
@@ -127,7 +128,7 @@ class CSVReadOutcomeIterator<M> implements Iterator<CSVReadOutcome<M>>
 			throw new NoSuchElementException();
 		
 		/* We save the current element in a local variable. */
-		final CSVReadOutcome<M> toBeReturned = this.nextElement;
+		final CSVProcessOutcome<M> toBeReturned = this.nextElement;
 		
 		/* We clear the nextElement so a new read operation can be triggered. */
 		this.nextElement = null;
@@ -171,7 +172,7 @@ class CSVReadOutcomeIterator<M> implements Iterator<CSVReadOutcome<M>>
 			{
 				
 				logger.error( "Unable to read the CSV source", ex );
-				this.exception = new CSVUnrecoverableReadException( ex );
+				this.exception = new CSVUnrecoverableStateException( ex );
 				throw this.exception;
 				
 			}

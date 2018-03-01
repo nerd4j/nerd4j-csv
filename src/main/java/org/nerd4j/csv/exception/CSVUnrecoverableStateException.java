@@ -23,23 +23,31 @@ package org.nerd4j.csv.exception;
 
 
 /**
- * Represents a {@link RuntimeException} occurred during the writing
- * of a CSV target that leaves the {@link org.nerd4j.csv.writer.CSVWriter CSVWriter}
- * in an inconsistent and unrecoverable state.
+ * Represents a {@link CSVException} occurred during the processing
+ * of a CSV that leaves the {@link org.nerd4j.csv.reader.CSVReader CSVReader}
+ * or the {@link org.nerd4j.csv.writer.CSVWriter CSVWriter} in an inconsistent
+ * and unrecoverable state.
  * 
+ * <h5>reading</h5>
+ * <p>
+ * This kind of exception will be thrown if the CSV source is malformed
+ * in such a way that the parser is unable to recover or if there is an
+ * unexpected end of data.
+ * 
+ * <h5>writing</h5>
  * <p>
  * This kind of exception will be thrown if the CSV target is not writable
  * or close unexpectedly.
  * 
  * <p>
  * After this kind of exception occurs, it is not advisable to continue
- * with the writing.
+ * with the processing.
  *  
  * @since 1.2.0
  * 
  * @author Nerd4j Team
  */
-public class CSVUnrecoverableWriteException extends RuntimeException
+public class CSVUnrecoverableStateException extends RuntimeException
 {
 
     /** Serial Version UID. */
@@ -47,11 +55,11 @@ public class CSVUnrecoverableWriteException extends RuntimeException
 
     
 	/**
-	 * Constructs a new {@link CSVUnrecoverableWriteException} with
+	 * Constructs a new {@link CSVUnrecoverableStateException} with
 	 * {@code null} as its detail message. The cause is not initialized,
 	 * and may subsequently be initialized by a call to {@link #initCause}.
 	 */
-    public CSVUnrecoverableWriteException()
+    public CSVUnrecoverableStateException()
     {
     
         super();
@@ -59,7 +67,7 @@ public class CSVUnrecoverableWriteException extends RuntimeException
     }
 
 	/**
-	 * Constructs a new {@link CSVUnrecoverableWriteException} with the specified
+	 * Constructs a new {@link CSVUnrecoverableStateException} with the specified
 	 * detail message. The cause is not initialized, and may subsequently be
 	 * initialized by a call to {@link #initCause}.
 	 * 
@@ -67,7 +75,7 @@ public class CSVUnrecoverableWriteException extends RuntimeException
 	 *            the detail message. The detail message is saved for later
 	 *            retrieval by the {@link #getMessage()} method.
 	 */
-    public CSVUnrecoverableWriteException( String message )
+    public CSVUnrecoverableStateException( String message )
     {
     
         super(message);
@@ -75,7 +83,7 @@ public class CSVUnrecoverableWriteException extends RuntimeException
     }
 
 	/**
-	 * Constructs a new {@link CSVUnrecoverableWriteException} with the specified
+	 * Constructs a new {@link CSVUnrecoverableStateException} with the specified
 	 * cause and a detail message of
 	 * <tt>(cause==null ? null : cause.toString())</tt> (which typically
 	 * contains the class and detail message of <tt>cause</tt>). This
@@ -88,7 +96,7 @@ public class CSVUnrecoverableWriteException extends RuntimeException
 	 *            permitted, and indicates that the cause is nonexistent or
 	 *            unknown.)
 	 */
-    public CSVUnrecoverableWriteException( Throwable cause )
+    public CSVUnrecoverableStateException( Throwable cause )
     {
         
         super( cause );
@@ -96,7 +104,7 @@ public class CSVUnrecoverableWriteException extends RuntimeException
     }
 
 	/**
-	 * Constructs a new {@link CSVUnrecoverableWriteException} with the specified
+	 * Constructs a new {@link CSVUnrecoverableStateException} with the specified
 	 * detail message and cause.
 	 * <p>
 	 * Note that the detail message associated with {@code cause} is
@@ -111,7 +119,7 @@ public class CSVUnrecoverableWriteException extends RuntimeException
 	 *            permitted, and indicates that the cause is nonexistent or
 	 *            unknown.)
 	 */
-    public CSVUnrecoverableWriteException( String message, Throwable cause )
+    public CSVUnrecoverableStateException( String message, Throwable cause )
     {
         
         super( message, cause );

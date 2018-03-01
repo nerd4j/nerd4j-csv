@@ -23,12 +23,12 @@ package org.nerd4j.csv.exception;
 
 
 /**
- * Represents an {@link Exception} occurred reading a field
+ * Represents an {@link CSVException} occurred reading a field
  * from the data model that has to be written into a CSV target.
  * 
  * @author Nerd4j Team
  */
-public class ModelToCSVBindingException extends Exception
+public class ModelToCSVBindingException extends CSVException
 {
 
     /** Serial Version UID. */

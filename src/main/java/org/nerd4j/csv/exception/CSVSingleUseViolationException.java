@@ -23,24 +23,28 @@ package org.nerd4j.csv.exception;
 
 
 /**
- * Represents a {@link RuntimeException} occurred during the reading
- * of a CSV source that leaves the {@link org.nerd4j.csv.reader.CSVReader CSVReader}
- * in an inconsistent and unrecoverable state.
+ * This {@link CSVException} will occur if the method
+ * {@link org.nerd4j.csv.reader.CSVReader#iterator() CSVReader#iterator()},
+ * {@link org.nerd4j.csv.reader.CSVReader#spliterator() CSVReader#spliterator()} or
+ * {@link org.nerd4j.csv.reader.CSVReader#stream() CSVReader#stream()}
+ * will be invoked more than once on the same {@link org.nerd4j.csv.reader.CSVReader CSVReader}.
  * 
  * <p>
- * This kind of exception will be thrown if the CSV source is malformed
- * in such a way that the parser is unable to recover or if there is an
- * unexpected end of data.
+ * Since the CSV source can be anything: a string, a file but also a remote service response,
+ * the {@link org.nerd4j.csv.reader.CSVReader CSVReader} is a single-use object and so are also
+ * the related {@code Iterator} and {@code Stream}.
  * 
  * <p>
- * After this kind of exception occurs, it is not advisable to continue
- * with the reading.
- * 
- *  @since 1.2.0
+ * If the method {@link org.nerd4j.csv.reader.CSVReader#stream() CSVReader#stream()} is invoked
+ * twice the second time will return an empty {@link java.util.stream.Stream}. This behavior is
+ * not expected and can lead to issues tricky to be found. Therefore this exception will be throw
+ * if those methods are invoked more than once.
+ *  
+ * @since 1.2.0
  * 
  * @author Nerd4j Team
  */
-public class CSVUnrecoverableReadException extends RuntimeException
+public class CSVSingleUseViolationException extends RuntimeException
 {
 
     /** Serial Version UID. */
@@ -48,19 +52,19 @@ public class CSVUnrecoverableReadException extends RuntimeException
 
     
 	/**
-	 * Constructs a new {@link CSVUnrecoverableReadException} with
+	 * Constructs a new {@link CSVSingleUseViolationException} with
 	 * {@code null} as its detail message. The cause is not initialized,
 	 * and may subsequently be initialized by a call to {@link #initCause}.
 	 */
-    public CSVUnrecoverableReadException()
+    public CSVSingleUseViolationException()
     {
     
-        super();
+        super( "This method can be invoked only once" );
         
     }
 
 	/**
-	 * Constructs a new {@link CSVUnrecoverableReadException} with the specified
+	 * Constructs a new {@link CSVSingleUseViolationException} with the specified
 	 * detail message. The cause is not initialized, and may subsequently be
 	 * initialized by a call to {@link #initCause}.
 	 * 
@@ -68,7 +72,7 @@ public class CSVUnrecoverableReadException extends RuntimeException
 	 *            the detail message. The detail message is saved for later
 	 *            retrieval by the {@link #getMessage()} method.
 	 */
-    public CSVUnrecoverableReadException( String message )
+    public CSVSingleUseViolationException( String message )
     {
     
         super(message);
@@ -76,13 +80,12 @@ public class CSVUnrecoverableReadException extends RuntimeException
     }
 
 	/**
-	 * Constructs a new {@link CSVUnrecoverableReadException} with the specified
+	 * Constructs a new {@link CSVSingleUseViolationException} with the specified
 	 * cause and a detail message of
 	 * <tt>(cause==null ? null : cause.toString())</tt> (which typically
 	 * contains the class and detail message of <tt>cause</tt>). This
 	 * constructor is useful for exceptions that are little more than wrappers
-	 * for other throwables (for example,
-	 * {@link java.security.PrivilegedActionException}).
+	 * for other throwables (for example, {@link java.security.PrivilegedActionException}).
 	 * 
 	 * @param cause
 	 *            the cause (which is saved for later retrieval by the
@@ -90,7 +93,7 @@ public class CSVUnrecoverableReadException extends RuntimeException
 	 *            permitted, and indicates that the cause is nonexistent or
 	 *            unknown.)
 	 */
-    public CSVUnrecoverableReadException( Throwable cause )
+    public CSVSingleUseViolationException( Throwable cause )
     {
         
         super( cause );
@@ -98,7 +101,7 @@ public class CSVUnrecoverableReadException extends RuntimeException
     }
 
 	/**
-	 * Constructs a new {@link CSVUnrecoverableReadException} with the specified
+	 * Constructs a new {@link CSVSingleUseViolationException} with the specified
 	 * detail message and cause.
 	 * <p>
 	 * Note that the detail message associated with {@code cause} is
@@ -113,7 +116,7 @@ public class CSVUnrecoverableReadException extends RuntimeException
 	 *            permitted, and indicates that the cause is nonexistent or
 	 *            unknown.)
 	 */
-    public CSVUnrecoverableReadException( String message, Throwable cause )
+    public CSVSingleUseViolationException( String message, Throwable cause )
     {
         
         super( message, cause );

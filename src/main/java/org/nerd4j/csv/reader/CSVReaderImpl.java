@@ -23,13 +23,12 @@ package org.nerd4j.csv.reader;
 
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.nerd4j.csv.CSVProcessContext;
+import org.nerd4j.csv.CSVProcessOutcome;
 import org.nerd4j.csv.exception.CSVProcessException;
+import org.nerd4j.csv.exception.CSVSingleUseViolationException;
 import org.nerd4j.csv.exception.CSVToModelBindingException;
 import org.nerd4j.csv.exception.MalformedCSVException;
 import org.nerd4j.csv.field.CSVField;
@@ -57,7 +56,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @since version {@code 1.2.0} support has been added for the new {@code Java 8 Stream API}.
  * Now it's possible to use the {@link CSVReader} as the target of the {@code "for-each-loop"}
- * statement and even to get a {@link Stream} of {@link CSVReadOutcome}s.
+ * statement and even to get a {@link Stream} of {@link CSVProcessOutcome}s.
  * 
  * @param <M> type of the data model representing the CSV record.
  * 
@@ -85,7 +84,7 @@ final class CSVReaderImpl<M> implements CSVReader<M>
     private final CSVFieldProcessContext context;
 
     /** The reading process outcome. */ 
-    private final CSVReadOutcomeImpl outcome;
+    private final CSVProcessOutcomeImpl outcome;
     
     /**
      * In the CSV standard each record must have the same number of cells.
@@ -96,8 +95,13 @@ final class CSVReaderImpl<M> implements CSVReader<M>
      */
     private final int lastMandatoryField;
     
+    /** Tells that the method has been already invoked at least once. */
+    private final AtomicBoolean alreadyInvoked;
+    
     /** Tells that the end of the CSV source has been reached. */
     private boolean endOfData;
+    
+    
     
     /**
      * Constructor with parameters.
@@ -138,7 +142,7 @@ final class CSVReaderImpl<M> implements CSVReader<M>
         this.modelBinder = modelBinder;
         
         this.endOfData = false;
-        this.outcome   = new CSVReadOutcomeImpl();
+        this.outcome   = new CSVProcessOutcomeImpl();
         this.context   = new CSVFieldProcessContext( header );
         
         /*
@@ -149,6 +153,8 @@ final class CSVReaderImpl<M> implements CSVReader<M>
         this.lastMandatoryField = acceptIncompleteRecords
         		                ? getLastMandatoryField( fields )
         		                : fields.length;
+        		                
+        this.alreadyInvoked = new AtomicBoolean();
         
     }
 
@@ -202,7 +208,7 @@ final class CSVReaderImpl<M> implements CSVReader<M>
 	 * {@inheritDoc}
 	 */
     @Override
-	public CSVReadOutcome<M> read() throws IOException, CSVToModelBindingException
+	public CSVProcessOutcome<M> read() throws IOException, CSVToModelBindingException
 	{
         
         /* First of all we clear the reading context and outcome. */
@@ -354,48 +360,21 @@ final class CSVReaderImpl<M> implements CSVReader<M>
     
     /**
      * {@inheritDoc}
+     * 
+     * @throws CSVSingleUseViolationException if invoked more than once.
      */
 	@Override
-	public Iterator<CSVReadOutcome<M>> iterator()
+	public Iterator<CSVProcessOutcome<M>> iterator()
+	throws CSVSingleUseViolationException
 	{
 	
-		return new CSVReadOutcomeIterator<>( this );
+		if( alreadyInvoked.getAndSet(true) )
+			throw new CSVSingleUseViolationException();
+			
+		return new CSVReaderIterator<>( this );
 		
 	}
     
-	/**
-	 * Creates a {@link Spliterator} over the outcomes returned by this {@link CSVReader}.
-	 * <p>
-	 * The {@link Spliterator} created by this method is:
-	 * <ul>
-	 *  <li>{@code IMMUTABLE}: signifying that the element source cannot be structurally modified.</li>
-	 *  <li>{@code NONNULL}: signifying that the source guarantees that encountered elements will not be {@code null}.</li>
-	 *  <li>{@code ORDERED}: ignifying that an encounter order is defined for elements.</li>
-	 * </ul>
-	 * 
-	 * @return a {@link Spliterator} over the outcomes returned by this {@link CSVReader}.
-	 * @since 1.2.0
-	 */
-	@Override
-	public Spliterator<CSVReadOutcome<M>> spliterator()
-	{
-	
-		final int characteristics =  Spliterator.IMMUTABLE | Spliterator.NONNULL | Spliterator.ORDERED;
-		return Spliterators.spliteratorUnknownSize( iterator(), characteristics );
-		
-	}
-	
-	/**
-     * {@inheritDoc}
-     */
-	@Override
-    public Stream<CSVReadOutcome<M>> stream()
-    {
-    	
-    	return StreamSupport.stream( spliterator(), false );
-    	
-    }
-	
     
     /* ***************** */
     /*  PRIVATE METHODS  */
@@ -502,12 +481,12 @@ final class CSVReaderImpl<M> implements CSVReader<M>
 
     
     /**
-     * Reference implementation of the {@link CSVReadOutcome} interface
+     * Reference implementation of the {@link CSVProcessOutcome} interface
      * for this CSV reader.
      * 
      * @author Nerd4J Team
      */
-    private class CSVReadOutcomeImpl implements CSVReadOutcome<M>
+    private class CSVProcessOutcomeImpl implements CSVProcessOutcome<M>
     {
         
         /** The data model corresponding to the CSV record read. */
@@ -518,7 +497,7 @@ final class CSVReaderImpl<M> implements CSVReader<M>
          * Default constructor.
          * 
          */
-        public CSVReadOutcomeImpl()
+        public CSVProcessOutcomeImpl()
         {
             
             super();
@@ -551,16 +530,7 @@ final class CSVReaderImpl<M> implements CSVReader<M>
         {
             return context;
         }
-        
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public CSVProcessContext getCSVReadingContext()
-        {
-        	return context;
-        }
-                      
+
         
         /* ***************** */
         /*  UTILITY METHODS  */       

@@ -28,7 +28,7 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import org.nerd4j.csv.CSVProcessOutcome;
-import org.nerd4j.csv.exception.CSVUnrecoverableWriteException;
+import org.nerd4j.csv.exception.CSVUnrecoverableStateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -89,7 +89,7 @@ final class CSVStreamDrainer<M>
      * @param callback {@link FunctionalInterface} that consumes the write outcome.
      * @return the current object for concatenation.
      */
-    public CSVStreamDrainer<M> afterEach( Consumer<CSVProcessOutcome<M>> callback )
+    public CSVStreamDrainer<M> forEach( Consumer<CSVProcessOutcome<M>> callback )
     {
         
     	this.callback = Objects.requireNonNull( callback );
@@ -103,7 +103,7 @@ final class CSVStreamDrainer<M>
      * and writing the elements of the {@link Stream} into the CSV destination.
      * <p>
      * If a {@link FunctionalInterface} has been provided by method
-     * {@link #afterEach(Consumer)} it will be called after each write operation.
+     * {@link #forEach(Consumer)} it will be called after each write operation.
      * 
      */
     public void intoCSV()
@@ -115,7 +115,7 @@ final class CSVStreamDrainer<M>
     		try{
     		    			
     			/* For each element in the stream we perform a CSV write. */
-    			final CSVWriteOutcome<M> write = target.write( model );
+    			final CSVProcessOutcome<M> write = target.write( model );
     			
     			/* If the write is successful we improve the count. */
     			write.success( m -> countSuccess.incrementAndGet() );
@@ -128,7 +128,7 @@ final class CSVStreamDrainer<M>
     			
     			/* If an unrecoverable error occurs an exception will be thrown. */
     			logger.error( "Unable to write to CSV target", ex );
-				throw new CSVUnrecoverableWriteException( ex );
+				throw new CSVUnrecoverableStateException( ex );
 				
     		}
     		
@@ -170,7 +170,7 @@ final class CSVStreamDrainer<M>
     		 * the writing operation is in an inconsistent state.
     		 */
     		logger.error( "Exception occurred during flush", ex );
-			throw new CSVUnrecoverableWriteException( ex );
+			throw new CSVUnrecoverableStateException( ex );
 			
     	}
     	

@@ -28,6 +28,7 @@ import java.io.Reader;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
+import org.nerd4j.csv.CSVProcessOutcome;
 import org.nerd4j.csv.parser.CSVParser;
 import org.nerd4j.csv.parser.CSVParserFactory;
 import org.nerd4j.csv.parser.CSVToken;
@@ -105,12 +106,12 @@ public class CSVReaderSpeedTest
         
         int success = 0;
         int failure = 0;
-        CSVReadOutcome<Object[]> outcome;
+        CSVProcessOutcome<Object[]> outcome;
         while( ! csvReader.isEndOfData() )
         {
             
             outcome = csvReader.read();            
-            if( outcome.getCSVReadingContext().isError() )
+            if( outcome.getCSVProcessContext().isError() )
                 ++ failure;
             else
                 ++ success;

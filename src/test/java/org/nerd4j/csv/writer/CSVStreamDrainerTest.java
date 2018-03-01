@@ -35,14 +35,14 @@ import java.util.stream.Stream;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.nerd4j.csv.exception.CSVUnrecoverableWriteException;
+import org.nerd4j.csv.exception.CSVUnrecoverableStateException;
 import org.nerd4j.csv.model.Product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
 /**
- * Test for the class CSVReadOutcomeIterator.
+ * Test for the class CSVStreamDrainer.
  * 
  * @author Nerd4j Team
  */
@@ -347,7 +347,7 @@ public class CSVStreamDrainerTest
     	final Stats stats = new Stats();
     	try{
     	
-    		writer.drain( stream ).afterEach( write ->
+    		writer.drain( stream ).forEach( write ->
         	{
         		write.success( model -> stats.success.incrementAndGet() );
         		write.error( error -> stats.error.incrementAndGet() );
@@ -355,7 +355,7 @@ public class CSVStreamDrainerTest
         	})
         	.intoCSV();
     		
-    	}catch( CSVUnrecoverableWriteException ex )
+    	}catch( CSVUnrecoverableStateException ex )
     	{
     		logger.error( "Unexpected error", ex );
     		Assert.fail( "Unexpected error" );
@@ -382,7 +382,7 @@ public class CSVStreamDrainerTest
     	final Stats stats = new Stats();
     	try{
     	
-    		writer.drain( spliterator ).afterEach( write ->
+    		writer.drain( spliterator ).forEach( write ->
         	{
         		write.success( model -> stats.success.incrementAndGet() );
         		write.error( error -> stats.error.incrementAndGet() );
@@ -390,7 +390,7 @@ public class CSVStreamDrainerTest
         	})
         	.intoCSV();
     		
-    	}catch( CSVUnrecoverableWriteException ex )
+    	}catch( CSVUnrecoverableStateException ex )
     	{
     		logger.error( "Unexpected error", ex );
     		Assert.fail( "Unexpected error" );
@@ -417,7 +417,7 @@ public class CSVStreamDrainerTest
     	final Stats stats = new Stats();
     	try{
     	
-    		writer.drain( iterator ).afterEach( write ->
+    		writer.drain( iterator ).forEach( write ->
     		{
     			write.success( model -> stats.success.incrementAndGet() );
     			write.error( error -> stats.error.incrementAndGet() );
@@ -425,7 +425,7 @@ public class CSVStreamDrainerTest
     		})
     		.intoCSV();
     		
-    	}catch( CSVUnrecoverableWriteException ex )
+    	}catch( CSVUnrecoverableStateException ex )
     	{
     		logger.error( "Unexpected error", ex );
     		Assert.fail( "Unexpected error" );
@@ -454,7 +454,7 @@ public class CSVStreamDrainerTest
     	final Stats stats = new Stats();
     	try{
     	
-    		writer.drain( stream ).afterEach( write ->
+    		writer.drain( stream ).forEach( write ->
         	{
         		write.success( model -> stats.success.incrementAndGet() );
         		write.error( error -> stats.error.incrementAndGet() );
@@ -462,9 +462,9 @@ public class CSVStreamDrainerTest
         	})
         	.intoCSV();
     		
-    		Assert.fail( "A CSVUnrecoverableWriteException was expected" );
+    		Assert.fail( "A CSVUnrecoverableStateException was expected" );
     		
-    	}catch( CSVUnrecoverableWriteException ex )
+    	}catch( CSVUnrecoverableStateException ex )
     	{
     		
     		Assert.assertEquals( success, stats.success.get() );
@@ -473,7 +473,7 @@ public class CSVStreamDrainerTest
     		
     	}catch( Exception ex )
     	{
-    		Assert.fail( "A CSVUnrecoverableWriteException was expected" );
+    		Assert.fail( "A CSVUnrecoverableStateException was expected" );
     	}
     	
     }

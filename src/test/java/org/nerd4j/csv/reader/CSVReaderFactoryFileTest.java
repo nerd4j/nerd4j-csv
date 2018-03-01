@@ -28,6 +28,7 @@ import java.util.Map;
 
 import org.junit.Test;
 import org.nerd4j.csv.CSVProcessContext;
+import org.nerd4j.csv.CSVProcessOutcome;
 import org.nerd4j.csv.model.Product;
 import org.nerd4j.csv.writer.CSVWriterFactoryFileTest;
 import org.slf4j.Logger;
@@ -111,19 +112,19 @@ public class CSVReaderFactoryFileTest
     {
         
         T model;
-        CSVReadOutcome<T> outcome;
+        CSVProcessOutcome<T> outcome;
         CSVProcessContext context;
         do{
             
             outcome = csvReader.read();
             model = outcome.getModel();
-            context = outcome.getCSVReadingContext();
+            context = outcome.getCSVProcessContext();
             
             final StringBuilder sb = new StringBuilder( 300 );
             sb.append( "At [" ).append( context.getRowIndex() )
             .append( "," ).append( context.getColumnIndex() )
             .append( "]: " );
-            if( outcome.getCSVReadingContext().isError() )
+            if( outcome.getCSVProcessContext().isError() )
             {
                 sb.append( context.getError().getMessage() );                
                 logger.warn( sb.toString() );

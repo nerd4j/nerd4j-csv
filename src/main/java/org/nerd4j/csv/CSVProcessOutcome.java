@@ -72,6 +72,32 @@ public interface CSVProcessOutcome<M>
     public CSVProcessContext getCSVProcessContext();
    
     /**
+     * Tells if the operation failed due to an error.
+     *    
+     * @return {@code true} if the operation failed. 
+     * @since 1.2.0 
+     */
+    default boolean isError()
+    {
+    	
+    	return getCSVProcessContext().isError();
+    	
+    }
+    
+    /**
+     * Tells if the operation has been successful.
+     *    
+     * @return {@code true} if the operation has been successful. 
+     * @since 1.2.0 
+     */
+    default boolean isSuccess()
+    {
+    	
+    	return ! isError();
+    	
+    }
+    
+    /**
      * This method calls the provided {@link FunctionalInterface}
      * if the operation has been successful and provides the
      * data model to be consumed.
@@ -83,7 +109,7 @@ public interface CSVProcessOutcome<M>
     default CSVProcessOutcome<M> success( Consumer<M> consumer )
     {
     	
-    	if( ! getCSVProcessContext().isError() )
+    	if( isSuccess() )
     		consumer.accept( getModel() );
     	
     	return this;
@@ -102,9 +128,8 @@ public interface CSVProcessOutcome<M>
     default CSVProcessOutcome<M> error( Consumer<CSVProcessError> consumer )
     {
     	
-    	final CSVProcessContext context = getCSVProcessContext();
-    	if( context.isError() )
-    		consumer.accept( context.getError() );
+    	if( isError() )
+    		consumer.accept( getCSVProcessContext().getError() );
     	
     	return this;
     	

@@ -24,6 +24,7 @@ package org.nerd4j.csv.writer;
 import java.io.IOException;
 
 import org.nerd4j.csv.CSVProcessContext;
+import org.nerd4j.csv.CSVProcessOutcome;
 import org.nerd4j.csv.exception.CSVProcessException;
 import org.nerd4j.csv.exception.ModelToCSVBindingException;
 import org.nerd4j.csv.field.CSVField;
@@ -38,7 +39,7 @@ import org.slf4j.LoggerFactory;
  * Reference implementation if the {@link CSVWriter} interface.
  * 
  * <p>
- * Reads an object of type <e>M</e> that represents the
+ * Reads an object of type {@code M} that represents the
  * data model and writes the corresponding CSV record
  * to the given destination. 
  * 
@@ -75,7 +76,7 @@ final class CSVWriterImpl<M> implements CSVWriter<M>
     private final CSVFieldProcessContext context;
 
     /** The writing process outcome. */ 
-    private final CSVWriteOutcomeImpl outcome;
+    private final CSVProcessOutcomeImpl outcome;
     
     
     /**
@@ -115,7 +116,7 @@ final class CSVWriterImpl<M> implements CSVWriter<M>
         this.outputRecord = new String[modelBinder.getRecordSize()];
         this.fields = (CSVField<Object,String>[]) fields;
         
-        this.outcome   = new CSVWriteOutcomeImpl();
+        this.outcome   = new CSVProcessOutcomeImpl();
         this.context   = new CSVFieldProcessContext( header );
         
     }
@@ -144,7 +145,7 @@ final class CSVWriterImpl<M> implements CSVWriter<M>
 	 * {@inheritDoc}
 	 */
     @Override
-	public CSVWriteOutcome<M> write( M model ) throws IOException, ModelToCSVBindingException
+	public CSVProcessOutcome<M> write( M model ) throws IOException, ModelToCSVBindingException
 	{
         
         /* First of all we clear the writing context. */
@@ -253,12 +254,12 @@ final class CSVWriterImpl<M> implements CSVWriter<M>
 
     
     /**
-     * Reference implementation of the {@link CSVWriteOutcome} interface
+     * Reference implementation of the {@link CSVProcessOutcome} interface
      * for this CSV writer.
      * 
      * @author Nerd4J Team
      */
-    private class CSVWriteOutcomeImpl implements CSVWriteOutcome<M>
+    private class CSVProcessOutcomeImpl implements CSVProcessOutcome<M>
     {
 
     	/** The data model corresponding to the CSV record written. */
@@ -269,7 +270,7 @@ final class CSVWriterImpl<M> implements CSVWriter<M>
          * Default constructor.
          * 
          */
-        public CSVWriteOutcomeImpl()
+        public CSVProcessOutcomeImpl()
         {
             
             super();
@@ -298,15 +299,6 @@ final class CSVWriterImpl<M> implements CSVWriter<M>
          */
         @Override
         public CSVProcessContext getCSVProcessContext()
-        {
-        	return context;
-        }
-        
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public CSVProcessContext getCSVWritingContext()
         {
         	return context;
         }

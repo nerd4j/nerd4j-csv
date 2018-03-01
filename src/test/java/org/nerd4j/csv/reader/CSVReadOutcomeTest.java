@@ -27,11 +27,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.nerd4j.csv.CSVProcessOutcome;
 import org.nerd4j.csv.model.Product;
 
 
 /**
- * Test for the class CSVReadOutcome.
+ * Test for the class CSVProcessOutcome returned by the CSVReader.
  * 
  * @author Nerd4j Team
  */
@@ -60,7 +61,7 @@ public class CSVReadOutcomeTest
     	final AtomicInteger error = new AtomicInteger();
     	final AtomicInteger total = new AtomicInteger();
     	
-    	for( CSVReadOutcome<Product> read : reader )
+    	for( CSVProcessOutcome<Product> read : reader )
     		read.success( model -> success.incrementAndGet() )
     			.error( context -> error.incrementAndGet() )
     			.then( context -> total.incrementAndGet() );
@@ -81,7 +82,7 @@ public class CSVReadOutcomeTest
     	final AtomicInteger error = new AtomicInteger();
     	final AtomicInteger total = new AtomicInteger();
     	
-    	for( CSVReadOutcome<Product> read : reader )
+    	for( CSVProcessOutcome<Product> read : reader )
     		read.success( model -> success.incrementAndGet() )
     		    .error( context -> error.incrementAndGet() )
     		    .then( context -> total.incrementAndGet() );
@@ -145,17 +146,23 @@ public class CSVReadOutcomeTest
     	final AtomicInteger success = new AtomicInteger();
     	final AtomicInteger error = new AtomicInteger();
     	final AtomicInteger total = new AtomicInteger();
+    	final AtomicInteger model = new AtomicInteger();
     	
     	final long count = reader.stream()
     	.peek( read ->
-    		read.success( model -> success.incrementAndGet() )
-    		    .error( context -> error.incrementAndGet() )
-    		    .then( context -> total.incrementAndGet() )
-    	).count();
+    		read.success( m -> success.incrementAndGet() )
+    		    .error( e -> error.incrementAndGet() )
+    		    .then( c -> total.incrementAndGet() )
+    	)
+    	.filter( CSVProcessOutcome::isSuccess )
+    	.map( CSVProcessOutcome::getModel )
+    	.peek( m -> model.incrementAndGet() )    	
+    	.count();
     	
     	Assert.assertEquals( 3, success.get() );
     	Assert.assertEquals( 0, error.get() );
     	Assert.assertEquals( 3, total.get() );
+    	Assert.assertEquals( 3, model.get() );
     	Assert.assertEquals( 3, count );
     	
     }
@@ -169,18 +176,24 @@ public class CSVReadOutcomeTest
     	final AtomicInteger success = new AtomicInteger();
     	final AtomicInteger error = new AtomicInteger();
     	final AtomicInteger total = new AtomicInteger();
+    	final AtomicInteger model = new AtomicInteger();
     	
     	final long count = reader.stream()
     	.peek( read ->
-    		read.success( model -> success.incrementAndGet() )
-    			.error( context -> error.incrementAndGet() )
-    			.then( context -> total.incrementAndGet() )
-    	).count();
+    		read.success( m -> success.incrementAndGet() )
+    			.error( e -> error.incrementAndGet() )
+    			.then( c -> total.incrementAndGet() )
+    	)
+    	.filter( CSVProcessOutcome::isSuccess )
+    	.map( CSVProcessOutcome::getModel )
+    	.peek( m -> model.incrementAndGet() )    	
+    	.count();
     	
     	Assert.assertEquals( 2, success.get() );
     	Assert.assertEquals( 1, error.get() );
-    	Assert.assertEquals( 3,  total.get() );
-    	Assert.assertEquals( 3,  count );
+    	Assert.assertEquals( 3, total.get() );
+    	Assert.assertEquals( 2, model.get() );
+    	Assert.assertEquals( 2, count );
     	
     }
     

@@ -23,9 +23,14 @@ package org.nerd4j.csv.reader;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
+import org.nerd4j.csv.CSVProcessOutcome;
 import org.nerd4j.csv.exception.CSVProcessException;
+import org.nerd4j.csv.exception.CSVSingleUseViolationException;
 import org.nerd4j.csv.exception.CSVToModelBindingException;
 
 
@@ -46,15 +51,15 @@ import org.nerd4j.csv.exception.CSVToModelBindingException;
  * <p>
  * Since version {@code 1.2.0} support has been added for the new {@code Java 8 Stream API}.
  * Now it's possible to use the {@link CSVReader} as the target of the {@code "for-each-loop"}
- * statement and even to get a {@link Stream} of {@link CSVReadOutcome}s.
+ * statement and even to get a {@link Stream} of {@link CSVProcessOutcome}s.
  * 
  * @param <M> type of the data model representing the CSV record.
  * 
- * @since 1.2.0 implements {@link Iterable}
+ * @since 1.2.0 extends {@link Iterable}
  * 
  * @author Nerd4J Team
  */
-public interface CSVReader<M> extends Closeable, Iterable<CSVReadOutcome<M>>
+public interface CSVReader<M> extends Closeable, Iterable<CSVProcessOutcome<M>>
 {
 	
 	/**
@@ -89,7 +94,7 @@ public interface CSVReader<M> extends Closeable, Iterable<CSVReadOutcome<M>>
 
 	/**
 	 * Reads a record in the CSV source and returns
-	 * a {@link CSVReadOutcome} containing the read
+	 * a {@link CSVProcessOutcome} containing the read
 	 * data and the read execution context.
 	 * <p>
      * <b>IMPORTANT</b> for performance reasons there is only one
@@ -101,14 +106,39 @@ public interface CSVReader<M> extends Closeable, Iterable<CSVReadOutcome<M>>
 	 * @throws IOException if an error occurs reading the CSV source.
 	 * @throws CSVToModelBindingException if an error occurs during model binding.
 	 */
-	public CSVReadOutcome<M> read() throws IOException, CSVToModelBindingException;
+	public CSVProcessOutcome<M> read() throws IOException, CSVToModelBindingException;
+	
+	/**
+	 * Creates a {@link Spliterator} over the outcomes returned by this {@link CSVReader}.
+	 * <p>
+	 * The {@link Spliterator} created by this method is:
+	 * <ul>
+	 *  <li>{@code IMMUTABLE}: signifying that the element source cannot be structurally modified.</li>
+	 *  <li>{@code NONNULL}: signifying that the source guarantees that encountered elements will not be {@code null}.</li>
+	 *  <li>{@code ORDERED}: ignifying that an encounter order is defined for elements.</li>
+	 * </ul>
+	 * 
+	 * @return a {@link Spliterator} over the outcomes returned by this {@link CSVReader}.
+	 * @since 1.2.0
+	 */
+	@Override
+	default Spliterator<CSVProcessOutcome<M>> spliterator()
+	throws CSVSingleUseViolationException
+	{
+		final int characteristics =  Spliterator.IMMUTABLE | Spliterator.NONNULL | Spliterator.ORDERED;
+		return Spliterators.spliteratorUnknownSize( iterator(), characteristics );
+	}
 	
     /**
-     * Returns a sequential {@code Stream} of {@link CSVReadOutcome}s.
+     * Returns a sequential {@code Stream} of {@link CSVProcessOutcome}s.
      *
-     * @return a sequential {@code Stream} of {@link CSVReadOutcome}s.
+     * @return a sequential {@code Stream} of {@link CSVProcessOutcome}s.
      * @since 1.2.0
      */
-    public Stream<CSVReadOutcome<M>> stream();
+    default Stream<CSVProcessOutcome<M>> stream()
+    throws CSVSingleUseViolationException
+    {
+    	return StreamSupport.stream( spliterator(), false );
+    }
 	
 }
