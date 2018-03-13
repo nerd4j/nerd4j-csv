@@ -21,6 +21,7 @@
  */
 package org.nerd4j.csv.reader.binding;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
@@ -99,10 +100,19 @@ public final class CSVToBeanBinderFactory<B> extends AbstractCSVToModelBinderFac
      */
     @Override
     protected CSVToModelBinder<B> getBinder( final CSVFieldMetadata<?,?>[] fieldConfs, final CSVToBeanFieldWriter[] fieldMapping )
-    
+    throws CSVToModelBindingException
     {
         
-        return new CSVToBeanBinder( fieldMapping );
+    	try{
+        
+    		return new CSVToBeanBinder( fieldMapping );
+    		
+    	}catch( NoSuchMethodException ex )
+    	{
+    		
+    		throw new CSVToModelBindingException( ex );
+    		
+		}
         
     }
     
@@ -124,6 +134,9 @@ public final class CSVToBeanBinderFactory<B> extends AbstractCSVToModelBinderFac
         /** The internal instance of the data model. */
         private B model;
         
+        /** Default constructor for bean of the given type. */
+        private final Constructor<B> constructor;
+        
         /**
          * This array is intended to contain a mapping that associates
          * each input column index into the related output bean property.
@@ -137,12 +150,21 @@ public final class CSVToBeanBinderFactory<B> extends AbstractCSVToModelBinderFac
          * @param columnMapping mapping of the columns.
          */
         public CSVToBeanBinder( final CSVToBeanFieldWriter[] columnMapping )
+        throws NoSuchMethodException
         {
             
             super();
             
             this.model = null;
             this.columnMapping = columnMapping;
+            this.constructor = beanClass.getDeclaredConstructor();
+            
+            /*
+             * We make the constructor accessible regardless
+             * of the visibility defined in the bean class.
+             */
+           constructor.setAccessible( true );
+            
             
         }
         
@@ -162,8 +184,8 @@ public final class CSVToBeanBinderFactory<B> extends AbstractCSVToModelBinderFac
             try{
             
                 logger.debug( "Creating new bean of type {}.", beanClass );
-                this.model = beanClass.newInstance();
-            
+                this.model = constructor.newInstance();
+                            
             }catch( Exception ex )
             {
                 

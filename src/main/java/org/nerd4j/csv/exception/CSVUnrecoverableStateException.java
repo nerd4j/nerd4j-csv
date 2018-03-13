@@ -28,13 +28,13 @@ package org.nerd4j.csv.exception;
  * or the {@link org.nerd4j.csv.writer.CSVWriter CSVWriter} in an inconsistent
  * and unrecoverable state.
  * 
- * <h5>reading</h5>
+ * <h3>reading</h3>
  * <p>
  * This kind of exception will be thrown if the CSV source is malformed
  * in such a way that the parser is unable to recover or if there is an
  * unexpected end of data.
  * 
- * <h5>writing</h5>
+ * <h3>writing</h3>
  * <p>
  * This kind of exception will be thrown if the CSV target is not writable
  * or close unexpectedly.
