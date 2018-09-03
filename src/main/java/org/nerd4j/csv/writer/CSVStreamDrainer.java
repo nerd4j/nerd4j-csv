@@ -44,7 +44,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Nerd4J Team
  */
-final class CSVStreamDrainer<M>
+public final class CSVStreamDrainer<M>
 {
     
     /** SLF4J Logging system. */

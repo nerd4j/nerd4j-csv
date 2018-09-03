@@ -59,7 +59,7 @@ public abstract class AbstractCSVFieldConverter<S,T> implements CSVFieldConverte
      * @param targetType target type produced by this converter.
      * @param errorMessagePattern error message pattern to set into the context in case of failure.
      */
-    public AbstractCSVFieldConverter( final Class<S> sourceType, Class<T> targetType, final String errorMessagePattern )
+    public AbstractCSVFieldConverter( final Class<S> sourceType, final Class<T> targetType, final String errorMessagePattern )
     {
         
         super();
@@ -85,7 +85,7 @@ public abstract class AbstractCSVFieldConverter<S,T> implements CSVFieldConverte
     /* ******************* */
 
     
-    /**
+	/**
 	 * {@inheritDoc}
 	 */
     @Override
